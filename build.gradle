@@ -1,0 +1,5 @@
+allprojects {
+    wrapper {
+        gradleVersion = '5.2.1'
+    }
+}

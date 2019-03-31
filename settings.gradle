@@ -1,0 +1,4 @@
+rootProject.name = 'werewolf'
+include 'frontend'
+include 'backend'
+
