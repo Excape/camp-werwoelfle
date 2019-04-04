@@ -6,6 +6,8 @@ plugins {
 
 apply plugin: 'io.spring.dependency-management'
 
+apply from: file("$rootProject.projectDir/gradle/heroku/stage.gradle")
+
 group = 'ch.zuehlke.camp.werewolf'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
@@ -18,11 +20,6 @@ sourceCompatibility = '1.8'
 //    }
 //}
 //bootJar.dependsOn ":frontend:npm_run_dist"
-
-// staging task for heroku
-// TODO build frontend too, as soon as it's ready
-task stage(dependsOn: ['clean', 'assemble', 'bootJar'])
-assemble.mustRunAfter clean
 
 
 task copyToLib(type: Copy) {

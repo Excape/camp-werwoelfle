@@ -1,0 +1,4 @@
+// staging task for heroku
+// TODO build frontend too, as soon as it's ready
+task stage(dependsOn: ['clean', 'build'])
+build.mustRunAfter clean
