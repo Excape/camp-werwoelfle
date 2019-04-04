@@ -10,12 +10,19 @@ group = 'ch.zuehlke.camp.werewolf'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
-bootJar {
-    into('static') {
-        from('../frontend/dist/frontend/')
-    }
-}
-bootJar.dependsOn ":frontend:npm_run_dist"
+// TODO uncomment when frontend is ready
+
+// bootJar {
+//    into('static') {
+//        from('../frontend/dist/frontend/')
+//    }
+//}
+//bootJar.dependsOn ":frontend:npm_run_dist"
+
+// staging task for heroku
+// TODO build frontend too, as soon as it's ready
+task stage(dependsOn: ['assemble', 'clean'])
+build.mustRunAfter clean
 
 repositories {
     mavenCentral()
