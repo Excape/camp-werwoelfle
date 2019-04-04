@@ -21,8 +21,17 @@ sourceCompatibility = '1.8'
 
 // staging task for heroku
 // TODO build frontend too, as soon as it's ready
-task stage(dependsOn: ['assemble', 'clean'])
-build.mustRunAfter clean
+task stage(dependsOn: ['clean', 'assemble', 'bootJar'])
+assemble.mustRunAfter clean
+
+
+task copyToLib(type: Copy) {
+  from "$buildDir/libs"
+  into "$rootProject.buildDir/libs"
+}
+copyToLib.dependsOn(bootJar)
+stage.dependsOn(copyToLib)
+
 
 repositories {
     mavenCentral()
