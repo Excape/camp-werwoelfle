@@ -8,4 +8,9 @@ import {environment} from "../environments/environment";
 })
 export class AppComponent {
   name = environment.name;
+  pwaActiveMessage = environment.pwaActive ? "with PWA" : "without PWA";
+
+  getEnvSpecificColor(): string {
+    return environment.production ? 'red' : 'green';
+  }
 }
