@@ -18,7 +18,7 @@ ext.junit5Version = '5.4.1'
 
 // bootJar {
 //    into('static') {
-//        from('../frontend/dist/frontend/')
+//        from('../frontend/dist/werewolf/')
 //    }
 //}
 //bootJar.dependsOn ":frontend:npm_run_dist"

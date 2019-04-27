@@ -5,8 +5,8 @@ import org.springframework.boot.runApplication
 
 
 @SpringBootApplication
-class BlogApplication
+class WerewolfApplication
 
 fun main(args: Array<String>) {
-    runApplication<BlogApplication>(*args)
+    runApplication<WerewolfApplication>(*args)
 }
