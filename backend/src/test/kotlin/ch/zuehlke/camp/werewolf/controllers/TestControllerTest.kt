@@ -20,10 +20,10 @@ class TestControllerTest {
 
     @Test
     fun testHelloController() {
-        this.mockMvc!!.perform(get("/api/v1"))
-            .andDo(print())
-            .andExpect(status().isOk)
-            .andExpect(jsonPath("$").value("Hello Camp"))
+        this.mockMvc!!.perform(get("/v1"))
+                .andDo(print())
+                .andExpect(status().isOk)
+                .andExpect(jsonPath("$").value("Hello Camp"))
     }
 
 }
