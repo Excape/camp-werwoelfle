@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "dist": "ng build --prod",
     "start-prod": "ng build --prod && pushd dist\\\\werewolf && http-server -p 8088 && popd",
     "test": "ng test",
     "lint": "ng lint",

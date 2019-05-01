@@ -14,14 +14,12 @@ sourceCompatibility = '1.8'
 
 ext.junit5Version = '5.4.1'
 
-// TODO uncomment when frontend is ready
-
-// bootJar {
-//    into('static') {
-//        from('../frontend/dist/werewolf/')
-//    }
-//}
-//bootJar.dependsOn ":frontend:npm_run_dist"
+bootJar {
+    into('static') {
+        from('../frontend/dist/werewolf/')
+    }
+}
+bootJar.dependsOn ":frontend:npm_run_dist"
 
 test {
     useJUnitPlatform()
