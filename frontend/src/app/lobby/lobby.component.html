@@ -17,8 +17,11 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <app-player-list [game]="game"></app-player-list>
-      <button mat-button (click)="$event.stopPropagation(); joinGame(game)">Join Game</button>
-      <button mat-button (click)="startGame(game)">Start Game</button>
+      <div class="button-bar">
+        <button mat-button (click)="$event.stopPropagation(); joinGame(game)">Join Game</button>
+        <span class="filler"></span>
+        <button mat-button (click)="startGame(game)">Start Game</button>
+      </div>
     </mat-expansion-panel>
   </mat-accordion>
 

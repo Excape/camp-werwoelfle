@@ -10,12 +10,15 @@ class LobbyService {
 
     val games: MutableList<Game> = mutableListOf()
 
-    fun createGame(name: String, profile: Profile) {
-        games.add(Game(name, mutableListOf(Player(profile))))
+    fun createGame(name: String, profile: Profile) : Game {
+        val newGame = Game(name, mutableListOf(Player(profile)))
+        games.add(newGame)
+        return newGame
     }
 
-    fun joinGame(name: String, profile: Profile) {
-        games.find { game -> game.name == name }
-            ?.let { game -> game.players.add(Player(profile)) }
+    fun joinGame(name: String, profile: Profile) : Game?{
+        val game = games.find { game -> game.name == name }
+        game?.players?.add(Player(profile))
+        return game
     }
 }

@@ -25,12 +25,17 @@ export class LobbyComponent implements OnInit {
   }
 
   createGame() {
-    this.lobbyService.createGame(this.gameName).subscribe(r => this.fetchGames())
+    this.lobbyService.createGame(this.gameName).subscribe(game => {
+      this.joinedGame = game
+      this.fetchGames()
+    })
   }
 
   joinGame(game: Game) {
-    this.joinedGame = game
-    this.lobbyService.joinGame(game.name).subscribe(r => this.fetchGames())
+    this.lobbyService.joinGame(game.name).subscribe(game => {
+      this.joinedGame = game
+      this.fetchGames()
+    })
   }
 
   startGame(game: Game) {

@@ -3,6 +3,8 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {LoginComponent} from './login.component';
 import {MaterialModule} from "../material/material.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {FormsModule} from "@angular/forms";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -14,6 +16,8 @@ describe('LoginComponent', () => {
       imports: [
         BrowserAnimationsModule,
         MaterialModule,
+        FormsModule,
+        HttpClientTestingModule
       ]
     })
       .compileComponents();

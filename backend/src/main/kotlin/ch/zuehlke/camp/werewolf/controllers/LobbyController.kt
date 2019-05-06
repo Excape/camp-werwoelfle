@@ -17,13 +17,13 @@ class LobbyController(val lobbyService: LobbyService) {
     }
 
     @PostMapping("create")
-    fun createGame(@RequestBody profile: Profile, @RequestParam("gameName") gameName: String) {
-        lobbyService.createGame(gameName, profile)
+    fun createGame(@RequestBody profile: Profile, @RequestParam("gameName") gameName: String): Game {
+        return lobbyService.createGame(gameName, profile)
     }
 
     @PostMapping("join")
-    fun joinGame(@RequestBody profile: Profile, @RequestParam("gameName") gameName: String) {
-        lobbyService.joinGame(gameName, profile)
+    fun joinGame(@RequestBody profile: Profile, @RequestParam("gameName") gameName: String): Game? {
+        return lobbyService.joinGame(gameName, profile)
     }
 
 }
