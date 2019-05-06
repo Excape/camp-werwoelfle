@@ -11,12 +11,15 @@ import {ServiceWorkerModule} from '@angular/service-worker';
 import {environment} from '../environments/environment';
 import {HttpClientModule} from "@angular/common/http";
 import { LobbyComponent } from './lobby/lobby.component';
+import { NavigationComponent } from './shared/navigation/navigation.component';
+import {IsLoggedInGuard} from "./is-logged-in.guard";
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    LobbyComponent
+    LobbyComponent,
+    NavigationComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +29,9 @@ import { LobbyComponent } from './lobby/lobby.component';
     MaterialModule,
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production})
   ],
-  providers: [],
+  providers: [
+    IsLoggedInGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
