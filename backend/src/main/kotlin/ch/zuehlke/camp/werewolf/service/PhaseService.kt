@@ -1,4 +1,4 @@
-package ch.zuehlke.camp.werewolf.services
+package ch.zuehlke.camp.werewolf.service
 
 import org.eclipse.paho.client.mqttv3.*
 import org.springframework.beans.factory.annotation.Value

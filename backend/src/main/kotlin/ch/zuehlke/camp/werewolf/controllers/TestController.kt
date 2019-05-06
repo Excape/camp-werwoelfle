@@ -1,6 +1,6 @@
 package ch.zuehlke.camp.werewolf.controllers
 
-import ch.zuehlke.camp.werewolf.services.PhaseService
+import ch.zuehlke.camp.werewolf.service.PhaseService
 import org.eclipse.paho.client.mqttv3.MqttMessage
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
