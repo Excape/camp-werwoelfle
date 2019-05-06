@@ -15,6 +15,16 @@ import { NavigationComponent } from './shared/navigation/navigation.component';
 import {IsLoggedInGuard} from "./is-logged-in.guard";
 import {FormsModule} from "@angular/forms";
 import { PlayerListComponent } from './lobby/player-list/player-list.component';
+import {IMqttServiceOptions, MqttModule} from "ngx-mqtt";
+import { GamecontentComponent } from './gamecontent/gamecontent.component';
+
+export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
+  hostname: 'm24.cloudmqtt.com',
+  protocol: 'wss',
+  port: 32829,
+  username: 'dbqfeten',
+  password: 'zLTr3XfKwb_g'
+};
 
 @NgModule({
   declarations: [
@@ -22,7 +32,8 @@ import { PlayerListComponent } from './lobby/player-list/player-list.component';
     LoginComponent,
     LobbyComponent,
     NavigationComponent,
-    PlayerListComponent
+    PlayerListComponent,
+    GamecontentComponent
   ],
   imports: [
     BrowserModule,
@@ -31,10 +42,11 @@ import { PlayerListComponent } from './lobby/player-list/player-list.component';
     FormsModule,
     RouterModule.forRoot(routes),
     MaterialModule,
+    MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
   ],
   providers: [
-    IsLoggedInGuard
+    IsLoggedInGuard,
   ],
   bootstrap: [AppComponent]
 })
