@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 import java.util.UUID
 
 @Service
-class PhaseService(
+class MessageService(
     @Value("\${mqtt.broker.uri}") val brokerURI: String,
     @Value("\${mqtt.broker.username}") val brokerUsername: String,
     @Value("\${mqtt.broker.password}") val brokerPassword: String
@@ -29,7 +29,7 @@ class PhaseService(
         options.isCleanSession = true
         options.connectionTimeout = 10
         options.userName = brokerUsername
-        options.password = brokerPassword!!.toCharArray()
+        options.password = brokerPassword.toCharArray()
         return options
     }
 
