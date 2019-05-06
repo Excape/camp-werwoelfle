@@ -24,4 +24,12 @@ export class LobbyService {
     };
     return this.httpClient.post(`${this.backendUrl}create?gameName=${name}`, profile)
   }
+
+  public joinGame(name: string) {
+    let profile = <Profile>{
+      name: 'Albert'
+
+    };
+    return this.httpClient.post(`${this.backendUrl}join?gameName=${name}`, profile)
+  }
 }

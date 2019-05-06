@@ -14,13 +14,15 @@ import { LobbyComponent } from './lobby/lobby.component';
 import { NavigationComponent } from './shared/navigation/navigation.component';
 import {IsLoggedInGuard} from "./is-logged-in.guard";
 import {FormsModule} from "@angular/forms";
+import { PlayerListComponent } from './lobby/player-list/player-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     LobbyComponent,
-    NavigationComponent
+    NavigationComponent,
+    PlayerListComponent
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LobbyComponent } from './lobby.component';
+import {Component, Input, OnInit} from "@angular/core";
+import {Game} from "../shared/model/dtos";
+
+@Component({
+  selector: 'app-player-list',
+  template: 'mock',
+})
+export class PlayerListMockComponent {
+  @Input() game: Game
+}
 
 describe('LobbyComponent', () => {
   let component: LobbyComponent;
@@ -8,7 +18,7 @@ describe('LobbyComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LobbyComponent ]
+      declarations: [ LobbyComponent, PlayerListMockComponent ]
     })
     .compileComponents();
   }));
