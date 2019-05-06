@@ -16,4 +16,8 @@ export class ProfileService {
   getProfile(username: string): Observable<Profile> {
     return this.httpClient.get<Profile>(this.profileUrl  + username);
   }
+
+  saveProfile(profile: Profile): Observable<Profile> {
+    return this.httpClient.post<Profile>(this.profileUrl, profile, {});
+  }
 }

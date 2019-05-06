@@ -14,7 +14,6 @@ export interface Player {
 }
 
 export interface Profile {
-  id: number
   name: string
   password: string
 }

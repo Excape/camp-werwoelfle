@@ -11,10 +11,11 @@ data class Player(val profile: Profile){
 @Entity
 @Table
 data class Profile(val name: String,
+                   val password: String,
                    @Id @GeneratedValue(strategy = GenerationType.AUTO)
                    val id: Long = -1){
     // do not remove this, used by hibernate as default constructor
-    private constructor() : this("")
+    private constructor() : this("", "")
 }
 
 data class Game(
