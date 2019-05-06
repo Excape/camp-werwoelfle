@@ -1,12 +1,21 @@
 package ch.zuehlke.camp.werewolf.dtos
+import javax.persistence.*
 
 
 data class Player(val profile: Profile){
     var state: State? = null
     val role: Role? = null
+
 }
 
-data class Profile(val name: String)
+@Entity
+@Table
+data class Profile(val name: String,
+                   @Id @GeneratedValue(strategy = GenerationType.AUTO)
+                   val id: Long = -1){
+    // do not remove this, used by hibernate as default constructor
+    private constructor() : this("")
+}
 
 data class Game(
     val name: String,
