@@ -13,6 +13,7 @@ import {HttpClientModule} from "@angular/common/http";
 import { LobbyComponent } from './lobby/lobby.component';
 import { NavigationComponent } from './shared/navigation/navigation.component';
 import {IsLoggedInGuard} from "./is-logged-in.guard";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import {IsLoggedInGuard} from "./is-logged-in.guard";
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    FormsModule,
     RouterModule.forRoot(routes),
     MaterialModule,
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production})

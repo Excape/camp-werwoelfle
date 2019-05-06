@@ -1,7 +1,9 @@
-button {
-  background-color: red;
-}
+mat-toolbar {
+  display: flex;
+  flex-direction: row;
 
-.filler {
 
+  .filler {
+    flex: 1;
+  }
 }

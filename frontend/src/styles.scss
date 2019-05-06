@@ -6,7 +6,11 @@
 }
 
 body {
-  background-image: url("./assets/Werewolf.jpg");
+  //background-image: url("./assets/Werewolf.jpg");
+}
+
+.container {
+  margin: 2em;
 }
 
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";

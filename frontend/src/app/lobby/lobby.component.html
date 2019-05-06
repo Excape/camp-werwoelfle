@@ -1,2 +1,11 @@
-
-<mat-card *ngFor="let game of games$ | async">{{game.name}}</mat-card>
+<div class="container">
+  <div class="button-bar">
+    <mat-form-field>
+      <input matInput name="gameName" type="text" [(ngModel)]="gameName">
+    </mat-form-field>
+    <button mat-button (click)="createGame()">Create Game</button>
+    <span class="filler"></span>
+    <button mat-button (click)="fetchGames()">refresh</button>
+  </div>
+  <mat-card *ngFor="let game of games$ | async">{{game.name}}</mat-card>
+</div>

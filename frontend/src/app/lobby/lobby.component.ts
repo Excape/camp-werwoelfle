@@ -9,12 +9,23 @@ import {LobbyService} from "./lobby.service";
   styleUrls: ['./lobby.component.scss']
 })
 export class LobbyComponent implements OnInit {
-  games$: Observable<Game[]>
+  games$: Observable<Game[]>;
+  gameName: string;
 
-  constructor(private lobbyService: LobbyService) {}
+  constructor(private lobbyService: LobbyService) {
+  }
 
   ngOnInit() {
+    this.fetchGames();
+  }
+
+  private fetchGames() {
     this.games$ = this.lobbyService.getGames()
   }
+
+  createGame() {
+    this.lobbyService.createGame(this.gameName).subscribe(r => this.fetchGames())
+  }
+
 
 }
