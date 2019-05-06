@@ -12,10 +12,12 @@
     </div>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-raised-button color="accent" [disabled]="!profileExists">Login</button>
+    <button mat-raised-button color="accent"
+            [disabled]="!profileExists"
+            (click)="login()">Login</button>
     <button mat-raised-button color="accent"
             [disabled]="profileExists || name.length == 0 || password.length == 0"
-            (click)="save()">Sign up
+            (click)="create()">Sign up
     </button>
   </mat-card-actions>
 </mat-card>

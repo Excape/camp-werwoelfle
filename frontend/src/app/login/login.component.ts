@@ -3,6 +3,7 @@ import {ApiService} from "../shared/api.service";
 import {Observable} from "rxjs";
 import {ProfileService} from "../shared/profile.service";
 import {Profile} from "../shared/model/dtos";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,11 @@ export class LoginComponent implements OnInit {
   profileExists: boolean = false;
   helloCamp$: Observable<string>;
 
-  constructor(private apiService: ApiService, private profileService: ProfileService) { }
+  constructor(private apiService: ApiService,
+              private profileService: ProfileService,
+              private router: Router
+              )
+  { }
 
   ngOnInit() {
     this.helloCamp$ = this.apiService.get("")
@@ -30,14 +35,32 @@ export class LoginComponent implements OnInit {
     })
   }
 
-  save() {
-    console.log('saving..')
+  login() {
     const profile: Profile = {
       name: this.name,
       password: this.password
     };
-    this.profileService.saveProfile(profile).subscribe( profile => {
-      console.log(profile)
+    this.profileService.login(profile).subscribe(status => {
+      this.loginLogic(profile)
+    }, error=> {
+      console.log(error)
+    });
+  }
+
+  loginLogic(profile: Profile) {
+    console.log(profile)
+    localStorage.setItem("profile", JSON.stringify(profile))
+    this.router.navigateByUrl('lobby')
+    console.log("login successful")
+  }
+
+  create() {
+    const profile: Profile = {
+      name: this.name,
+      password: this.password
+    };
+    this.profileService.createProfile(profile).subscribe(status => {
+      this.loginLogic(profile)
     }, error=> {
       console.log(error)
     });
