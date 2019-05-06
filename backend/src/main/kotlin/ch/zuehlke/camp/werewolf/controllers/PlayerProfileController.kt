@@ -1,10 +1,14 @@
 package ch.zuehlke.camp.werewolf.controllers
 
 import ch.zuehlke.camp.werewolf.dtos.Profile
-import ch.zuehlke.camp.werewolf.repository.ProfileRepository
+import ch.zuehlke.camp.werewolf.service.ProfileService
+import org.hibernate.ObjectNotFoundException
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import org.springframework.http.HttpStatus
+import org.springframework.web.server.ResponseStatusException
+
+
 
 
 @RestController
@@ -12,13 +16,22 @@ import org.springframework.web.bind.annotation.RestController
 class PlayerProfileController {
 
     @Autowired(required = true)
-    lateinit var repository: ProfileRepository
+    lateinit var profileService: ProfileService
 
-    @RequestMapping("/save")
-    fun save(): String {
-        repository.save(Profile("Jack"))
-        repository.save(Profile("Rose"))
-        return "Done"
+    @RequestMapping("/{name}")
+    fun get(@PathVariable("name") name: String ): Profile {
+        try {
+            return profileService.getProfile(name = name)
+        } catch (ex: ObjectNotFoundException) {
+            throw ResponseStatusException(
+                HttpStatus.NOT_FOUND, "Profile Not Found", ex
+            )
+        }
+    }
+
+    @PostMapping("")
+    fun save(@RequestBody profile: Profile): Profile {
+        return profileService.saveProfile(profile)
     }
 
 }
