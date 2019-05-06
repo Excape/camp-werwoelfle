@@ -1,8 +1,5 @@
 package ch.zuehlke.camp.werewolf.controllers
 
-import ch.zuehlke.camp.werewolf.dtos.Profile
-import ch.zuehlke.camp.werewolf.repository.ProfileRepository
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -16,16 +13,6 @@ class TestController {
     @GetMapping
     fun getTestString(): ResponseEntity<String> {
         return ResponseEntity("Hello Camp", HttpStatus.OK)
-    }
-
-    @Autowired
-    lateinit var repository: ProfileRepository
-
-    @RequestMapping("/save")
-    fun save(): String {
-        repository.save(Profile("Jack"))
-        repository.save(Profile("Rose"))
-        return "Done"
     }
 
 }
