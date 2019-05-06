@@ -9,6 +9,7 @@ import {MaterialModule} from "./material/material.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {environment} from '../environments/environment';
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import {environment} from '../environments/environment';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     RouterModule.forRoot(routes),
     MaterialModule,
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production})
