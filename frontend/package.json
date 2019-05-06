@@ -29,6 +29,7 @@
     "@angular/service-worker": "^7.2.14",
     "core-js": "^2.5.4",
     "material": "^0.3.5",
+    "ngx-mqtt": "^6.9.0",
     "rxjs": "^6.0.0",
     "zone.js": "^0.8.26"
   },
