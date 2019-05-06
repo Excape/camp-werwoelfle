@@ -9,7 +9,8 @@
     "start-prod": "ng build --prod && pushd dist\\\\werewolf && http-server -p 8088 && popd",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "preinstall": "npm install -g http-server"
   },
   "private": true,
   "dependencies": {
