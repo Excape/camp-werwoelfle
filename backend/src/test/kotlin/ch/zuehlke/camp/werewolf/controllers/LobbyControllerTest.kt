@@ -1,6 +1,8 @@
 package ch.zuehlke.camp.werewolf.controllers
 
+import ch.zuehlke.camp.werewolf.dtos.Game
 import ch.zuehlke.camp.werewolf.repository.ProfileRepository
+import ch.zuehlke.camp.werewolf.service.LobbyService
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -15,18 +17,18 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @EnableAutoConfiguration
 @ExtendWith(SpringExtension::class)
-@WebMvcTest(TestController::class)
-class TestControllerTest {
+@WebMvcTest(LobbyController::class, LobbyService::class)
+class LobbyControllerTest {
 
     @Autowired
     private val mockMvc: MockMvc? = null
 
     @Test
-    fun testHelloController() {
+    fun testLobbyController() {
         this.mockMvc!!.perform(get("/api/v1"))
                 .andDo(print())
                 .andExpect(status().isOk)
-                .andExpect(jsonPath("$").value("Hello Camp"))
+                .andExpect(jsonPath("$").isEmpty)
     }
 
 }
