@@ -6,7 +6,7 @@ import {Observable} from "rxjs";
   providedIn: 'root'
 })
 export class ApiService {
-  backendUrl = 'v1';
+  backendUrl = 'api/v1';
 
   constructor(private httpClient: HttpClient) { }
 
