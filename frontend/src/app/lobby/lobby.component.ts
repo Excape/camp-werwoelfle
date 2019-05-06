@@ -1,20 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import {ApiService} from "../shared/api.service";
+import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
 import {Game} from "../shared/model/dtos";
+import {LobbyService} from "./lobby.service";
 
 @Component({
   selector: 'app-lobby',
   templateUrl: './lobby.component.html',
-  styleUrls: ['./lobby.component.css']
+  styleUrls: ['./lobby.component.scss']
 })
 export class LobbyComponent implements OnInit {
   games$: Observable<Game[]>
 
-  constructor(private apiService: ApiService) {}
+  constructor(private lobbyService: LobbyService) {}
 
   ngOnInit() {
-    this.games$ = this.apiService.get("")
+    this.games$ = this.lobbyService.getGames()
   }
 
 }
