@@ -49,9 +49,9 @@ export class LoginComponent implements OnInit {
 
   loginLogic(profile: Profile) {
     console.log(profile)
-    localStorage.setItem("profile", JSON.stringify(profile))
-    this.router.navigateByUrl('lobby')
+    sessionStorage.setItem("profile", JSON.stringify(profile))
     console.log("login successful")
+    this.router.navigateByUrl('lobby')
   }
 
   create() {
