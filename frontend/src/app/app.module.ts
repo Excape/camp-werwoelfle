@@ -29,7 +29,7 @@ import {FormsModule} from "@angular/forms";
     FormsModule,
     RouterModule.forRoot(routes),
     MaterialModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production})
+    ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
   ],
   providers: [
     IsLoggedInGuard
