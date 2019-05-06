@@ -3,16 +3,21 @@
   <mat-card-content>
     <div class="example-container">
       <mat-form-field>
-        <input [(ngModel)]="username"(keyup)="checkIfProfileExists()" matInput type="text" placeholder="Username">
+        <input [(ngModel)]="name" (keyup)="checkIfProfileExists()" matInput type="text" placeholder="Username">
       </mat-form-field>
 
       <mat-form-field>
-        <input matInput type="password" placeholder="Password"/>
+        <input [(ngModel)]="password" matInput type="password" placeholder="Password"/>
       </mat-form-field>
     </div>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-raised-button color="accent" [disabled]="!profileExists">Login</button>
-    <button mat-raised-button color="accent" [disabled]="profileExists || username.length == 0">Sign up</button>
+    <button mat-raised-button color="accent"
+            [disabled]="!profileExists"
+            (click)="login()">Login</button>
+    <button mat-raised-button color="accent"
+            [disabled]="profileExists || name.length == 0 || password.length == 0"
+            (click)="create()">Sign up
+    </button>
   </mat-card-actions>
 </mat-card>

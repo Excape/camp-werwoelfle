@@ -16,12 +16,20 @@ export class LobbyService {
     return this.httpClient.get<Game[]>(this.backendUrl);
   }
 
-  public createGame(name: string) {
+  public createGame(name: string): Observable<Game> {
     // TODO: replace mock
     let profile = <Profile>{
-      name: 'Test'
-
+      name: 'Test',
+      password: '1234'
     };
-    return this.httpClient.post(`${this.backendUrl}create?gameName=${name}`, profile)
+    return this.httpClient.post<Game>(`${this.backendUrl}create?gameName=${name}`, profile)
+  }
+
+  public joinGame(name: string): Observable<Game> {
+    let profile = <Profile>{
+      name: 'Albert',
+      password: '1234'
+    };
+    return this.httpClient.post<Game>(`${this.backendUrl}join?gameName=${name}`, profile)
   }
 }

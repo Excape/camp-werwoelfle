@@ -16,4 +16,12 @@ export class ProfileService {
   getProfile(username: string): Observable<Profile> {
     return this.httpClient.get<Profile>(this.profileUrl  + username);
   }
+
+  login(profile: Profile): Observable<void> {
+    return this.httpClient.post<void>(this.profileUrl + "login", profile);
+  }
+
+  createProfile(profile: Profile): Observable<void> {
+    return this.httpClient.post<void>(this.profileUrl, profile);
+  }
 }

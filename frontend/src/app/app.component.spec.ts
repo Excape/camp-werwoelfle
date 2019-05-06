@@ -2,30 +2,39 @@ import {async, TestBed} from '@angular/core/testing';
 import {AppComponent} from './app.component';
 import {RouterModule} from "@angular/router";
 import {APP_BASE_HREF} from "@angular/common";
+import {NavigationComponent} from "./shared/navigation/navigation.component";
+import {LoginComponent} from "./login/login.component";
+import {LobbyComponent} from "./lobby/lobby.component";
+import {PlayerListComponent} from "./lobby/player-list/player-list.component";
+import {LobbyService} from "./lobby/lobby.service";
+import {IsLoggedInGuard} from "./is-logged-in.guard";
+import {MaterialModule} from "./material/material.module";
+import {FormsModule} from "@angular/forms";
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AppComponent
+        AppComponent,
+        NavigationComponent,
+        LoginComponent,
+        LobbyComponent,
+        PlayerListComponent
       ],
       imports: [
+        MaterialModule,
+        FormsModule,
         RouterModule.forRoot([
           {path: '', redirectTo: '/', pathMatch: 'full'}
         ])
       ],
-      providers: [{provide: APP_BASE_HREF, useValue: '/'}]
+      providers: [{provide: APP_BASE_HREF, useValue: '/'}, LobbyService, IsLoggedInGuard]
     }).compileComponents();
   }));
   it('should create the app', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
-  }));
-  it(`should have as title 'app'`, async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('app');
   }));
   it('should render title in a h1 tag', async(() => {
     const fixture = TestBed.createComponent(AppComponent);

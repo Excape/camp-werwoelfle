@@ -7,5 +7,23 @@
     <span class="filler"></span>
     <button mat-button (click)="fetchGames()">refresh</button>
   </div>
-  <mat-card *ngFor="let game of games$ | async">{{game.name}}</mat-card>
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let game of games$ | async" [expanded]="game.name === joinedGame?.name">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{game.name}}
+        </mat-panel-title>
+        <mat-panel-description>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <app-player-list [game]="game"></app-player-list>
+      <div class="button-bar">
+        <button mat-button (click)="$event.stopPropagation(); joinGame(game)">Join Game</button>
+        <span class="filler"></span>
+        <button mat-button (click)="startGame(game)">Start Game</button>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
 </div>
+

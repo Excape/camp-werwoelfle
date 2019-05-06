@@ -10,6 +10,7 @@ import {LobbyService} from "./lobby.service";
 })
 export class LobbyComponent implements OnInit {
   games$: Observable<Game[]>;
+  joinedGame: Game;
   gameName: string;
 
   constructor(private lobbyService: LobbyService) {
@@ -19,13 +20,26 @@ export class LobbyComponent implements OnInit {
     this.fetchGames();
   }
 
-  private fetchGames() {
+  fetchGames() {
     this.games$ = this.lobbyService.getGames()
   }
 
   createGame() {
-    this.lobbyService.createGame(this.gameName).subscribe(r => this.fetchGames())
+    this.lobbyService.createGame(this.gameName).subscribe(game => {
+      this.joinedGame = game
+      this.fetchGames()
+    })
   }
 
+  joinGame(game: Game) {
+    this.lobbyService.joinGame(game.name).subscribe(game => {
+      this.joinedGame = game
+      this.fetchGames()
+    })
+  }
+
+  startGame(game: Game) {
+
+  }
 
 }
