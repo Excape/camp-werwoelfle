@@ -17,7 +17,11 @@ export class ProfileService {
     return this.httpClient.get<Profile>(this.profileUrl  + username);
   }
 
-  saveProfile(profile: Profile): Observable<Profile> {
-    return this.httpClient.post<Profile>(this.profileUrl, profile, {});
+  login(profile: Profile): Observable<void> {
+    return this.httpClient.post<void>(this.profileUrl + "login", profile);
+  }
+
+  createProfile(profile: Profile): Observable<void> {
+    return this.httpClient.post<void>(this.profileUrl, profile);
   }
 }

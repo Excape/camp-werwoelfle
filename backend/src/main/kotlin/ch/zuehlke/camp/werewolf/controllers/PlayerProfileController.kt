@@ -2,14 +2,10 @@ package ch.zuehlke.camp.werewolf.controllers
 
 import ch.zuehlke.camp.werewolf.dtos.Profile
 import ch.zuehlke.camp.werewolf.service.ProfileService
-import org.hibernate.ObjectNotFoundException
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.*
 import org.springframework.http.HttpStatus
-import org.springframework.web.server.ResponseStatusException
-
-
-
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/profile")
@@ -19,19 +15,29 @@ class PlayerProfileController {
     lateinit var profileService: ProfileService
 
     @RequestMapping("/{name}")
-    fun get(@PathVariable("name") name: String ): Profile {
-        try {
-            return profileService.getProfile(name = name)
-        } catch (ex: ObjectNotFoundException) {
-            throw ResponseStatusException(
-                HttpStatus.NOT_FOUND, "Profile Not Found", ex
-            )
+    fun get(@PathVariable("name") name: String): Any {
+
+        val profile = profileService.getProfile(name = name)
+
+        return profile ?: ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND)
+    }
+
+    @PostMapping("/login")
+    fun login(@RequestBody profile: Profile): ResponseEntity<HttpStatus> {
+        val success = profileService.login(profile)
+        return if (success) {
+            ResponseEntity(HttpStatus.NO_CONTENT)
+        } else {
+            ResponseEntity(HttpStatus.BAD_REQUEST)
         }
     }
 
     @PostMapping("")
-    fun save(@RequestBody profile: Profile): Profile {
-        return profileService.saveProfile(profile)
+    fun create(@RequestBody profileBody: Profile): Any {
+        val profile = profileService.createProfile(profileBody)
+
+        return profile ?: ResponseEntity<HttpStatus>(HttpStatus.NOT_MODIFIED)
+
     }
 
 }
