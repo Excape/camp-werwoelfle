@@ -1,23 +1,26 @@
 package ch.zuehlke.camp.werewolf.dtos
 
-import sun.jvm.hotspot.utilities.BitMap
 
-data class Player(val profile: Profile, var state: State, val role: Role)
+data class Player(val profile: Profile){
+    var state: State? = null
+    val role: Role? = null
+}
 
-data class Profile(val name: String, var avatar: BitMap)
+data class Profile(val name: String)
 
 data class Game(
     val name: String,
-    val players: List<Player> = listOf(),
-    val phases: Set<Phase> = setOf(),
-    var currentPhase: Phase
-)
+    val players: MutableList<Player> = mutableListOf()
+) {
+    val phases: Set<Phase> = setOf()
+    var currentPhase: Phase? = null
+}
 
 data class Phase(val name: String, val voting: Voting)
 
 data class Voting(
-    val votes: List<Vote> = listOf(),
-    val votedPlayers: List<Player> = listOf()
+    val votes: List<Vote> = mutableListOf(),
+    val votedPlayers: List<Player> = mutableListOf()
 )
 
 data class Vote(val voteOf: Player, val voteFor: List<Player>)
