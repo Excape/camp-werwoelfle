@@ -20,7 +20,7 @@ export class LobbyComponent implements OnInit {
     this.fetchGames();
   }
 
-  private fetchGames() {
+  fetchGames() {
     this.games$ = this.lobbyService.getGames()
   }
 
