@@ -1,12 +1,11 @@
 package ch.zuehlke.camp.werewolf.service
 
-import ch.zuehlke.camp.werewolf.dtos.Game
-import ch.zuehlke.camp.werewolf.dtos.Player
-import ch.zuehlke.camp.werewolf.dtos.Profile
-import ch.zuehlke.camp.werewolf.dtos.Role
-import org.junit.Assert
+import ch.zuehlke.camp.werewolf.domain.Game
+import ch.zuehlke.camp.werewolf.domain.Player
+import ch.zuehlke.camp.werewolf.domain.Profile
+import ch.zuehlke.camp.werewolf.domain.Role
 import org.junit.Test
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 
 class RoleServiceTest {
     private val roleService: RoleService = RoleService()
