@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ApiService} from "../shared/api.service";
 import {Observable} from "rxjs";
 import {ProfileService} from "../shared/profile.service";
@@ -36,10 +36,7 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    const profile: Profile = {
-      name: this.name,
-      password: this.password
-    };
+    const profile = this.createProfile();
     this.profileService.login(profile).subscribe(status => {
       this.loginLogic(profile)
     }, error=> {
@@ -49,20 +46,24 @@ export class LoginComponent implements OnInit {
 
   loginLogic(profile: Profile) {
     console.log(profile)
-    sessionStorage.setItem("profile", JSON.stringify(profile))
-    console.log("login successful")
+    sessionStorage.setItem("profile", JSON.stringify(profile));
+    console.log("login successful");
     this.router.navigateByUrl('lobby')
   }
 
   create() {
-    const profile: Profile = {
-      name: this.name,
-      password: this.password
-    };
+    const profile = this.createProfile();
     this.profileService.createProfile(profile).subscribe(status => {
       this.loginLogic(profile)
     }, error=> {
       console.log(error)
     });
+  }
+
+  private createProfile() {
+    return {
+      name: this.name,
+      password: this.password
+    };
   }
 }
