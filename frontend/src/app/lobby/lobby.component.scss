@@ -1,6 +1,14 @@
+@import "../../variables";
+
 .button-bar {
   display: flex;
   flex-direction: row;
+
+  .warn {
+    color: $warn;
+    margin: auto;
+    font-weight: bold;
+  }
 
   .filler {
     flex: 1
