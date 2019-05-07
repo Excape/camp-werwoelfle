@@ -1,11 +1,13 @@
 <div class="container">
   <div class="button-bar">
     <mat-form-field>
-      <input matInput name="gameName" type="text" [(ngModel)]="gameName">
+      <input matInput placeholder="Name your game" name="gameName" type="text" [(ngModel)]="gameName">
     </mat-form-field>
-    <button mat-button (click)="createGame()">Create Game</button>
+    <button mat-button (click)="createGame()" [disabled]="!gameName">Create Game</button>
     <span class="filler"></span>
-    <button mat-button (click)="fetchGames()">refresh</button>
+    <button mat-icon-button (click)="fetchGames()">
+      <mat-icon aria-label="refresh games">refresh</mat-icon>
+    </button>
   </div>
   <mat-accordion>
     <mat-expansion-panel *ngFor="let game of games$ | async" [expanded]="game.name === joinedGame?.name">
