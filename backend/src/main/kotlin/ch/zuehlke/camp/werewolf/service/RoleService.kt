@@ -1,7 +1,7 @@
 package ch.zuehlke.camp.werewolf.service
 
-import ch.zuehlke.camp.werewolf.dtos.Game
-import ch.zuehlke.camp.werewolf.dtos.Role
+import ch.zuehlke.camp.werewolf.domain.Game
+import ch.zuehlke.camp.werewolf.domain.Role
 
 class RoleService {
 
