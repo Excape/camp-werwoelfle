@@ -1,14 +1,16 @@
 <div class="container">
   <div class="button-bar">
     <mat-form-field>
-      <input matInput name="gameName" type="text" [(ngModel)]="gameName">
+      <input matInput placeholder="Name your game" name="gameName" type="text" [(ngModel)]="gameName">
     </mat-form-field>
-    <button mat-button (click)="createGame()">Create Game</button>
+    <button mat-button (click)="createGame()" [disabled]="!gameName">Create Game</button>
     <span class="filler"></span>
-    <button mat-button (click)="fetchGames()">refresh</button>
+    <button mat-icon-button (click)="fetchGames()">
+      <mat-icon aria-label="refresh games">refresh</mat-icon>
+    </button>
   </div>
   <mat-accordion>
-    <mat-expansion-panel *ngFor="let game of games$ | async" [expanded]="game.name === joinedGame?.name">
+    <mat-expansion-panel *ngFor="let game of games" [expanded]="game.name === joinedGame?.name">
       <mat-expansion-panel-header>
         <mat-panel-title>
           {{game.name}}
@@ -18,9 +20,11 @@
       </mat-expansion-panel-header>
       <app-player-list [game]="game"></app-player-list>
       <div class="button-bar">
-        <button mat-button (click)="$event.stopPropagation(); joinGame(game)">Join Game</button>
+        <button mat-button (click)="$event.stopPropagation(); joinGame(game)" [disabled]="alreadyJoined(game)">Join Game</button>
         <span class="filler"></span>
-        <button mat-button (click)="startGame(game)">Start Game</button>
+        <span class="warn" *ngIf="game.players.length<5">min 5 players</span>
+        <span class="filler"></span>
+        <button mat-button (click)="startGame(game)" [disabled]="game.players.length<5">Start Game</button>
       </div>
     </mat-expansion-panel>
   </mat-accordion>

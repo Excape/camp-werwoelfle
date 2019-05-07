@@ -14,11 +14,12 @@ export interface Player {
 }
 
 export interface Profile {
+  id?: number
   name: string
   password: string
 }
 
-export interface Phase  {
+export interface Phase {
   name: string
   voting: Voting
 }

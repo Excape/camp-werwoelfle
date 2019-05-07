@@ -1,0 +1,9 @@
+@import '~@angular/material/theming';
+$werewolf-theme-primary: mat-palette($mat-green);
+$werewolf-theme-accent : mat-palette($mat-amber);
+$werewolf-theme-warn   : mat-palette($mat-red);
+$werewolf-theme: mat-light-theme(
+    $werewolf-theme-primary,
+    $werewolf-theme-accent,
+    $werewolf-theme-warn
+);

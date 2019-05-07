@@ -15,15 +15,11 @@ class PlayerProfileController {
     lateinit var profileService: ProfileService
 
     @RequestMapping("/{name}")
-    fun get(@PathVariable("name") name: String ): Any {
+    fun get(@PathVariable("name") name: String): Any {
 
         val profile = profileService.getProfile(name = name)
 
-        return if (profile == null) {
-            ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND)
-        } else {
-            profile
-        }
+        return profile ?: ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND)
     }
 
     @PostMapping("/login")
@@ -37,14 +33,11 @@ class PlayerProfileController {
     }
 
     @PostMapping("")
-    fun create(@RequestBody profile: Profile): Any {
-        val profile = profileService.createProfile(profile)
+    fun create(@RequestBody profileBody: Profile): Any {
+        val profile = profileService.createProfile(profileBody)
 
-        return if (profile == null) {
-            ResponseEntity<HttpStatus>(HttpStatus.NOT_MODIFIED)
-        } else {
-            profile
-        }
+        return profile ?: ResponseEntity<HttpStatus>(HttpStatus.NOT_MODIFIED)
+
     }
 
 }

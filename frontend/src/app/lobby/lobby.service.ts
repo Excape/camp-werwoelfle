@@ -17,19 +17,15 @@ export class LobbyService {
   }
 
   public createGame(name: string): Observable<Game> {
-    // TODO: replace mock
-    let profile = <Profile>{
-      name: 'Test',
-      password: '1234'
-    };
-    return this.httpClient.post<Game>(`${this.backendUrl}create?gameName=${name}`, profile)
+    sessionStorage.getItem("profile")
+    return this.httpClient.post<Game>(`${this.backendUrl}create?gameName=${name}`, this.getProfileFromStorage())
   }
 
   public joinGame(name: string): Observable<Game> {
-    let profile = <Profile>{
-      name: 'Albert',
-      password: '1234'
-    };
-    return this.httpClient.post<Game>(`${this.backendUrl}join?gameName=${name}`, profile)
+    return this.httpClient.post<Game>(`${this.backendUrl}join?gameName=${name}`, this.getProfileFromStorage())
+  }
+
+  private getProfileFromStorage(): Profile {
+    return JSON.parse(sessionStorage.getItem("profile"));
   }
 }

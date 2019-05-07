@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
-import {Game} from "../shared/model/dtos";
+import {Game, Profile} from "../shared/model/dtos";
 import {LobbyService} from "./lobby.service";
 
 @Component({
@@ -9,7 +9,7 @@ import {LobbyService} from "./lobby.service";
   styleUrls: ['./lobby.component.scss']
 })
 export class LobbyComponent implements OnInit {
-  games$: Observable<Game[]>;
+  games: Game[];
   joinedGame: Game;
   gameName: string;
 
@@ -21,7 +21,7 @@ export class LobbyComponent implements OnInit {
   }
 
   fetchGames() {
-    this.games$ = this.lobbyService.getGames()
+    this.lobbyService.getGames().subscribe(games => this.games = games)
   }
 
   createGame() {
@@ -41,5 +41,16 @@ export class LobbyComponent implements OnInit {
   startGame(game: Game) {
 
   }
+
+  alreadyJoined(game: Game) {
+    const currentProfile = JSON.parse(sessionStorage.getItem("profile"));
+    return this.flatMap(game => game.players, this.games).find(player => player.profile.name === currentProfile.name);
+  }
+
+  concat = (x, y) =>
+    x.concat(y);
+
+  flatMap = (f, xs) =>
+    xs.map(f).reduce(this.concat, [])
 
 }
