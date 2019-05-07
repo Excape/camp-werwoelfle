@@ -4,7 +4,7 @@ import javax.persistence.*
 
 data class Player(val profile: Profile){
     var state: State? = null
-    val role: Role? = null
+    var role: Role? = null
 
 }
 
