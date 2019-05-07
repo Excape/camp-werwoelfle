@@ -1,6 +1,6 @@
 package ch.zuehlke.camp.werewolf.service
 
-import ch.zuehlke.camp.werewolf.dtos.Profile
+import ch.zuehlke.camp.werewolf.domain.Profile
 import ch.zuehlke.camp.werewolf.repository.ProfileRepository
 import org.hibernate.ObjectNotFoundException
 import org.springframework.beans.factory.annotation.Autowired

@@ -1,4 +1,4 @@
-package ch.zuehlke.camp.werewolf.dtos
+package ch.zuehlke.camp.werewolf.domain
 import javax.persistence.*
 
 

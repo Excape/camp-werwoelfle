@@ -1,6 +1,6 @@
 package ch.zuehlke.camp.werewolf.controllers
 
-import ch.zuehlke.camp.werewolf.dtos.Profile
+import ch.zuehlke.camp.werewolf.domain.Profile
 import ch.zuehlke.camp.werewolf.service.ProfileService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus

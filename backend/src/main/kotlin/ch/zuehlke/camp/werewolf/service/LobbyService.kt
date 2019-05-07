@@ -1,9 +1,10 @@
 package ch.zuehlke.camp.werewolf.service
 
-import ch.zuehlke.camp.werewolf.dtos.Game
-import ch.zuehlke.camp.werewolf.dtos.Player
-import ch.zuehlke.camp.werewolf.dtos.Profile
+import ch.zuehlke.camp.werewolf.domain.Game
+import ch.zuehlke.camp.werewolf.domain.Player
+import ch.zuehlke.camp.werewolf.domain.Profile
 import org.springframework.stereotype.Service
+import java.lang.IllegalArgumentException
 
 @Service
 class LobbyService {
@@ -16,9 +17,12 @@ class LobbyService {
         return newGame
     }
 
-    fun joinGame(name: String, profile: Profile) : Game?{
+    fun joinGame(name: String, profile: Profile) : Game{
         val game = games.find { game -> game.name == name }
-        game?.players?.add(Player(profile))
+        if (game == null) {
+            throw IllegalArgumentException("Game $name not found")
+        }
+        game.players.add(Player(profile))
         return game
     }
 }

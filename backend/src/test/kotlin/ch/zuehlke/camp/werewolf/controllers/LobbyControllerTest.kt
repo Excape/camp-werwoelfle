@@ -1,7 +1,5 @@
 package ch.zuehlke.camp.werewolf.controllers
 
-import ch.zuehlke.camp.werewolf.dtos.Game
-import ch.zuehlke.camp.werewolf.repository.ProfileRepository
 import ch.zuehlke.camp.werewolf.service.LobbyService
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
