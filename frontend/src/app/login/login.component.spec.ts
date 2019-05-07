@@ -5,6 +5,7 @@ import {MaterialModule} from "../material/material.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {FormsModule} from "@angular/forms";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {RouterTestingModule} from "@angular/router/testing";
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -14,6 +15,7 @@ describe('LoginComponent', () => {
     TestBed.configureTestingModule({
       declarations: [LoginComponent],
       imports: [
+        RouterTestingModule,
         BrowserAnimationsModule,
         MaterialModule,
         FormsModule,
