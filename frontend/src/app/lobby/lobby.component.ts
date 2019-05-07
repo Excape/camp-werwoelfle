@@ -2,6 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
 import {Game, Profile} from "../shared/model/dtos";
 import {LobbyService} from "./lobby.service";
+import {MessageService} from "../shared/message.service";
+import {ProfileService} from "../shared/profile.service";
+import {Router} from "@angular/router";
+import {IMqttMessage} from "ngx-mqtt";
 
 @Component({
   selector: 'app-lobby',
@@ -13,7 +17,8 @@ export class LobbyComponent implements OnInit {
   joinedGame: Game;
   gameName: string;
 
-  constructor(private lobbyService: LobbyService) {
+  constructor(private lobbyService: LobbyService, private messageService: MessageService, private profileService: ProfileService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -26,20 +31,30 @@ export class LobbyComponent implements OnInit {
 
   createGame() {
     this.lobbyService.createGame(this.gameName).subscribe(game => {
-      this.joinedGame = game
-      this.fetchGames()
+      this.joinedGame = game;
+      this.fetchGames();
+      this.subscribeTo(game)
     })
   }
 
   joinGame(game: Game) {
     this.lobbyService.joinGame(game.name).subscribe(game => {
-      this.joinedGame = game
-      this.fetchGames()
-    })
+      this.joinedGame = game;
+      this.fetchGames();
+      this.subscribeTo(game);
+    });
   }
 
+  private subscribeTo(game: Game) {
+    this.messageService.subscribeToGame(game).subscribe( (message: IMqttMessage) => {
+      console.log("message " + message.payload.toString())
+      if (message.payload.toString().startsWith("START")) {
+        this.router.navigateByUrl('content')
+      }
+    })
+  }
   startGame(game: Game) {
-
+    this.lobbyService.startGame(game).subscribe(value => console.log(value));
   }
 
   alreadyJoined(game: Game) {

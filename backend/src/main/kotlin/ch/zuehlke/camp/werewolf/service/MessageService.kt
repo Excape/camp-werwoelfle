@@ -1,10 +1,13 @@
 package ch.zuehlke.camp.werewolf.service
 
+import ch.zuehlke.camp.werewolf.domain.*
 import org.eclipse.paho.client.mqttv3.*
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 
 import java.util.UUID
+
+typealias MessageCallback = (topic: String, message: MqttMessage) -> Unit
 
 @Service
 class MessageService(
@@ -34,14 +37,21 @@ class MessageService(
     }
 
     @Throws(MqttException::class)
-    fun subscribe(callback: (String, MqttMessage) -> Unit) {
-        publisher.subscribe("HELLO", callback)
-    }
-
-    @Throws(MqttException::class)
     fun publishMessage(message: MqttMessage) {
         message.qos = 0
         message.isRetained = true
         publisher.publish("HELLO", message)
+    }
+
+    @Throws(MqttException::class)
+    fun publishToGame(game: Game, command: GameCommand) {
+        val mqttMessage = MqttMessage(command.name.toByteArray())
+        configureMessage(mqttMessage)
+        publisher.publish(game.toTopic(), mqttMessage)
+    }
+
+    private fun configureMessage(mqttMessage: MqttMessage) {
+        mqttMessage.qos = 0
+        mqttMessage.isRetained = false
     }
 }

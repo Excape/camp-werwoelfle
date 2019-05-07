@@ -17,7 +17,7 @@ export class GamecontentComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this._subscription = this._messageService.subscribe('HELLO', (message: IMqttMessage) => {
+    this._subscription = this._messageService.subscribe('test', (message: IMqttMessage) => {
       this.messages.push(message.payload.toString());
     });
   }

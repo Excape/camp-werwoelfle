@@ -19,7 +19,8 @@ describe('LoginComponent', () => {
         BrowserAnimationsModule,
         MaterialModule,
         FormsModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        RouterTestingModule
       ]
     })
       .compileComponents();

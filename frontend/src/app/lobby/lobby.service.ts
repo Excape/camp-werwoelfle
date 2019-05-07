@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Game, Profile} from "../shared/model/dtos";
+import {ProfileService} from "../shared/profile.service";
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import {Game, Profile} from "../shared/model/dtos";
 export class LobbyService {
   private backendUrl = "api/v1/";
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private profileService: ProfileService) {
   }
 
   public getGames(): Observable<Game[]> {
@@ -17,15 +18,16 @@ export class LobbyService {
   }
 
   public createGame(name: string): Observable<Game> {
-    sessionStorage.getItem("profile")
-    return this.httpClient.post<Game>(`${this.backendUrl}create?gameName=${name}`, this.getProfileFromStorage())
+    sessionStorage.getItem("profile");
+    let url = `${this.backendUrl}create?gameName=${name}`;
+    return this.httpClient.post<Game>(url, ProfileService.getLoggedInProfile())
   }
 
   public joinGame(name: string): Observable<Game> {
-    return this.httpClient.post<Game>(`${this.backendUrl}join?gameName=${name}`, this.getProfileFromStorage())
+    return this.httpClient.post<Game>(`${this.backendUrl}join?gameName=${name}`, ProfileService.getLoggedInProfile())
   }
 
-  private getProfileFromStorage(): Profile {
-    return JSON.parse(sessionStorage.getItem("profile"));
+  public startGame(game: Game): Observable<Game> {
+    return this.httpClient.get<Game>(`${this.backendUrl}start?gameName=${game.name}`);
   }
 }

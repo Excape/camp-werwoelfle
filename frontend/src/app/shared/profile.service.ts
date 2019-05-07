@@ -17,6 +17,14 @@ export class ProfileService {
     return this.httpClient.get<Profile>(this.profileUrl  + username);
   }
 
+  setLocalProfile(profile: Profile) {
+    sessionStorage.setItem("profile", JSON.stringify(profile));
+  }
+
+  static getLoggedInProfile(): Profile {
+      return JSON.parse(sessionStorage.getItem("profile"));
+  }
+
   login(profile: Profile): Observable<void> {
     return this.httpClient.post<void>(this.profileUrl + "login", profile);
   }
