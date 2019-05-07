@@ -10,7 +10,7 @@
     </button>
   </div>
   <mat-accordion>
-    <mat-expansion-panel *ngFor="let game of games$ | async" [expanded]="game.name === joinedGame?.name">
+    <mat-expansion-panel *ngFor="let game of games" [expanded]="game.name === joinedGame?.name">
       <mat-expansion-panel-header>
         <mat-panel-title>
           {{game.name}}
@@ -20,7 +20,7 @@
       </mat-expansion-panel-header>
       <app-player-list [game]="game"></app-player-list>
       <div class="button-bar">
-        <button mat-button (click)="$event.stopPropagation(); joinGame(game)">Join Game</button>
+        <button mat-button (click)="$event.stopPropagation(); joinGame(game)" [disabled]="alreadyJoined(game)">Join Game</button>
         <span class="filler"></span>
         <button mat-button (click)="startGame(game)">Start Game</button>
       </div>
