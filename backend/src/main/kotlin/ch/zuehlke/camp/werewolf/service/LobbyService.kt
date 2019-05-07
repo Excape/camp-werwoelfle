@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service
 import java.lang.IllegalArgumentException
 
 @Service
-class LobbyService(val messageService: MessageService) {
+class LobbyService(val messageService: MessageService, val roleService: RoleService) {
 
     val games: MutableList<Game> = mutableListOf()
+
+    val runningGames: MutableMap<String, GameService> = mutableMapOf()
 
     fun createGame(name: String, profile: Profile) : Game {
         val newGame = Game(name, mutableListOf(Player(profile)))
@@ -25,7 +27,10 @@ class LobbyService(val messageService: MessageService) {
     }
 
     fun startGame(gameName: String) {
-        messageService.publishToGame(findGame(gameName), GameCommand.START)
+        val game = findGame(gameName)
+        val gameService = GameService(game, roleService, messageService)
+        runningGames[gameName] = gameService
+        gameService.startGame()
     }
 
     private fun findGame(name: String): Game {
