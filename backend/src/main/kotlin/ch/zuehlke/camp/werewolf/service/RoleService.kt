@@ -2,7 +2,9 @@ package ch.zuehlke.camp.werewolf.service
 
 import ch.zuehlke.camp.werewolf.domain.Game
 import ch.zuehlke.camp.werewolf.domain.Role
+import org.springframework.stereotype.Service
 
+@Service
 class RoleService {
 
     fun generateRolesInGame(game: Game): Game {
