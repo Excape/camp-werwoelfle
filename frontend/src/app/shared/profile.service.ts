@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {Observable, Subject} from "rxjs";
 import {Profile} from "./model/dtos";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,17 @@ import {Profile} from "./model/dtos";
 export class ProfileService {
 
   profileUrl = 'api/v1/profile/'
+  private _loggedInProfile$: Subject<Profile> = new Subject();
 
-  constructor(private httpClient: HttpClient) { }
+  updateLoggedInProfile(profile: Profile) {
+    this._loggedInProfile$.next(profile);
+  }
+
+  get loggedInProfile(): Subject<Profile> {
+    return this._loggedInProfile$;
+  }
+
+  constructor(private httpClient: HttpClient, private router: Router) { }
 
   getProfile(username: string): Observable<Profile> {
     return this.httpClient.get<Profile>(this.profileUrl  + username);
@@ -27,6 +37,11 @@ export class ProfileService {
 
   login(profile: Profile): Observable<void> {
     return this.httpClient.post<void>(this.profileUrl + "login", profile);
+  }
+
+  logout() {
+    sessionStorage.removeItem("profile");
+    this.updateLoggedInProfile(null);
   }
 
   createProfile(profile: Profile): Observable<void> {

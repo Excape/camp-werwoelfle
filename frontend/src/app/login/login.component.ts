@@ -47,11 +47,10 @@ export class LoginComponent implements OnInit {
   loginLogic(profile: Profile) {
     console.log(profile);
     this.profileService.setLocalProfile(profile);
+    this.profileService.updateLoggedInProfile(profile);
     console.log("login successful");
     this.router.navigateByUrl('lobby')
   }
-
-
 
   create() {
     const profile = this.createProfile();

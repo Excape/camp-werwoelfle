@@ -17,6 +17,7 @@ import {FormsModule} from "@angular/forms";
 import { PlayerListComponent } from './lobby/player-list/player-list.component';
 import {IMqttServiceOptions, MqttModule} from "ngx-mqtt";
 import { GamecontentComponent } from './gamecontent/gamecontent.component';
+import {LoginScreenGuard} from "./login-screen.guard";
 
 export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
   hostname: 'm24.cloudmqtt.com',
@@ -33,7 +34,7 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     LobbyComponent,
     NavigationComponent,
     PlayerListComponent,
-    GamecontentComponent
+    GamecontentComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,6 +48,7 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
   ],
   providers: [
     IsLoggedInGuard,
+    LoginScreenGuard,
   ],
   bootstrap: [AppComponent]
 })

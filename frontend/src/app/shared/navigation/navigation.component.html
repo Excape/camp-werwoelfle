@@ -2,5 +2,16 @@
   <img src="assets/icon.png" alt="werewolf-icon" class="icon">
   <h1>Werwölfle</h1>
   <span class="filler"></span>
-  <button type="button" routerLink="/lobby" mat-button><mat-icon>home</mat-icon> Lobby</button>
+  <button *ngIf="isLoggedIn()" type="button" routerLink="/lobby" mat-button>
+    <mat-icon>home</mat-icon>
+    Lobby
+  </button>
+  <button [hidden]="isLoggedIn()" type="button" mat-button *ngIf="loggedInProfile && loggedInProfile.name">
+    <mat-icon>account_circle</mat-icon>
+    {{ loggedInProfile.name }}
+  </button>
+  <button *ngIf="isLoggedIn()" type="button" routerLink="/login" (click)="profileService.logout()" mat-button>
+    <mat-icon>exit_to_app</mat-icon>
+    Logout
+  </button>
 </mat-toolbar>

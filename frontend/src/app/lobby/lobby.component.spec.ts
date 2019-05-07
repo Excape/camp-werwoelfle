@@ -1,9 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { LobbyComponent } from './lobby.component';
-import {Component, Input, OnInit} from "@angular/core";
+import {LobbyComponent} from './lobby.component';
+import {Component, Input} from "@angular/core";
 import {Game} from "../shared/model/dtos";
-import {Form, FormsModule} from "@angular/forms";
+import {FormsModule} from "@angular/forms";
 import {MaterialModule} from "../material/material.module";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
@@ -25,7 +25,13 @@ describe('LobbyComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ LobbyComponent, PlayerListMockComponent ],
-      imports: [FormsModule, MaterialModule, HttpClientTestingModule, NoopAnimationsModule, RouterTestingModule],
+      imports: [
+        FormsModule,
+        MaterialModule,
+        HttpClientTestingModule,
+        NoopAnimationsModule,
+        RouterTestingModule,
+      ],
       providers: [{provide: MessageService, useValue: {subscribe: (topic, onNext) => {}}}]
     })
     .compileComponents();

@@ -28,3 +28,4 @@
 # server logs and pid
 server.log
 server.pid
+*.lck

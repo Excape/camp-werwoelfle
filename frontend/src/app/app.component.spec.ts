@@ -10,6 +10,9 @@ import {LobbyService} from "./lobby/lobby.service";
 import {IsLoggedInGuard} from "./is-logged-in.guard";
 import {MaterialModule} from "./material/material.module";
 import {FormsModule} from "@angular/forms";
+import {LoginScreenGuard} from "./login-screen.guard";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {RouterTestingModule} from "@angular/router/testing";
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -22,13 +25,15 @@ describe('AppComponent', () => {
         PlayerListComponent
       ],
       imports: [
+        RouterTestingModule,
         MaterialModule,
         FormsModule,
         RouterModule.forRoot([
           {path: '', redirectTo: '/', pathMatch: 'full'}
-        ])
+        ]),
+        HttpClientTestingModule,
       ],
-      providers: [{provide: APP_BASE_HREF, useValue: '/'}, LobbyService, IsLoggedInGuard]
+      providers: [{provide: APP_BASE_HREF, useValue: '/'}, LobbyService, IsLoggedInGuard, LoginScreenGuard]
     }).compileComponents();
   }));
   it('should create the app', async(() => {
