@@ -18,6 +18,8 @@ export class LobbyComponent implements OnInit {
   joinedGame: Game;
   gameName: string;
 
+  MIN_PLAYER_PER_GAME: number = 1;
+
   constructor(private lobbyService: LobbyService,
               private messageService: MessageService,
               private profileService: ProfileService,
@@ -47,10 +49,10 @@ export class LobbyComponent implements OnInit {
       this.subscribeTo(game);
     });
   }
-
   private subscribeTo(game: Game) {
     this.gameService.subscribe(game);
   }
+
   startGame(game: Game) {
     this.lobbyService.startGame(game).subscribe(value => console.log(value));
   }
@@ -62,7 +64,6 @@ export class LobbyComponent implements OnInit {
 
   concat = (x, y) =>
     x.concat(y);
-
   flatMap = (f, xs) =>
     xs.map(f).reduce(this.concat, [])
 

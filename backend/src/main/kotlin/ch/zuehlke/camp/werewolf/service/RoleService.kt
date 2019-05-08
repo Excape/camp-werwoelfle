@@ -9,11 +9,7 @@ import org.springframework.stereotype.Service
 class RoleService {
 
     fun generateRolesInGame(game: Game): Game {
-        val countPlayers = game.players.size
-        val countWerewolf = countPlayers / 2 - 1
-        game.players.shuffled().subList(0,countWerewolf).forEach {
-            it.role = Role.WEREWOLF
-        }
+        generateRoles(game.players);
         return game
     }
 
@@ -22,6 +18,12 @@ class RoleService {
         val countWerewolf = countPlayers / 2 - 1
         allPlayers.shuffled().subList(0,countWerewolf).forEach {
             it.role = Role.WEREWOLF
+        }
+
+        for (player in allPlayers) {
+            if (player.role == null) {
+                player.role = Role.VILLAGER
+            }
         }
     }
 }

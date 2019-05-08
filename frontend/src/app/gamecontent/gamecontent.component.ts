@@ -25,7 +25,6 @@ export class GamecontentComponent implements OnInit, OnDestroy {
       this.activePhase = phase;
     });
     this.playerRole = Role.VILLAGER;
-    this.activePhase = Phases.DAY;
   }
 
   ngOnDestroy(): void {

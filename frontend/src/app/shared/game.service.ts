@@ -10,7 +10,7 @@ import {Subject} from "rxjs";
 })
 export class GameService {
 
-  private _currentPhase$: Subject<Phases>;
+  private _currentPhase$: Subject<Phases> = new Subject();
 
   currentPhase(): Subject<Phases> {
     return this._currentPhase$;

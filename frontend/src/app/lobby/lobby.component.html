@@ -22,9 +22,9 @@
       <div class="button-bar">
         <button mat-button (click)="$event.stopPropagation(); joinGame(game)" [disabled]="alreadyJoined(game)">Join Game</button>
         <span class="filler"></span>
-        <span class="warn" *ngIf="game.players.length<5">min 5 players</span>
+        <span class="warn" *ngIf="game.players.length<MIN_PLAYER_PER_GAME">min {{MIN_PLAYER_PER_GAME}} players</span>
         <span class="filler"></span>
-        <button mat-button (click)="startGame(game)" [disabled]="game.players.length<5">Start Game</button>
+        <button mat-button (click)="startGame(game)" [disabled]="game.players.length<MIN_PLAYER_PER_GAME">Start Game</button>
       </div>
     </mat-expansion-panel>
   </mat-accordion>
