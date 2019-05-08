@@ -3,6 +3,7 @@ import {MessageService} from "../shared/message.service";
 import {IMqttMessage} from "ngx-mqtt";
 import {Subscription} from "rxjs";
 import {Phases, Role} from "../shared/model/dtos";
+import {GameService} from "../shared/game.service";
 
 @Component({
   selector: 'app-gamecontent',
@@ -16,14 +17,13 @@ export class GamecontentComponent implements OnInit, OnDestroy {
   activePhase : Phases;
   playerRole: Role;
 
-  constructor(private _messageService: MessageService) {
+  constructor(private _gameService: GameService) {
   }
 
   ngOnInit() {
-    this._subscription = this._messageService.subscribe('test', (message: IMqttMessage) => {
-      this.messages.push(message.payload.toString());
+    this._gameService.currentPhase().subscribe(phase => {
+      this.activePhase = phase;
     });
-
     this.playerRole = Role.VILLAGER;
     this.activePhase = Phases.DAY;
   }
