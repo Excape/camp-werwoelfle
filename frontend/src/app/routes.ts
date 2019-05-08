@@ -9,7 +9,7 @@ import {VotingComponent} from "./gamecontent/voting/voting.component";
 export const routes: Routes = [
   {path: 'login', component: LoginComponent, canActivate: [LoginScreenGuard]},
   {path: 'lobby', component: LobbyComponent, canActivate: [IsLoggedInGuard]},
-  {path: 'content', component: GamecontentComponent},
+  {path: 'content', component: GamecontentComponent, canActivate: [IsLoggedInGuard]},
   {path: 'voting', component: VotingComponent},
   {path: '', redirectTo: '/lobby', pathMatch: 'full'}
 ];
