@@ -20,11 +20,11 @@ export class LobbyService {
   public createGame(name: string): Observable<Game> {
     sessionStorage.getItem("profile");
     let url = `${this.backendUrl}create?gameName=${name}`;
-    return this.httpClient.post<Game>(url, ProfileService.getLoggedInProfile())
+    return this.httpClient.post<Game>(url, this.profileService.getLoggedInProfile())
   }
 
   public joinGame(name: string): Observable<Game> {
-    return this.httpClient.post<Game>(`${this.backendUrl}join?gameName=${name}`, ProfileService.getLoggedInProfile())
+    return this.httpClient.post<Game>(`${this.backendUrl}join?gameName=${name}`, this.profileService.getLoggedInProfile())
   }
 
   public startGame(game: Game): Observable<Game> {

@@ -23,6 +23,8 @@ import {ToastrModule, ToastrService} from "ngx-toastr";
 import { RolePhaseComponent } from './gamecontent/role-phase/role-phase.component';
 import { DayPhaseComponent } from './gamecontent/day-phase/day-phase.component';
 import { WerewolfPhaseComponent } from './gamecontent/werewolf-phase/werewolf-phase.component';
+import { ProfileComponent } from './profile/profile.component';
+import { EditProfileComponent } from './profile/edit-profile/edit-profile.component';
 
 export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
   hostname: 'm24.cloudmqtt.com',
@@ -43,7 +45,10 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     GamecontentComponent,
     RolePhaseComponent,
     DayPhaseComponent,
-    WerewolfPhaseComponent
+    WerewolfPhaseComponent,
+    GamecontentComponent,
+    ProfileComponent,
+    EditProfileComponent
   ],
   imports: [
     BrowserModule,

@@ -10,7 +10,7 @@ import {Router} from "@angular/router";
 
 export class ProfileService {
 
-  profileUrl = 'api/v1/profile/'
+  profileUrl = 'api/v1/profile/';
   private _loggedInProfile$: Subject<Profile> = new Subject();
 
   updateLoggedInProfile(profile: Profile) {
@@ -31,7 +31,7 @@ export class ProfileService {
     sessionStorage.setItem("profile", JSON.stringify(profile));
   }
 
-  static getLoggedInProfile(): Profile {
+  getLoggedInProfile(): Profile {
       return JSON.parse(sessionStorage.getItem("profile"));
   }
 
