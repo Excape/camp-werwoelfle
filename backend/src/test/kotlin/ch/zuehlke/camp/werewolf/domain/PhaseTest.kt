@@ -2,13 +2,12 @@ package ch.zuehlke.camp.werewolf.domain
 
 import ch.zuehlke.camp.werewolf.service.MessageService
 import ch.zuehlke.camp.werewolf.service.RoleService
-import junit.framework.Assert.assertFalse
-import junit.framework.Assert.assertTrue
 import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 
 @EnableAutoConfiguration
@@ -23,7 +22,7 @@ class PhaseTest() {
 
     @Test
     fun werewolfPhase_awakeWerewolf_isActive() {
-        val werewolf = Player(Identity("Stefan"));
+        val werewolf = Player(Identity("Stefan"))
         werewolf.role = Role.WEREWOLF
         werewolf.state = State.AWAKE
         val players = listOf(werewolf)
@@ -35,7 +34,7 @@ class PhaseTest() {
 
     @Test
     fun werewolfPhase_deadWerewolf_isNotActive() {
-        val werewolf = Player(Identity("Stefanie"));
+        val werewolf = Player(Identity("Stefanie"))
         werewolf.role = Role.WEREWOLF
         werewolf.state = State.DEAD
         val players = listOf(werewolf)

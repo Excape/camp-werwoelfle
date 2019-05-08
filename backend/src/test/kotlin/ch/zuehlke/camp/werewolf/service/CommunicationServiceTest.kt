@@ -17,7 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 internal class CommunicationServiceTest {
 
     @Autowired
-    lateinit var communicationService: CommunicationService;
+    lateinit var communicationService: CommunicationService
 
     @BeforeEach
     fun setUp() {
