@@ -23,7 +23,7 @@ export class VotingComponent implements OnInit {
   }
 
   sendVote() {
-
+    console.log(this.getNumberOfCurrentVotedPlayers())
   }
 
   getQuestion(): string {
