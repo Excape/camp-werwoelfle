@@ -20,6 +20,8 @@ import { GamecontentComponent } from './gamecontent/gamecontent.component';
 import {LoginScreenGuard} from "./login-screen.guard";
 import { VotingComponent } from './gamecontent/voting/voting.component';
 import {ToastrModule, ToastrService} from "ngx-toastr";
+import { ProfileComponent } from './profile/profile.component';
+import { EditProfileComponent } from './profile/edit-profile/edit-profile.component';
 
 export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
   hostname: 'm24.cloudmqtt.com',
@@ -38,7 +40,9 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     PlayerListComponent,
     GamecontentComponent,
     VotingComponent,
-    GamecontentComponent
+    GamecontentComponent,
+    ProfileComponent,
+    EditProfileComponent
   ],
   imports: [
     BrowserModule,

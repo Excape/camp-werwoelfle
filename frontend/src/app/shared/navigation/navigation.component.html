@@ -6,7 +6,7 @@
     <mat-icon>home</mat-icon>
     Lobby
   </button>
-  <button [hidden]="isLoggedIn()" type="button" mat-button *ngIf="loggedInProfile && loggedInProfile.name">
+  <button [hidden]="isLoggedIn()" type="button" mat-button *ngIf="loggedInProfile && loggedInProfile.name" routerLink="/profile" >
     <mat-icon>account_circle</mat-icon>
     {{ loggedInProfile.name }}
   </button>
