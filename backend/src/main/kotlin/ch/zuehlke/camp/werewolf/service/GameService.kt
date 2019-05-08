@@ -18,6 +18,7 @@ class GameService(
             val dyingPlayers: MutableSet<Player> = mutableSetOf()
             game.nightPhases.forEach {
                 if (it.isActive()) {
+                    messageService.publishToGame(game, it.getCommand())
                     dyingPlayers.addAll(it.start(game.name))
                 }
             }

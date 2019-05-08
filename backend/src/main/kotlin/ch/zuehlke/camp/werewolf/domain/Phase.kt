@@ -11,6 +11,7 @@ interface Phase {
     fun start(gameName: String): List<Player>
 
     fun isActive(): Boolean
+    fun getCommand(): GameCommand
 }
 
 class RolePhase(
@@ -18,6 +19,10 @@ class RolePhase(
     private val communicationService: CommunicationService,
     private val allPlayers: List<Player>
 ) : Phase {
+    override fun getCommand(): GameCommand {
+        return GameCommand.PHASE_ROLE
+    }
+
     private var alreadyRun = false
 
     override fun isActive(): Boolean {
@@ -38,6 +43,10 @@ class WerewolfPhase(
     val messageService: MessageService,
     private val allPlayers: List<Player>
 ) : Phase {
+    override fun getCommand(): GameCommand {
+        return GameCommand.PHASE_WEREWOLF
+    }
+
     override fun isActive(): Boolean {
         return allPlayers.filter {
             it.role == Role.WEREWOLF
@@ -52,11 +61,26 @@ class WerewolfPhase(
     }
 }
 
-class WakeUpPhase(private val allPlayers: List<Player>) {
+class WakeUpPhase(private val allPlayers: List<Player>) : Phase {
+    override fun start(gameName: String): List<Player> {
+        return emptyList()
+    }
+
+    override fun isActive(): Boolean {
+        return true
+    }
+
+    override fun getCommand(): GameCommand {
+        return GameCommand.PHASE_WAKEUP
+    }
 
 }
 
 class DayPhase(private val allPlayers: List<Player>) : Phase {
+    override fun getCommand(): GameCommand {
+        return GameCommand.PHASE_DAY
+    }
+
     override fun isActive(): Boolean {
         return true
     }
