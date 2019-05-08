@@ -21,6 +21,7 @@ import {LoginScreenGuard} from "./login-screen.guard";
 import { VotingComponent } from './gamecontent/voting/voting.component';
 import {ToastrModule, ToastrService} from "ngx-toastr";
 import { RolePhaseComponent } from './gamecontent/role-phase/role-phase.component';
+import { DayPhaseComponent } from './gamecontent/day-phase/day-phase.component';
 import { WerewolfPhaseComponent } from './gamecontent/werewolf-phase/werewolf-phase.component';
 
 export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
@@ -41,6 +42,7 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     VotingComponent,
     GamecontentComponent,
     RolePhaseComponent,
+    DayPhaseComponent,
     WerewolfPhaseComponent
   ],
   imports: [
