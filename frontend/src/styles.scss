@@ -3,6 +3,7 @@
 @import "theme.scss";
 @include mat-core();
 @include angular-material-theme($werewolf-theme);
+@import "../node_modules/ngx-toastr/toastr.css";
 
 * {
   margin: 0;
