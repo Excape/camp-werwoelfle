@@ -6,6 +6,6 @@
     </div>
   </section>
 </div>
-<button mat-button (click)="sendVote()" [disabled]="getNumberOfCurrentVotedPlayers() > numberOfVotes || getNumberOfCurrentVotedPlayers() < 1">Send Vote</button>
+<button mat-raised-button color="accent" (click)="sendVote()" [disabled]="getNumberOfCurrentVotedPlayers() > numberOfVotes || getNumberOfCurrentVotedPlayers() < 1">Send Vote</button>
 
 
