@@ -22,6 +22,7 @@ class GameService(
                     dyingPlayers.addAll(nightPhase.execute(game.name))
                 }
             }
+            game.nightPhases
             // TODO wake-up phase activate
             // TODO day phase activate
         }

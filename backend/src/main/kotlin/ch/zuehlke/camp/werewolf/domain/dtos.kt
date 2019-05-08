@@ -54,8 +54,17 @@ data class Game(
     val wakeUpPhase: WakeUpPhase?,
     val dayPhase: DayPhase?
 ) {
+    // TODO: add condition for victory of armor couple
     fun isGameOver(): Boolean {
-        return false
+        val numberOfVillagers = players.filter { player -> player.role == Role.VILLAGER }.count()
+        val numberOfDeadVillagers = players.filter { player -> player.role == Role.VILLAGER && player.state == State.DEAD }.count()
+        val numberOfWerewolves = players.filter { player -> player.role == Role.WEREWOLF }.count()
+        val numberOfDeadWerewolves = players.filter { player -> player.role == Role.WEREWOLF && player.state == State.DEAD }.count()
+
+        val allVillagersDead = numberOfDeadVillagers >= numberOfVillagers;
+        val allWerewolvesDead = numberOfDeadWerewolves >= numberOfWerewolves;
+
+        return allVillagersDead || allWerewolvesDead;
     }
 }
 
