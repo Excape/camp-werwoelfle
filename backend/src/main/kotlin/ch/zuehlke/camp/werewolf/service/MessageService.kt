@@ -1,6 +1,7 @@
 package ch.zuehlke.camp.werewolf.service
 
 import ch.zuehlke.camp.werewolf.domain.*
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import org.eclipse.paho.client.mqttv3.*
 import org.springframework.beans.factory.annotation.Value
@@ -11,9 +12,9 @@ typealias MessageCallback = (topic: String, message: MqttMessage) -> Unit
 
 @Service
 class MessageService(
-    @Value("\${mqtt.broker.uri}") val brokerURI: String,
-    @Value("\${mqtt.broker.username}") val brokerUsername: String,
-    @Value("\${mqtt.broker.password}") val brokerPassword: String
+    @Value("\${mqtt.broker.uri}") private val brokerURI: String,
+    @Value("\${mqtt.broker.username}") private val brokerUsername: String,
+    @Value("\${mqtt.broker.password}") private val brokerPassword: String
 ) {
 
     private val publisher: IMqttClient
@@ -50,18 +51,24 @@ class MessageService(
         publisher.publish(game.toTopic(), mqttMessage)
     }
 
-    fun publishToPlayer(player: Player, gameName: String, outboundMessage: OutboundMessage) {
-        val mqttMessage = MqttMessage(Json.stringify(OutboundMessage.serializer(), outboundMessage).toByteArray())
+    fun publishToPlayer(
+        player: Player,
+        gameName: String,
+        outboundMessage: OutboundMessage
+    ) {
+        val mqttMessage = MqttMessage(Json.stringify(outboundMessage.serializer as KSerializer<OutboundMessage>, outboundMessage).toByteArray())
         configureMessage(mqttMessage)
         publisher.publish(player.toTopic(gameName), mqttMessage)
     }
 
-    fun subscribeToPlayersInGame(
-        game: Game,
+    fun subscribeToPlayers(
+        gameName: String,
+        inboundType: InboundType,
+        players: List<Player>,
         handleMessage: MessageCallback
     ) {
-        game.players.forEach { player ->
-            publisher.subscribe(player.toTopic(game), handleMessage)
+        players.forEach { player ->
+            publisher.subscribe("${player.toTopic(gameName)}/$inboundType", handleMessage)
         }
 
     }

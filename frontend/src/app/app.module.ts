@@ -20,6 +20,9 @@ import { GamecontentComponent } from './gamecontent/gamecontent.component';
 import {LoginScreenGuard} from "./login-screen.guard";
 import { VotingComponent } from './gamecontent/voting/voting.component';
 import {ToastrModule, ToastrService} from "ngx-toastr";
+import { RolePhaseComponent } from './gamecontent/role-phase/role-phase.component';
+import { DayPhaseComponent } from './gamecontent/day-phase/day-phase.component';
+import { WerewolfPhaseComponent } from './gamecontent/werewolf-phase/werewolf-phase.component';
 import { ProfileComponent } from './profile/profile.component';
 import { EditProfileComponent } from './profile/edit-profile/edit-profile.component';
 
@@ -38,8 +41,11 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     LobbyComponent,
     NavigationComponent,
     PlayerListComponent,
-    GamecontentComponent,
     VotingComponent,
+    GamecontentComponent,
+    RolePhaseComponent,
+    DayPhaseComponent,
+    WerewolfPhaseComponent,
     GamecontentComponent,
     ProfileComponent,
     EditProfileComponent

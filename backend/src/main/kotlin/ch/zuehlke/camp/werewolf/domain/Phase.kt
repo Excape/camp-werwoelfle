@@ -1,5 +1,6 @@
 package ch.zuehlke.camp.werewolf.domain
 
+import ch.zuehlke.camp.werewolf.service.CommunicationService
 import ch.zuehlke.camp.werewolf.service.MessageService
 import ch.zuehlke.camp.werewolf.service.RoleService
 
@@ -10,37 +11,48 @@ interface Phase {
     fun start(gameName: String): List<Player>
 
     fun isActive(): Boolean
+    fun getCommand(): GameCommand
 }
 
-class RolePhase(val roleService: RoleService, val messageService: MessageService, private val allPlayers: List<Player>) : Phase {
+class RolePhase(
+    private val roleService: RoleService,
+    private val communicationService: CommunicationService,
+    private val allPlayers: List<Player>
+) : Phase {
+    override fun getCommand(): GameCommand {
+        return GameCommand.PHASE_ROLE
+    }
+
     private var alreadyRun = false
 
     override fun isActive(): Boolean {
-       return !alreadyRun
+        return !alreadyRun
     }
 
     override fun start(gameName: String): List<Player> {
         roleService.generateRoles(allPlayers)
-        allPlayers.forEach { player ->
-            messageService.publishToPlayer(
-                player,
-                gameName,
-                RoleOutboundMessage(player.role!!)
-            )
-        }
+        val associateBy = allPlayers.associateBy({ it }, { RoleOutboundMessage(it.role!!) })
+        communicationService.communicate(gameName, InboundType.ACK, associateBy)
         alreadyRun = true
-        return listOf()
+        return listOf() // no dying players
     }
-
 }
 
-class WerewolfPhase(val roleService: RoleService, val messageService: MessageService, private val allPlayers: List<Player>) : Phase {
+class WerewolfPhase(
+    val roleService: RoleService,
+    val messageService: MessageService,
+    private val allPlayers: List<Player>
+) : Phase {
+    override fun getCommand(): GameCommand {
+        return GameCommand.PHASE_WEREWOLF
+    }
+
     override fun isActive(): Boolean {
         return allPlayers.filter {
             it.role == Role.WEREWOLF
-        }.map {
+        }.any {
             it.state != State.DEAD
-        }.contains(true)
+        }
     }
 
     override fun start(gameName: String): List<Player> {
@@ -49,13 +61,28 @@ class WerewolfPhase(val roleService: RoleService, val messageService: MessageSer
     }
 }
 
-class WakeUpPhase(private val allPlayers: List<Player>) {
+class WakeUpPhase(private val allPlayers: List<Player>) : Phase {
+    override fun start(gameName: String): List<Player> {
+        return emptyList()
+    }
+
+    override fun isActive(): Boolean {
+        return true
+    }
+
+    override fun getCommand(): GameCommand {
+        return GameCommand.PHASE_WAKEUP
+    }
 
 }
 
-class DayPhase(private val allPlayers: List<Player>): Phase {
+class DayPhase(private val allPlayers: List<Player>) : Phase {
+    override fun getCommand(): GameCommand {
+        return GameCommand.PHASE_DAY
+    }
+
     override fun isActive(): Boolean {
-       return true
+        return true
     }
 
     override fun start(gameName: String): List<Player> {

@@ -1,43 +1,37 @@
 package ch.zuehlke.camp.werewolf.service
 
 import ch.zuehlke.camp.werewolf.domain.Game
-import ch.zuehlke.camp.werewolf.domain.GameCommand
 import ch.zuehlke.camp.werewolf.domain.Player
 import ch.zuehlke.camp.werewolf.domain.Profile
 import org.springframework.stereotype.Service
-import java.lang.IllegalArgumentException
 
 @Service
-class LobbyService(val messageService: MessageService, val roleService: RoleService) {
+class LobbyService(val gameService: GameService, val gameFactory: GameFactory) {
 
     val games: MutableList<Game> = mutableListOf()
 
-    val runningGames: MutableMap<String, GameService> = mutableMapOf()
+    // TODO: maybe we dont need this :-)
+    val runningGames: MutableMap<String, Game> = mutableMapOf()
 
-    fun createGame(name: String, profile: Profile) : Game {
-        val newGame = Game(name, mutableListOf(Player(profile)))
+    fun createGame(name: String, profile: Profile): Game {
+        val newGame = gameFactory.createGame(name, mutableListOf(Player(profile.id)))
         games.add(newGame)
         return newGame
     }
 
-    fun joinGame(name: String, profile: Profile) : Game{
+    fun joinGame(name: String, profile: Profile): Game {
         val game = findGame(name)
-        game.players.add(Player(profile))
+        game.players.add(Player(profile.id))
         return game
     }
 
     fun startGame(gameName: String) {
         val game = findGame(gameName)
-        val gameService = GameService(game, roleService, messageService)
-        runningGames[gameName] = gameService
-        gameService.startGame()
+        runningGames[gameName] = game
+        gameService.startGame(game)
     }
 
     private fun findGame(name: String): Game {
-        val game = games.find { game -> game.name == name }
-        if (game == null) {
-            throw IllegalArgumentException("Game $name not found")
-        }
-        return game
+        return games.find { game -> game.name == name } ?: throw IllegalArgumentException("Game $name not found")
     }
 }

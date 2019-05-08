@@ -2,7 +2,6 @@ package ch.zuehlke.camp.werewolf.service
 
 import ch.zuehlke.camp.werewolf.domain.Game
 import ch.zuehlke.camp.werewolf.domain.Player
-import ch.zuehlke.camp.werewolf.domain.Profile
 import ch.zuehlke.camp.werewolf.domain.Role
 import org.junit.Test
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -12,13 +11,16 @@ class RoleServiceTest {
 
     @Test
     fun getCorrectAmountOfWerewolves() {
-        val game = Game("Game", mutableListOf(
-            Player(Profile("Andres", "1234", null, null)),
-            Player(Profile("Remo", "1234", null, null)),
-            Player(Profile("Robin", "1234", null, null)),
-            Player(Profile("Alina", "1234", null, null)),
-            Player(Profile("Muriele", "1234", null, null)),
-            Player(Profile("Stefan", "1234", null, null))))
+        val game = Game(
+            "Game", mutableListOf(
+                Player(1),
+                Player(2),
+                Player(3),
+                Player(4),
+                Player(5),
+                Player(6)
+            ), listOf(), null, null
+        )
         val gameWithRoles = roleService.generateRolesInGame(game)
         val playersAsWerwolves = gameWithRoles.players.filter { player -> player.role == Role.WEREWOLF }
         assertEquals(playersAsWerwolves.size, 2)

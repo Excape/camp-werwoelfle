@@ -1,8 +1,9 @@
 package ch.zuehlke.camp.werewolf.domain
+import kotlinx.serialization.Serializable
 import javax.persistence.*
 
-
-data class Player(val profile: Profile){
+@Serializable
+data class Player(val profileId: Long){
     var state: State? = null
     var role: Role? = null
 
@@ -42,15 +43,23 @@ data class Profile(val name: String,
 
 data class Game(
     val name: String,
-    val players: MutableList<Player> = mutableListOf()
-)
+    val players: MutableList<Player> = mutableListOf(),
+    val nightPhases: List<Phase>,
+    val wakeUpPhase: WakeUpPhase?,
+    val dayPhase: DayPhase?
+) {
+    fun isGameOver(): Boolean {
+        return false
+    }
+}
 
-
+@Serializable
 data class Voting(
     val votes: List<Vote> = mutableListOf(),
     val votedPlayers: List<Player> = mutableListOf()
 )
 
+@Serializable
 data class Vote(val voteOf: Player, val voteFor: List<Player>)
 
 enum class State {

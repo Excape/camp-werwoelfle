@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Player} from "../../shared/model/dtos";
+import {Player, Voting} from "../../shared/model/dtos";
 import {VotingService} from "./voting.service";
 
 @Component({
@@ -9,23 +9,21 @@ import {VotingService} from "./voting.service";
 })
 export class VotingComponent implements OnInit {
   question: string
-  votees: Player[]
-  numberOfVotes: number
+  voting: Voting
 
   constructor(private votingService: VotingService) { }
 
   ngOnInit() {
-    this.votees = this.votingService.getOptions()
-    this.numberOfVotes = 1
+    this.voting = this.votingService.getVoting()
     this.question = this.getQuestion()
   }
 
   getNumberOfCurrentVotedPlayers(): number {
-    return this.votees.filter(player=>player.checked).map(player=>player).length
+    return this.voting.votees.filter(player=>player.checked).map(player=>player).length
   }
 
   sendVote() {
-
+    console.log(this.getNumberOfCurrentVotedPlayers())
   }
 
   getQuestion(): string {

@@ -1,0 +1,15 @@
+<mat-card class="role-card">
+  <mat-card-header>
+    <mat-card-title>{{roleTitle}}</mat-card-title>
+    <mat-card-subtitle>{{roleSubtitle}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <img mat-card-image src={{imgUrl}} alt={{roleTitle}}>
+    <p>
+      {{roleExplanation}}
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button (click)="confirm()" color="accent">Confirm</button>
+  </mat-card-actions>
+</mat-card>

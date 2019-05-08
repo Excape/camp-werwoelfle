@@ -25,14 +25,27 @@ export interface Phase {
   voting: Voting
 }
 
+export enum Phases {
+  ROLE, WEREWOLF, WAKEUP, DAY
+}
+
+
 export interface Vote {
   voteOf: Player
   voteFor: Player[]
 }
 
 export interface Voting {
-  votes: Vote[]
-  votedPlayers: Player[]
+  voters: Player[]
+  votees: Player[]
+  numberOfVotesPerVoter: number
+  votingResult?: VotingResult
+}
+
+export interface VotingResult {
+  auditors: Player[]
+  elected: Player[]
+  showRoles: Boolean
 }
 
 export enum State {

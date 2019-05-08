@@ -78,6 +78,7 @@ export class LoginComponent implements OnInit {
   private displayLogin(error) {
     if (error instanceof HttpErrorResponse) {
       switch (error.status) {
+        case 400:
         case 404: {
           this.toastrService.error('Username or password is not correct.', 'Login failure');
           break
