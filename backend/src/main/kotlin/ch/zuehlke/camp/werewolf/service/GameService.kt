@@ -16,10 +16,10 @@ class GameService(
 
         while (!game.isGameOver()) {
             val dyingPlayers: MutableSet<Player> = mutableSetOf()
-            game.nightPhases.forEach {
-                if (it.isActive()) {
-                    messageService.publishToGame(game, it.getCommand())
-                    dyingPlayers.addAll(it.start(game.name))
+            game.nightPhases.forEach { nightPhase ->
+                if (nightPhase.isActive()) {
+                    messageService.publishToGame(game, nightPhase.getCommand())
+                    dyingPlayers.addAll(nightPhase.execute(game.name))
                 }
             }
             // TODO wake-up phase activate

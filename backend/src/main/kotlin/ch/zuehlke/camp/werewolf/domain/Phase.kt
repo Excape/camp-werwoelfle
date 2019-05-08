@@ -8,7 +8,7 @@ interface Phase {
     /**
      * Returns dying players
      */
-    fun start(gameName: String): List<Player>
+    fun execute(gameName: String): List<Player>
 
     fun isActive(): Boolean
     fun getCommand(): GameCommand
@@ -29,7 +29,7 @@ class RolePhase(
         return !alreadyRun
     }
 
-    override fun start(gameName: String): List<Player> {
+    override fun execute(gameName: String): List<Player> {
         roleService.generateRoles(allPlayers)
         val associateBy = allPlayers.associateBy({ it }, { RoleOutboundMessage(it.role!!) })
         communicationService.communicate(gameName, InboundType.ACK, associateBy)
@@ -55,14 +55,14 @@ class WerewolfPhase(
         }
     }
 
-    override fun start(gameName: String): List<Player> {
+    override fun execute(gameName: String): List<Player> {
 
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
 
 class WakeUpPhase(private val allPlayers: List<Player>) : Phase {
-    override fun start(gameName: String): List<Player> {
+    override fun execute(gameName: String): List<Player> {
         return emptyList()
     }
 
@@ -85,7 +85,7 @@ class DayPhase(private val allPlayers: List<Player>) : Phase {
         return true
     }
 
-    override fun start(gameName: String): List<Player> {
+    override fun execute(gameName: String): List<Player> {
         return listOf()
     }
 
