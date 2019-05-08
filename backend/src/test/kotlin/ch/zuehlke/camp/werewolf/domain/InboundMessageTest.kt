@@ -18,5 +18,5 @@ internal class InboundMessageTest {
         assertEquals(voteInboundMessage, parsedMessage)
     }
 
-    private fun testPlayer(id: Long) = Player(id)
+    private fun testPlayer(id: Long) = Player(Identity("Andres"))
 }

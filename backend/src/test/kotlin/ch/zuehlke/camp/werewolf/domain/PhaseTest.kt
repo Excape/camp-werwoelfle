@@ -23,7 +23,7 @@ class PhaseTest() {
 
     @Test
     fun werewolfPhase_awakeWerewolf_isActive() {
-        val werewolf = Player(1);
+        val werewolf = Player(Identity("Stefan"));
         werewolf.role = Role.WEREWOLF
         werewolf.state = State.AWAKE
         val players = listOf(werewolf)
@@ -35,7 +35,7 @@ class PhaseTest() {
 
     @Test
     fun werewolfPhase_deadWerewolf_isNotActive() {
-        val werewolf = Player(1);
+        val werewolf = Player(Identity("Stefanie"));
         werewolf.role = Role.WEREWOLF
         werewolf.state = State.DEAD
         val players = listOf(werewolf)

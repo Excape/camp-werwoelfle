@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ProfileRepository: CrudRepository<Profile, Long> {
 
-    fun findByName(name: String): Iterable<Profile>
+    fun findByIdentityName(name: String): Iterable<Profile>
 }

@@ -14,14 +14,14 @@ class LobbyService(val gameService: GameService, val gameFactory: GameFactory) {
     val runningGames: MutableMap<String, Game> = mutableMapOf()
 
     fun createGame(name: String, profile: Profile): Game {
-        val newGame = gameFactory.createGame(name, mutableListOf(Player(profile.id)))
+        val newGame = gameFactory.createGame(name, mutableListOf(Player(profile.identity)))
         games.add(newGame)
         return newGame
     }
 
     fun joinGame(name: String, profile: Profile): Game {
         val game = findGame(name)
-        game.players.add(Player(profile.id))
+        game.players.add(Player(profile.identity))
         return game
     }
 

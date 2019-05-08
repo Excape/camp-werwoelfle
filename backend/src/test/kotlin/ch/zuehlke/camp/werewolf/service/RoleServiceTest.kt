@@ -1,6 +1,7 @@
 package ch.zuehlke.camp.werewolf.service
 
 import ch.zuehlke.camp.werewolf.domain.Game
+import ch.zuehlke.camp.werewolf.domain.Identity
 import ch.zuehlke.camp.werewolf.domain.Player
 import ch.zuehlke.camp.werewolf.domain.Role
 import org.junit.Test
@@ -13,12 +14,12 @@ class RoleServiceTest {
     fun getCorrectAmountOfWerewolves() {
         val game = Game(
             "Game", mutableListOf(
-                Player(1),
-                Player(2),
-                Player(3),
-                Player(4),
-                Player(5),
-                Player(6)
+                Player(Identity("Alina")),
+                Player(Identity("Reto")),
+                Player(Identity("Andres")),
+                Player(Identity("Muriele")),
+                Player(Identity("Andres")),
+                Player(Identity("Stefan"))
             ), listOf(), null, null
         )
         val gameWithRoles = roleService.generateRolesInGame(game)

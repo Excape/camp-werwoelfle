@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ApiService} from "../shared/api.service";
 import {Observable} from "rxjs";
 import {ProfileService} from "../shared/profile.service";
-import {Profile} from "../shared/model/dtos";
+import {Identity, Profile} from "../shared/model/dtos";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {HttpErrorResponse} from "@angular/common/http";
@@ -70,7 +70,9 @@ export class LoginComponent implements OnInit {
 
   private createProfile(): Profile {
     return {
-      name: this.name,
+      identity: <Identity> {
+        name: this.name
+      },
       password_plain: this.password_plain,
     }
   }

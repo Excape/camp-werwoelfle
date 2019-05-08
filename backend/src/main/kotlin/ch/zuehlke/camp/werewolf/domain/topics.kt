@@ -9,11 +9,11 @@ fun Role.toTopic(game: Game): String {
 }
 
 fun Player.toTopic(game:Game): String {
-    return "${game.toTopic()}/${this.profileId}"
+    return "${game.toTopic()}/${this.identity.name}"
 }
 
 fun Player.toTopic(gameName:String): String {
-    return "$gameName/${this.profileId}"
+    return "$gameName/${this.identity.name}"
 }
 
 fun OutboundMessage.toTopic(gameName: String, player: Player): String {

@@ -30,7 +30,7 @@ internal class CommunicationServiceTest {
                 "testGame",
                 RoleOutboundMessage(Role.VILLAGER),
                 InboundType.VOTE,
-                listOf(Player(1))
+                listOf(Player(Identity("Marvin")))
             )
         println(result)
         assertEquals(1, result.size)

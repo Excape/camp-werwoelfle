@@ -18,7 +18,7 @@ class ProfileService {
 
     @Throws(ObjectNotFoundException::class)
     fun getProfile(name: String): Profile? {
-        val profiles = repository.findByName(name)
+        val profiles = repository.findByIdentityName(name)
         if (profiles.count() == 0) {
             return null
         }
@@ -27,11 +27,11 @@ class ProfileService {
     }
 
     fun createProfile(profile: Profile): Profile? {
-        val dbProfile = getProfile(profile.name)
+        val dbProfile = getProfile(profile.identity.name)
         return if (dbProfile == null) {
             secureProfile(profile, dbProfile?.salt)
             repository.save(profile)
-            getProfile(profile.name)
+            getProfile(profile.identity.name)
         } else {
             null
         }
@@ -64,7 +64,7 @@ class ProfileService {
     }
 
     fun login(profile: Profile): Boolean {
-        val profiles = repository.findByName(profile.name)
+        val profiles = repository.findByIdentityName(profile.identity.name)
         if (profiles.count() != 1) {
             return false
         }

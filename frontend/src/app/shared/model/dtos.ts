@@ -6,15 +6,19 @@ export interface Game {
 }
 
 export interface Player {
-  profile: Profile
+  identity: Identity
   state: State
   role: Role
   checked?: boolean
 }
 
+export interface Identity {
+  name: string
+}
+
 export interface Profile {
   id?: number
-  name: string
+  identity: Identity
   password_plain?: string
   password_encrypted?: number[]
   salt?: number[]
