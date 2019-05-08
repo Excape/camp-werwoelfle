@@ -20,7 +20,7 @@ class RoleServiceTest {
                 Player(Identity("Muriele")),
                 Player(Identity("Andres")),
                 Player(Identity("Stefan"))
-            ), listOf(), null, null
+            ), emptyList()
         )
         val gameWithRoles = roleService.generateRolesInGame(game)
         val playersAsWerwolves = gameWithRoles.players.filter { player -> player.role == Role.WEREWOLF }

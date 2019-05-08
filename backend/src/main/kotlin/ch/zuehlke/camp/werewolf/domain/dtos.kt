@@ -4,7 +4,7 @@ import javax.persistence.*
 
 @Serializable
 data class Player(val identity: Identity){
-    var state: State? = null
+    var playerState: PlayerState? = null
     var role: Role? = null
 }
 
@@ -49,17 +49,15 @@ data class Profile(@Embedded val identity: Identity,
 
 data class Game(
     val name: String,
-    val players: MutableList<Player> = mutableListOf(),
-    val nightPhases: List<Phase>,
-    val wakeUpPhase: WakeUpPhase?,
-    val dayPhase: DayPhase?
+    val players: MutableList<Player>,
+    val phases: List<Phase>
 ) {
     // TODO: add condition for victory of armor couple
     fun isGameOver(): Boolean {
         val numberOfVillagers = players.filter { player -> player.role == Role.VILLAGER }.count()
-        val numberOfDeadVillagers = players.filter { player -> player.role == Role.VILLAGER && player.state == State.DEAD }.count()
+        val numberOfDeadVillagers = players.filter { player -> player.role == Role.VILLAGER && player.playerState == PlayerState.DEAD }.count()
         val numberOfWerewolves = players.filter { player -> player.role == Role.WEREWOLF }.count()
-        val numberOfDeadWerewolves = players.filter { player -> player.role == Role.WEREWOLF && player.state == State.DEAD }.count()
+        val numberOfDeadWerewolves = players.filter { player -> player.role == Role.WEREWOLF && player.playerState == PlayerState.DEAD }.count()
 
         val allVillagersDead = numberOfDeadVillagers >= numberOfVillagers;
         val allWerewolvesDead = numberOfDeadWerewolves >= numberOfWerewolves;
@@ -77,8 +75,8 @@ data class Voting(
 @Serializable
 data class Vote(val voteOf: Player, val voteFor: List<Player>)
 
-enum class State {
-    DEAD, ASLEEP, AWAKE
+enum class PlayerState {
+    ALIVE, DYING, DEAD
 }
 
 enum class Role {

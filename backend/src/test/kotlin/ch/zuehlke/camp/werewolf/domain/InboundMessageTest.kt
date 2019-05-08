@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Assertions.assertNotNull
 internal class InboundMessageTest {
     @Test
     fun serialize_deserialize() {
-        val voteInboundMessage = VoteInboundMessage(Vote(testPlayer(1), listOf(testPlayer(2))))
+        val voteInboundMessage = VoteInboundMessage(Vote(testPlayer(), listOf(testPlayer())))
 
         val json = Json.stringify(voteInboundMessage.serializer as KSerializer<InboundMessage>, voteInboundMessage)
         assertNotNull(json)
@@ -18,5 +18,5 @@ internal class InboundMessageTest {
         assertEquals(voteInboundMessage, parsedMessage)
     }
 
-    private fun testPlayer(id: Long) = Player(Identity("Andres"))
+    private fun testPlayer() = Player(Identity("Andres"))
 }
