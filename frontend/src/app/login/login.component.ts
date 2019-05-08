@@ -13,7 +13,7 @@ import {Router} from "@angular/router";
 export class LoginComponent implements OnInit {
 
   name: string = "";
-  password: string = "";
+  password_plain: string = "";
   profileExists: boolean = false;
   helloCamp$: Observable<string>;
 
@@ -29,8 +29,9 @@ export class LoginComponent implements OnInit {
 
   checkIfProfileExists() {
     this.profileService.getProfile(this.name).subscribe(profile => {
-      this.profileExists =  profile.name && profile.name.length > 0;
+      this.profileExists = true;
     }, error => {
+      this.profileExists = false;
       console.log(error)
     })
   }
@@ -61,10 +62,10 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  private createProfile() {
+  private createProfile(): Profile {
     return {
       name: this.name,
-      password: this.password
-    };
+      password_plain: this.password_plain,
+    }
   }
 }
