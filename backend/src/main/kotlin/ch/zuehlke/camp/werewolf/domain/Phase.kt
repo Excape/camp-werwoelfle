@@ -38,9 +38,9 @@ class WerewolfPhase(val roleService: RoleService, val messageService: MessageSer
     override fun isActive(): Boolean {
         return allPlayers.filter {
             it.role == Role.WEREWOLF
-        }.map {
+        }.any {
             it.state != State.DEAD
-        }.contains(true)
+        }
     }
 
     override fun start(gameName: String): List<Player> {
