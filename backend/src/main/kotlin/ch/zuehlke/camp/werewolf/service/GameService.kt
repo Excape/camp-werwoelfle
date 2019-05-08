@@ -1,16 +1,38 @@
 package ch.zuehlke.camp.werewolf.service
 
-import ch.zuehlke.camp.werewolf.domain.Game
-import ch.zuehlke.camp.werewolf.domain.GameCommand
+import ch.zuehlke.camp.werewolf.domain.*
 
 class GameService(val game: Game, val roleService: RoleService, val messageService: MessageService) {
+    private val nightPhases: MutableList<Phase> = mutableListOf()
+    private val wakeUpPhase: WakeUpPhase? = null // TODO
+    private val dayPhase: Phase? = null // TODO
+
     fun startGame() {
-        roleService.generateRolesInGame(game)
+        // inform players that game is starting
         messageService.publishToGame(game, GameCommand.START)
-        waitForPlayers()
+
+        initPhases()
+
+        while (!isGameOver()) {
+            val dyingPlayers: MutableSet<Player> = mutableSetOf()
+            nightPhases.forEach {
+                if (it.isActive()) {
+                    dyingPlayers.addAll(it.start(game.name, game.players))
+                }
+            }
+            // TODO wake-up phase activate
+            // TODO day phase activate
+        }
+
     }
 
-    private fun waitForPlayers() {
-        TODO("Subscribe to players and wait until everyone gives OK") //To change body of created functions use File | Settings | File Templates.
+    private fun isGameOver(): Boolean {
+        return true
+    }
+
+    private fun initPhases() {
+        nightPhases.add(RolePhase(roleService, messageService))
+        // TODO: add new Phases here!
+
     }
 }
