@@ -19,6 +19,7 @@ import {IMqttServiceOptions, MqttModule} from "ngx-mqtt";
 import { GamecontentComponent } from './gamecontent/gamecontent.component';
 import {LoginScreenGuard} from "./login-screen.guard";
 import { VotingComponent } from './gamecontent/voting/voting.component';
+import {ToastrModule, ToastrService} from "ngx-toastr";
 
 export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
   hostname: 'm24.cloudmqtt.com',
@@ -37,6 +38,7 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     PlayerListComponent,
     GamecontentComponent,
     VotingComponent,
+    GamecontentComponent
   ],
   imports: [
     BrowserModule,
@@ -46,6 +48,7 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     RouterModule.forRoot(routes),
     MaterialModule,
     MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
+    ToastrModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
   ],
   providers: [

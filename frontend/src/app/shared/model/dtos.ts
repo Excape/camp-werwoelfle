@@ -1,5 +1,3 @@
-import {StateAst} from "@angular/animations/browser/src/dsl/animation_ast";
-
 export interface Game {
   name: string
   players: Player[]
@@ -17,7 +15,9 @@ export interface Player {
 export interface Profile {
   id?: number
   name: string
-  password: string
+  password_plain?: string
+  password_encrypted?: number[]
+  salt?: number[]
 }
 
 export interface Phase {

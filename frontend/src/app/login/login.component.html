@@ -7,7 +7,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <input [(ngModel)]="password" matInput type="password" placeholder="Password"/>
+        <input [(ngModel)]="password_plain" matInput type="password" placeholder="Password"/>
       </mat-form-field>
     </div>
   </mat-card-content>
@@ -16,7 +16,7 @@
             [disabled]="!profileExists"
             (click)="login()">Login</button>
     <button mat-raised-button color="accent"
-            [disabled]="profileExists || name.length == 0 || password.length == 0"
+            [disabled]="profileExists || name.length == 0 || password_plain.length == 0"
             (click)="create()">Sign up
     </button>
   </mat-card-actions>

@@ -12,13 +12,13 @@ class RoleServiceTest {
 
     @Test
     fun getCorrectAmountOfWerewolves() {
-        val game = Game("Game", mutableListOf<Player>(
-            Player(Profile("Andres", "1234")),
-            Player(Profile("Remo", "1234")),
-            Player(Profile("Robin", "1234")),
-            Player(Profile("Alina", "1234")),
-            Player(Profile("Muriele", "1234")),
-            Player(Profile("Stefan", "1234"))))
+        val game = Game("Game", mutableListOf(
+            Player(Profile("Andres", "1234", null, null)),
+            Player(Profile("Remo", "1234", null, null)),
+            Player(Profile("Robin", "1234", null, null)),
+            Player(Profile("Alina", "1234", null, null)),
+            Player(Profile("Muriele", "1234", null, null)),
+            Player(Profile("Stefan", "1234", null, null))))
         val gameWithRoles = roleService.generateRolesInGame(game)
         val playersAsWerwolves = gameWithRoles.players.filter { player -> player.role == Role.WEREWOLF }
         assertEquals(playersAsWerwolves.size, 2)
