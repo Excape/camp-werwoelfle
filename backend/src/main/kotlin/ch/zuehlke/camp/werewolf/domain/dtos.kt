@@ -26,7 +26,6 @@ data class Profile(val name: String,
         other as Profile
 
         if (name != other.name) return false
-
         if (password_plain != other.password_plain) return false
         if (password_encrypted?.zip(other.password_encrypted ?:ByteArray(0))?.map { (b1,b2) -> b1.toInt() == b2.toInt() }?.contains(false) == true) return false
         if (salt?.zip(other.salt ?:ByteArray(0))?.map { (b1,b2) -> b1.toInt() == b2.toInt() }?.contains(false) == true) return false

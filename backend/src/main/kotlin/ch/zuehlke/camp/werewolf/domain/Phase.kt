@@ -7,19 +7,19 @@ interface Phase {
     /**
      * Returns dying players
      */
-    fun start(gameName: String, allPlayers: List<Player>): List<Player>
+    fun start(gameName: String): List<Player>
 
     fun isActive(): Boolean
 }
 
-class RolePhase(val roleService: RoleService, val messageService: MessageService) : Phase {
+class RolePhase(val roleService: RoleService, val messageService: MessageService, private val allPlayers: List<Player>) : Phase {
     private var alreadyRun = false
 
     override fun isActive(): Boolean {
        return !alreadyRun
     }
 
-    override fun start(gameName: String, allPlayers: List<Player>): List<Player> {
+    override fun start(gameName: String): List<Player> {
         roleService.generateRoles(allPlayers)
         allPlayers.forEach { player ->
             messageService.publishToPlayer(
@@ -34,16 +34,31 @@ class RolePhase(val roleService: RoleService, val messageService: MessageService
 
 }
 
-class WakeUpPhase {
+class WerewolfPhase(val roleService: RoleService, val messageService: MessageService, private val allPlayers: List<Player>) : Phase {
+    override fun isActive(): Boolean {
+        return allPlayers.filter {
+            it.role == Role.WEREWOLF
+        }.map {
+            it.state != State.DEAD
+        }.contains(true)
+    }
+
+    override fun start(gameName: String): List<Player> {
+
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+}
+
+class WakeUpPhase(private val allPlayers: List<Player>) {
 
 }
 
-class DayPhase(): Phase {
+class DayPhase(private val allPlayers: List<Player>): Phase {
     override fun isActive(): Boolean {
        return true
     }
 
-    override fun start(gameName: String, allPlayers: List<Player>): List<Player> {
+    override fun start(gameName: String): List<Player> {
         return listOf()
     }
 
