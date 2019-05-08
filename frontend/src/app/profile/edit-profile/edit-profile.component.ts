@@ -14,7 +14,7 @@ export class EditProfileComponent implements OnInit {
 
   profile: Profile;
 
-  constructor(private router: Router, private  profileService: ProfileService, private toastrService: ToastrService) {
+  constructor(private router: Router, private  profileService: ProfileService, private toasterService: ToastrService) {
   }
 
   ngOnInit() {
@@ -30,7 +30,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   checkIfProfileExists(): boolean {
-    this.profileService.getProfile(this.profile.name).subscribe(
+    this.profileService.getProfile(this.profile.identity.name).subscribe(
       profile => {
         return !!profile;
       }, error => {

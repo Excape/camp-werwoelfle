@@ -1,6 +1,12 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ProfileComponent } from './profile.component';
+import {ProfileComponent} from './profile.component';
+import {MaterialModule} from "../material/material.module";
+import {RouterTestingModule} from "@angular/router/testing";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {MessageService} from "../shared/message.service";
+import {ProfileService} from "../shared/profile.service";
+import {Identity, Profile} from "../shared/model/dtos";
 
 describe('ProfileComponent', () => {
   let component: ProfileComponent;
@@ -8,9 +14,19 @@ describe('ProfileComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProfileComponent ]
+      declarations: [ProfileComponent],
+      imports: [MaterialModule, RouterTestingModule, HttpClientTestingModule],
+      providers: [{
+        provide: ProfileService, useValue: {
+          getLoggedInProfile: () => <Profile>{
+            identity: <Identity>{
+              name: "Testuser"
+            }
+          }
+        }
+      }]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

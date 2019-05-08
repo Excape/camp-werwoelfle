@@ -1,7 +1,7 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { PlayerListComponent } from './player-list.component';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {PlayerListComponent} from './player-list.component';
 import {MaterialModule} from "../../material/material.module";
-import {Game, Player, Profile} from "../../shared/model/dtos";
+import {Game, Identity, Player, Profile, Role, State} from "../../shared/model/dtos";
 
 describe('PlayerListComponent', () => {
   let component: PlayerListComponent;
@@ -20,11 +20,13 @@ describe('PlayerListComponent', () => {
     component.game = <Game>{
       name: "Test",
       players: [<Player>{
-        profile: <Profile>{
+        identity: <Identity>{
           name: "Albert"
-        }
+        },
+        role: Role.WEREWOLF,
+        state: State.AWAKE
       }]
-    }
+    };
     fixture.detectChanges();
   });
 

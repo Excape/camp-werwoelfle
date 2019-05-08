@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditProfileComponent } from './edit-profile.component';
+import {MatCardModule} from "@angular/material";
+import {MaterialModule} from "../../material/material.module";
 
 describe('EditProfileComponent', () => {
   let component: EditProfileComponent;
@@ -8,7 +10,8 @@ describe('EditProfileComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditProfileComponent ]
+      declarations: [ EditProfileComponent ],
+      imports: [MaterialModule]
     })
     .compileComponents();
   }));

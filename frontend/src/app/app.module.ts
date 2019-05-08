@@ -25,6 +25,7 @@ import { DayPhaseComponent } from './gamecontent/day-phase/day-phase.component';
 import { WerewolfPhaseComponent } from './gamecontent/werewolf-phase/werewolf-phase.component';
 import { ProfileComponent } from './profile/profile.component';
 import { EditProfileComponent } from './profile/edit-profile/edit-profile.component';
+import {MatCardModule} from "@angular/material";
 
 export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
   hostname: 'm24.cloudmqtt.com',
@@ -57,6 +58,7 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     FormsModule,
     RouterModule.forRoot(routes),
     MaterialModule,
+    MatCardModule,
     MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
     ToastrModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
