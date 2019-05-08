@@ -7,3 +7,11 @@ fun Game.toTopic(): String {
 fun Role.toTopic(game: Game): String {
     return "${game.toTopic()}/${this.name}"
 }
+
+fun Player.toTopic(game:Game): String {
+    return "${game.toTopic()}/${this.profile.id}"
+}
+
+fun Player.toTopic(gameName:String): String {
+    return "${gameName}/${this.profile.id}"
+}

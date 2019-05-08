@@ -44,12 +44,8 @@ data class Profile(val name: String,
 data class Game(
     val name: String,
     val players: MutableList<Player> = mutableListOf()
-) {
-    val phases: Set<Phase> = setOf()
-    var currentPhase: Phase? = null
-}
+)
 
-data class Phase(val name: String, val voting: Voting)
 
 data class Voting(
     val votes: List<Vote> = mutableListOf(),
