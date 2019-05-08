@@ -43,8 +43,15 @@ data class Profile(val name: String,
 
 data class Game(
     val name: String,
-    val players: MutableList<Player> = mutableListOf()
-)
+    val players: MutableList<Player> = mutableListOf(),
+    val nightPhases: List<Phase>,
+    val wakeUpPhase: WakeUpPhase?,
+    val dayPhase: DayPhase?
+) {
+    fun isGameOver(): Boolean {
+        return true
+    }
+}
 
 @Serializable
 data class Voting(
