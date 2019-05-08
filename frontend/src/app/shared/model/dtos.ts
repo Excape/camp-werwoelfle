@@ -25,6 +25,11 @@ export interface Phase {
   voting: Voting
 }
 
+export enum Phases {
+  ROLE, WEREWOLF, WAKEUP, DAY
+}
+
+
 export interface Vote {
   voteOf: Player
   voteFor: Player[]
