@@ -5,4 +5,4 @@
 
 <role-phase [playerRole]="playerRole" *ngIf="shouldDisplayRolePhase()"></role-phase>
 <day-phase *ngIf="shouldDisplayDayPhase()"></day-phase>
-<app-werewolf-phase></app-werewolf-phase>
+<app-werewolf-phase *ngIf="shouldDisplayWerewolfPhase()"></app-werewolf-phase>

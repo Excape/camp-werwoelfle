@@ -39,4 +39,8 @@ export class GamecontentComponent implements OnInit, OnDestroy {
   shouldDisplayDayPhase() {
     return this.activePhase == Phases.DAY;
   }
+
+  shouldDisplayWerewolfPhase() {
+    return this.activePhase == Phases.WEREWOLF;
+  }
 }
