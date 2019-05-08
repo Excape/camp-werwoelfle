@@ -11,6 +11,7 @@ export interface Player {
   profile: Profile
   state: State
   role: Role
+  checked?: boolean
 }
 
 export interface Profile {
@@ -24,7 +25,7 @@ export interface Phase {
   voting: Voting
 }
 
-interface Vote {
+export interface Vote {
   voteOf: Player
   voteFor: Player[]
 }
@@ -34,10 +35,10 @@ export interface Voting {
   votedPlayers: Player[]
 }
 
-enum State {
+export enum State {
   DEAD, ASLEEP, AWAKE
 }
 
-enum Role {
+export enum Role {
   WEREWOLF, VILLAGER
 }

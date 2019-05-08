@@ -18,6 +18,7 @@ import { PlayerListComponent } from './lobby/player-list/player-list.component';
 import {IMqttServiceOptions, MqttModule} from "ngx-mqtt";
 import { GamecontentComponent } from './gamecontent/gamecontent.component';
 import {LoginScreenGuard} from "./login-screen.guard";
+import { VotingComponent } from './gamecontent/voting/voting.component';
 
 export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
   hostname: 'm24.cloudmqtt.com',
@@ -35,6 +36,7 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     NavigationComponent,
     PlayerListComponent,
     GamecontentComponent,
+    VotingComponent,
   ],
   imports: [
     BrowserModule,
