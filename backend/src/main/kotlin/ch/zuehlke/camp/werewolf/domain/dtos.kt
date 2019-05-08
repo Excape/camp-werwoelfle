@@ -49,7 +49,7 @@ data class Game(
     val dayPhase: DayPhase?
 ) {
     fun isGameOver(): Boolean {
-        return true
+        return false
     }
 }
 

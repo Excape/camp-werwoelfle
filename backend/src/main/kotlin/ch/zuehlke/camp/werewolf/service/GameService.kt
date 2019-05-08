@@ -14,7 +14,7 @@ class GameService(
         // inform players that game is starting
         messageService.publishToGame(game, GameCommand.START)
 
-        while (game.isGameOver()) {
+        while (!game.isGameOver()) {
             val dyingPlayers: MutableSet<Player> = mutableSetOf()
             game.nightPhases.forEach {
                 if (it.isActive()) {
