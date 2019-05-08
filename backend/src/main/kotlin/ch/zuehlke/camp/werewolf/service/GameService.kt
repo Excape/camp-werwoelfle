@@ -11,13 +11,13 @@ class GameService(val game: Game, val roleService: RoleService, val messageServi
         // inform players that game is starting
         messageService.publishToGame(game, GameCommand.START)
 
-        initPhases()
+        initPhases(game.players)
 
         while (!isGameOver()) {
             val dyingPlayers: MutableSet<Player> = mutableSetOf()
             nightPhases.forEach {
                 if (it.isActive()) {
-                    dyingPlayers.addAll(it.start(game.name, game.players))
+                    dyingPlayers.addAll(it.start(game.name))
                 }
             }
             // TODO wake-up phase activate
@@ -30,8 +30,8 @@ class GameService(val game: Game, val roleService: RoleService, val messageServi
         return true
     }
 
-    private fun initPhases() {
-        nightPhases.add(RolePhase(roleService, messageService))
+    private fun initPhases(allPlayers: List<Player>) {
+        nightPhases.add(RolePhase(roleService, messageService, allPlayers))
         // TODO: add new Phases here!
 
     }
