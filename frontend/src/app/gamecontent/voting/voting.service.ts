@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {ProfileService} from "../../shared/profile.service";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Game, Player, Profile, Role, State, Vote} from "../../shared/model/dtos";
+import {Game, Player, Profile, Role, State, Vote, Voting} from "../../shared/model/dtos";
 
 @Injectable({
   providedIn: 'root'
@@ -30,9 +30,9 @@ export class VotingService {
     }]
   }
 
-  public getOptions(): Player[]{
-    return (
-      [<Player>{
+  public getVoting(): Voting {
+    var voting =  <Voting>{
+      voters: [<Player>{
         profile: <Profile>{
           name: "Albert",
           password: "1234"
@@ -68,7 +68,47 @@ export class VotingService {
         state: State.AWAKE,
         role: Role.WEREWOLF
       }
-      ]
-    ).filter(player => player.profile.name != this.voter.name).map(player => player)
+      ],
+      votees: [<Player>{
+        profile: <Profile>{
+          name: "Albert",
+          password: "1234"
+        },
+        state: State.AWAKE,
+        role: Role.VILLAGER
+      }, <Player>{
+        profile: <Profile>{
+          name: "Mario",
+          password: "1234"
+        },
+        state: State.AWAKE,
+        role: Role.VILLAGER
+      }, <Player>{
+        profile: <Profile>{
+          name: "Stefanie",
+          password: "1234"
+        },
+        state: State.AWAKE,
+        role: Role.WEREWOLF
+      }, <Player>{
+        profile: <Profile>{
+          name: "sdiegas",
+          password: "1234"
+        },
+        state: State.AWAKE,
+        role: Role.VILLAGER
+      }, <Player>{
+        profile: <Profile>{
+          name: "Robin",
+          password: "1234"
+        },
+        state: State.AWAKE,
+        role: Role.WEREWOLF
+      }
+      ],
+      numberOfVotesPerVoter: 1
+    }
+    voting.votees = voting.votees.filter(player => player.profile.name != this.voter.name).map(player => player)
+    return voting
   }
 }

@@ -31,8 +31,16 @@ export interface Vote {
 }
 
 export interface Voting {
-  votes: Vote[]
-  votedPlayers: Player[]
+  voters: Player[]
+  votees: Player[]
+  numberOfVotesPerVoter: number
+  votingResult?: VotingResult
+}
+
+export interface VotingResult {
+  auditors: Player[]
+  elected: Player[]
+  showRoles: Boolean
 }
 
 export enum State {
