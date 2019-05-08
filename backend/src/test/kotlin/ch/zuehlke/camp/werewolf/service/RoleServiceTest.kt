@@ -2,7 +2,6 @@ package ch.zuehlke.camp.werewolf.service
 
 import ch.zuehlke.camp.werewolf.domain.Game
 import ch.zuehlke.camp.werewolf.domain.Player
-import ch.zuehlke.camp.werewolf.domain.Profile
 import ch.zuehlke.camp.werewolf.domain.Role
 import org.junit.Test
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -20,8 +19,9 @@ class RoleServiceTest {
                 Player(4),
                 Player(5),
                 Player(6)
-            ))
-        val gameWithRoles = roleService.generateRolesInGame (game)
+            ), listOf(), null, null
+        )
+        val gameWithRoles = roleService.generateRolesInGame(game)
         val playersAsWerwolves = gameWithRoles.players.filter { player -> player.role == Role.WEREWOLF }
         assertEquals(playersAsWerwolves.size, 2)
     }

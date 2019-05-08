@@ -1,21 +1,22 @@
 package ch.zuehlke.camp.werewolf.service
 
-import ch.zuehlke.camp.werewolf.domain.*
+import ch.zuehlke.camp.werewolf.domain.Game
+import ch.zuehlke.camp.werewolf.domain.GameCommand
+import ch.zuehlke.camp.werewolf.domain.Player
+import org.springframework.stereotype.Service
 
-class GameService(val game: Game, val roleService: RoleService, val messageService: MessageService) {
-    private val nightPhases: MutableList<Phase> = mutableListOf()
-    private val wakeUpPhase: WakeUpPhase? = null // TODO
-    private val dayPhase: Phase? = null // TODO
+@Service
+class GameService(
+    val messageService: MessageService
+) {
 
-    fun startGame() {
+    fun startGame(game: Game) {
         // inform players that game is starting
         messageService.publishToGame(game, GameCommand.START)
 
-        initPhases(game.players)
-
-        while (!isGameOver()) {
+        while (game.isGameOver()) {
             val dyingPlayers: MutableSet<Player> = mutableSetOf()
-            nightPhases.forEach {
+            game.nightPhases.forEach {
                 if (it.isActive()) {
                     dyingPlayers.addAll(it.start(game.name))
                 }
@@ -23,16 +24,6 @@ class GameService(val game: Game, val roleService: RoleService, val messageServi
             // TODO wake-up phase activate
             // TODO day phase activate
         }
-
-    }
-
-    private fun isGameOver(): Boolean {
-        return true
-    }
-
-    private fun initPhases(allPlayers: List<Player>) {
-        nightPhases.add(RolePhase(roleService, messageService, allPlayers))
-        // TODO: add new Phases here!
 
     }
 }

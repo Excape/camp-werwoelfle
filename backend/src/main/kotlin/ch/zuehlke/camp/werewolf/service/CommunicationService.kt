@@ -6,8 +6,6 @@ import kotlinx.serialization.json.Json
 import org.eclipse.paho.client.mqttv3.MqttMessage
 import org.springframework.stereotype.Service
 import java.util.concurrent.CountDownLatch
-import java.util.concurrent.atomic.AtomicInteger
-import javax.transaction.NotSupportedException
 
 @Service
 class CommunicationService(private val messageService: MessageService) {
@@ -18,12 +16,23 @@ class CommunicationService(private val messageService: MessageService) {
         players: List<Player>
     ): List<InboundMessage> {
 
-        val countDownLatch = CountDownLatch(players.size)
+        val messageByPlayer = players.associateBy({ it }, { outboundMessage })
+
+        return communicate(gameName, inboundType, messageByPlayer)
+    }
+
+    fun communicate(
+        gameName: String,
+        inboundType: InboundType,
+        messageByPlayer: Map<Player, OutboundMessage>
+    ): List<InboundMessage> {
+        val countDownLatch = CountDownLatch(messageByPlayer.size)
         val inboundMessages = mutableListOf<InboundMessage>()
 
+        val players = messageByPlayer.keys.toList()
         subscribeToPlayers(gameName, inboundType, players, inboundMessages, countDownLatch)
 
-        publishMessages(players, gameName, outboundMessage)
+        publishMessages(gameName, messageByPlayer)
 
         countDownLatch.await()
         return inboundMessages.toList()
@@ -60,15 +69,14 @@ class CommunicationService(private val messageService: MessageService) {
     }
 
     private fun publishMessages(
-        players: List<Player>,
         gameName: String,
-        outboundMessage: OutboundMessage
+        messageByPlayer: Map<Player, OutboundMessage>
     ) {
-        players.forEach {
+        messageByPlayer.forEach { (player, message) ->
             messageService.publishToPlayer(
-                it,
+                player,
                 gameName,
-                outboundMessage
+                message
             )
         }
     }

@@ -1,8 +1,6 @@
 package ch.zuehlke.camp.werewolf.controllers
 
-import ch.zuehlke.camp.werewolf.service.LobbyService
-import ch.zuehlke.camp.werewolf.service.MessageService
-import ch.zuehlke.camp.werewolf.service.RoleService
+import ch.zuehlke.camp.werewolf.service.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -17,7 +15,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @EnableAutoConfiguration
 @ExtendWith(SpringExtension::class)
-@WebMvcTest(LobbyController::class, LobbyService::class, RoleService::class, MessageService::class)
+@WebMvcTest(LobbyController::class, LobbyService::class, RoleService::class, MessageService::class, GameService::class, CommunicationService::class, GameFactory::class)
 class LobbyControllerTest {
 
     @Autowired
