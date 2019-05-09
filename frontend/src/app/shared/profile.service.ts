@@ -21,10 +21,11 @@ export class ProfileService {
     return this._loggedInProfile$;
   }
 
-  constructor(private httpClient: HttpClient, private router: Router) { }
+  constructor(private httpClient: HttpClient, private router: Router) {
+  }
 
   getProfile(username: string): Observable<Profile> {
-    return this.httpClient.get<Profile>(this.profileUrl  + username);
+    return this.httpClient.get<Profile>(this.profileUrl + username);
   }
 
   setLocalProfile(profile: Profile) {
@@ -32,7 +33,7 @@ export class ProfileService {
   }
 
   getLoggedInProfile(): Profile {
-      return JSON.parse(sessionStorage.getItem("profile"));
+    return JSON.parse(sessionStorage.getItem("profile"));
   }
 
   login(profile: Profile): Observable<void> {
@@ -46,5 +47,9 @@ export class ProfileService {
 
   createProfile(profile: Profile): Observable<void> {
     return this.httpClient.post<void>(this.profileUrl, profile);
+  }
+
+  getCurrentIdentity() {
+    return this.getLoggedInProfile().identity
   }
 }

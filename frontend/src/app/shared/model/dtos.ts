@@ -1,8 +1,6 @@
 export interface Game {
   name: string
   players: Player[]
-  phases: Set<Phase>
-  currentPhase: Phase
   isRunning: boolean
 }
 
@@ -23,11 +21,6 @@ export interface Profile {
   password_plain?: string
   password_encrypted?: number[]
   salt?: number[]
-}
-
-export interface Phase {
-  name: string
-  voting: Voting
 }
 
 export enum Phases {

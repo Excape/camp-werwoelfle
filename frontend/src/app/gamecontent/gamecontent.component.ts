@@ -19,11 +19,8 @@ export class GamecontentComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this._gameService.currentPhase().subscribe(phase => {
-      this.activePhase = phase;
-    });
-    this.activePhase = Phases.WEREWOLF;
-    this.playerRole = Role.VILLAGER;
+    this._gameService.currentPhase().subscribe(phase => this.activePhase = phase);
+    this._gameService.currentRole().subscribe(role => this.playerRole = role);
   }
 
   ngOnDestroy(): void {
