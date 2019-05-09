@@ -6,14 +6,6 @@ export const environment = {
   production: false,
   name: 'dev',
   pwaActive: false,
-  firebaseConfig : {
-    apiKey: "AIzaSyCmuZvoeHr-WIcpIaqj7Vh5keDW6zzKWc8",
-/*    authDomain: "YOUR_AUTH_DOMAIN",
-    databaseURL: "YOUR_DATABASE_URL",*/
-    projectId: "werewolf-5cc36",
-    storageBucket: "gs://werewolf-5cc36.appspot.com/profilepictures",
-/*    messagingSenderId: "YOUR_MESSAGING_SENDER_ID"*/
-  }
 };
 
 

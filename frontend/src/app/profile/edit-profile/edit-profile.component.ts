@@ -1,9 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, NgModule, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {Profile} from "../../shared/model/dtos";
 import {ProfileService} from "../../shared/profile.service";
 import {ToastrService} from "ngx-toastr";
-import {AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask} from "@angular/fire/storage";
 
 @Component({
   selector: 'app-edit-profile',
@@ -13,7 +12,7 @@ import {AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask} 
 export class EditProfileComponent implements OnInit {
   profile: Profile;
 
-  constructor(private router: Router, private  profileService: ProfileService, private toasterService: ToastrService, private afStorage: AngularFireStorage) {
+  constructor(private router: Router, private  profileService: ProfileService, private toasterService: ToastrService) {
   }
 
   ngOnInit() {
@@ -38,9 +37,5 @@ export class EditProfileComponent implements OnInit {
     return false;
   }
 
-  upload(event) {
-    const randomId = Math.random().toString(36).substring(2);
-    let task = this.afStorage.ref(randomId).put(event.target.files[0]);
-  }
 
 }

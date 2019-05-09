@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/v1/game/")
 class GameController(val lobbyService: LobbyService) {
 
-
     @GetMapping("{gameName}/{playerName}/role")
     fun getRole(@PathVariable("gameName") gameName: String, @PathVariable("playerName") playerName: String): Any {
         val game = lobbyService.findGame(gameName);
