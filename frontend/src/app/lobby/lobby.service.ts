@@ -14,7 +14,7 @@ export class LobbyService {
   }
 
   public getGames(): Observable<Game[]> {
-    return this.httpClient.get<Game[]>(this.backendUrl);
+    return this.httpClient.get<Game[]>(this.backendUrl + '');
   }
 
   public createGame(name: string): Observable<Game> {

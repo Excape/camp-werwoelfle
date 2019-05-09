@@ -10,7 +10,7 @@
     </button>
   </div>
   <mat-accordion>
-    <mat-expansion-panel *ngFor="let game of games" [expanded]="game.name === joinedGame?.name">
+    <mat-expansion-panel *ngFor="let game of games" [expanded]="game.name === getJoinedGame()?.name">
       <mat-expansion-panel-header>
         <mat-panel-title>
           {{game.name}}

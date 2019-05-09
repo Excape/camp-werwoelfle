@@ -12,7 +12,6 @@ import {GameService} from "../shared/game.service";
 })
 export class LobbyComponent implements OnInit {
   games: Game[];
-  joinedGame: Game;
   newGameName: string;
 
   MIN_PLAYER_PER_GAME: number = 1;
@@ -28,12 +27,14 @@ export class LobbyComponent implements OnInit {
   }
 
   fetchGames() {
-    this.lobbyService.getGames().subscribe(games => this.games = games.filter(game => !game.isRunning))
+    this.lobbyService.getGames().subscribe(games => {
+      console.log(games);
+      this.games = games;
+    });
   }
 
   createGame() {
     this.lobbyService.createGame(this.newGameName).subscribe(game => {
-      this.joinedGame = game;
       this.fetchGames();
       this.subscribeTo(game)
     })
@@ -41,7 +42,6 @@ export class LobbyComponent implements OnInit {
 
   joinGame(game: Game) {
     this.lobbyService.joinGame(game.name).subscribe(game => {
-      this.joinedGame = game;
       this.fetchGames();
       this.subscribeTo(game);
     });
@@ -61,16 +61,27 @@ export class LobbyComponent implements OnInit {
 
   alreadyJoined(game: Game) {
     const name = this.profileService.getCurrentIdentity().name;
-    let joinedCount = 0;
-    this.games.forEach( game => {
-      joinedCount += game.players.filter(player => {
+    return game.players.filter(player => {
         return player.identity.name.localeCompare(name) == 0;
-      }).length;
-    });
+      }).length > 0;
+  }
 
-    return joinedCount > 0;
-    //return this.flatMap(game => game.players, this.games)
-    //  .find((player: Player) => player.identity.name === name);
+  getJoinedGame(): Game {
+    const games = this.games.filter( game => {
+      return this.hasPlayerJoined(game);
+    });
+    if (games.length == 1) {
+      return games[0];
+    } else {
+      return null;
+    }
+  }
+
+  private hasPlayerJoined(game: Game) {
+    const name = this.profileService.getCurrentIdentity().name;
+    return game.players.filter( player => {
+        return player.identity.name.localeCompare(name) == 0;
+      }).length > 0;
   }
 
   concat = (x, y) =>
@@ -83,12 +94,11 @@ export class LobbyComponent implements OnInit {
   }
 
   isJoinDisabled(game: Game) {
-    return this.alreadyJoined(game)
+    return this.getJoinedGame() != null;
   }
 
   leave(game: Game) {
     this.lobbyService.leaveGame(game.name).subscribe(  returnedGame => {
-      this.joinedGame = null;
       this.fetchGames();
       this.unsubscribeTo(returnedGame);
     });
@@ -104,7 +114,7 @@ export class LobbyComponent implements OnInit {
     let nameAlreadyTaken = !this.newGameName || this.games.filter(game => {
       return game.name == this.newGameName
     }).length > 0;
-    let hasAlreadyJoinedGame = this.joinedGame != null
+    let hasAlreadyJoinedGame = this.getJoinedGame() != null;
     return nameNotSet || nameAlreadyTaken || hasAlreadyJoinedGame;
   }
 }
