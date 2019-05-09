@@ -2,21 +2,22 @@ package ch.zuehlke.camp.werewolf.service
 
 import ch.zuehlke.camp.werewolf.domain.Game
 import ch.zuehlke.camp.werewolf.domain.GameCommand
+import ch.zuehlke.camp.werewolf.domain.GameState
 import org.springframework.stereotype.Service
 
 @Service
-class GameService(val communicationService: CommunicationService, val lobbyService: LobbyService) {
+class GameService(val communicationService: CommunicationService) {
 
     fun runGame(game: Game) {
         // inform players that game is starting
         communicationService.sendGameCommand(game.name, GameCommand.START)
-        game.isRunning = true
+        game.state = GameState.RUNNING
         game.run()
         endGame(game)
     }
 
     private fun endGame(game: Game) {
-       lobbyService.games.remove(game)
+        game.state = GameState.FINISHED
         // TODO: handle end game
     }
 }

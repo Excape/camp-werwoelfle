@@ -9,7 +9,6 @@ import {ProfileService} from "../shared/profile.service";
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-
   profile: Profile;
 
   constructor(private router: Router, private profileService: ProfileService) {

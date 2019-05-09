@@ -95,3 +95,7 @@ enum class PlayerState {
 enum class Role {
     WEREWOLF, VILLAGER
 }
+
+enum class GameState {
+    RUNNING, FINISHED, CREATED
+}

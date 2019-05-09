@@ -9,7 +9,7 @@ class GameFactory(private val roleService: RoleService, private val communicatio
         gameName: String,
         players: MutableList<Player>
     ): Game {
-        return Game(gameName, players, initPhases(gameName, players))
+        return Game(GameState.CREATED,gameName, players, initPhases(gameName, players))
     }
 
     private fun initPhases(
