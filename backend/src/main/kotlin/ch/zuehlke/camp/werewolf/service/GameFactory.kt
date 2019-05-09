@@ -13,7 +13,7 @@ class GameFactory(
         gameName: String,
         players: MutableList<Player>
     ): Game {
-        return Game(GameState.CREATED,gameName, players, initPhases(gameName, players))
+        return Game(GameState.CREATED, gameName, players, initPhases(gameName, players))
     }
 
     private fun initPhases(
@@ -25,7 +25,8 @@ class GameFactory(
             NightfallPhase(gameName, communicationService, allPlayers),
             WerewolfPhase(gameName, communicationService, votingService, allPlayers),
             WakeUpPhase(gameName, communicationService, allPlayers),
-            DayPhase(gameName, communicationService, votingService, allPlayers)
+            DayPhase(gameName, communicationService, votingService, allPlayers),
+            ExecutionPhase(gameName, communicationService, allPlayers)
         )
         // TODO: add new Phases here!
 
