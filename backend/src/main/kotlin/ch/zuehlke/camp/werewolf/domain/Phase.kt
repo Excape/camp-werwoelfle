@@ -2,19 +2,33 @@ package ch.zuehlke.camp.werewolf.domain
 
 import ch.zuehlke.camp.werewolf.service.CommunicationService
 import ch.zuehlke.camp.werewolf.service.RoleService
+import ch.zuehlke.camp.werewolf.service.VotingService
 
-interface Phase {
-    fun execute()
-    fun isActive(): Boolean
-    fun sendStartPhaseCommand()
+abstract class Phase(val allPlayers: List<Player>) {
+    abstract fun execute()
+    abstract fun isActive(): Boolean
+    abstract fun sendStartPhaseCommand()
+
+    fun getAlivePlayersWithRole(role: Role): List<Player> {
+        return getAlivePlayers()
+            .filter { it.role == role }
+    }
+
+    fun getAlivePlayers() = allPlayers.filter(Player::isAlive)
+
+    protected fun killOffVotedPlayers(players: Set<Player>) {
+        players.forEach {
+            it.playerState = PlayerState.DYING
+        }
+    }
 }
 
 class RolePhase(
     private val gameName: String,
     private val roleService: RoleService,
     private val communicationService: CommunicationService,
-    private val allPlayers: List<Player>
-) : Phase {
+    allPlayers: List<Player>
+) : Phase(allPlayers) {
     override fun sendStartPhaseCommand() {
         communicationService.sendGameCommand(gameName, GameCommand.PHASE_ROLE)
     }
@@ -36,8 +50,8 @@ class RolePhase(
 class NightfallPhase(
     private val gameName: String,
     private val communicationService: CommunicationService,
-    private val allPlayers: List<Player>
-) : Phase {
+    allPlayers: List<Player>
+) : Phase(allPlayers) {
     override fun sendStartPhaseCommand() {
         communicationService.sendGameCommand(gameName, GameCommand.PHASE_NIGHTFALL)
     }
@@ -55,31 +69,46 @@ class NightfallPhase(
 class WerewolfPhase(
     private val gameName: String,
     private val communicationService: CommunicationService,
-    private val allPlayers: List<Player>
-) : Phase {
+    private val votingService: VotingService,
+    allPlayers: List<Player>
+) : Phase(allPlayers) {
     override fun sendStartPhaseCommand() {
         communicationService.sendGameCommand(gameName, GameCommand.PHASE_WEREWOLF)
     }
 
     override fun isActive(): Boolean {
-        return allPlayers.filter {
-            it.role == Role.WEREWOLF
-        }.any {
-            it.playerState != PlayerState.DEAD
-        }
+        return getAlivePlayers()
+            .any { it.role == Role.WEREWOLF }
     }
 
     override fun execute() {
+        val werewolves = getAlivePlayersWithRole(Role.WEREWOLF)
+        val villagers = allPlayers.filter { !werewolves.contains(it) }
 
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val voting = createVoting(werewolves, villagers)
+        val votingResult = votingService.startVote(gameName, voting)
+
+        killOffVotedPlayers(votingResult.electedPlayers)
+    }
+
+    private fun createVoting(
+        werewolves: List<Player>,
+        villagers: List<Player>
+    ): Voting {
+        return Voting(
+            voters = werewolves,
+            candidates = villagers,
+            votesPerPlayer = 1,
+            numberOfSeats = 1
+        )
     }
 }
 
 class WakeUpPhase(
     private val gameName: String,
     private val communicationService: CommunicationService,
-    private val allPlayers: List<Player>
-) : Phase {
+    allPlayers: List<Player>
+) : Phase(allPlayers) {
     override fun sendStartPhaseCommand() {
         communicationService.sendGameCommand(gameName, GameCommand.PHASE_WAKEUP)
     }
@@ -99,8 +128,8 @@ class WakeUpPhase(
 class DayPhase(
     private val gameName: String,
     private val communicationService: CommunicationService,
-    private val allPlayers: List<Player>
-) : Phase {
+    allPlayers: List<Player>
+) : Phase(allPlayers) {
     override fun sendStartPhaseCommand() {
         communicationService.sendGameCommand(gameName, GameCommand.PHASE_DAY)
     }

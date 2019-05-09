@@ -3,6 +3,7 @@ package ch.zuehlke.camp.werewolf.domain
 import ch.zuehlke.camp.werewolf.service.CommunicationService
 import ch.zuehlke.camp.werewolf.service.MessageService
 import ch.zuehlke.camp.werewolf.service.RoleService
+import ch.zuehlke.camp.werewolf.service.VotingService
 import org.junit.Test
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -24,6 +25,9 @@ class PhaseTest() {
     @Mock
     lateinit var communicationService: CommunicationService
 
+    @Mock
+    lateinit var votingService: VotingService
+
     @Test
     fun werewolfPhase_awakeWerewolf_isActive() {
         val werewolf = Player(Identity("Stefan"))
@@ -31,7 +35,7 @@ class PhaseTest() {
         werewolf.playerState = PlayerState.ALIVE
         val players = listOf(werewolf)
 
-        val werewolfPhase = WerewolfPhase("testGame", communicationService, players)
+        val werewolfPhase = werewolfPhase(players)
 
         assertTrue(werewolfPhase.isActive())
     }
@@ -43,7 +47,7 @@ class PhaseTest() {
         werewolf.playerState = PlayerState.DEAD
         val players = listOf(werewolf)
 
-        val werewolfPhase = WerewolfPhase("testGame", communicationService, players)
+        val werewolfPhase = werewolfPhase(players)
 
         assertFalse(werewolfPhase.isActive())
     }
@@ -52,9 +56,12 @@ class PhaseTest() {
     fun werewolfPhase_noPlayer_isNotActive() {
         val players = mutableListOf<Player>()
 
-        val werewolfPhase = WerewolfPhase("testGame", communicationService, players)
+        val werewolfPhase = werewolfPhase(players)
 
         assertFalse(werewolfPhase.isActive())
     }
+
+    private fun werewolfPhase(players: List<Player>) =
+        WerewolfPhase("testGame", communicationService, votingService, players)
 }
 

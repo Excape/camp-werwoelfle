@@ -50,7 +50,5 @@ data class Vote(
 )
 
 data class VotingResult(
-    val electedPlayers: Set<Player>,
-    val auditors: Set<Player>,
-    val showRoles: Boolean
+    val electedPlayers: Set<Player>
 )

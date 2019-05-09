@@ -4,7 +4,11 @@ import ch.zuehlke.camp.werewolf.domain.*
 import org.springframework.stereotype.Service
 
 @Service
-class GameFactory(private val roleService: RoleService, private val communicationService: CommunicationService) {
+class GameFactory(
+    private val roleService: RoleService,
+    private val communicationService: CommunicationService,
+    private val votingService: VotingService
+) {
     fun createGame(
         gameName: String,
         players: MutableList<Player>
@@ -19,7 +23,7 @@ class GameFactory(private val roleService: RoleService, private val communicatio
         return listOf(
             RolePhase(gameName, roleService, communicationService, allPlayers),
             NightfallPhase(gameName, communicationService, allPlayers),
-            WerewolfPhase(gameName, communicationService, allPlayers),
+            WerewolfPhase(gameName, communicationService, votingService, allPlayers),
             WakeUpPhase(gameName, communicationService, allPlayers),
             DayPhase(gameName, communicationService, allPlayers)
         )

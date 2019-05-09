@@ -5,8 +5,9 @@ import javax.persistence.*
 
 @Serializable
 data class Player(val identity: Identity) {
-    var playerState: PlayerState? = null
+    var playerState: PlayerState? = PlayerState.ALIVE
     var role: Role? = null
+    fun isAlive() = playerState == PlayerState.ALIVE
 }
 
 @Embeddable
