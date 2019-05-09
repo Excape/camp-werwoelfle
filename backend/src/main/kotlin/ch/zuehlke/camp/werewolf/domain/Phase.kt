@@ -86,7 +86,7 @@ class WerewolfPhase(
 
     override fun execute() {
         val werewolves = getAlivePlayersWithRole(Role.WEREWOLF)
-        val villagers = allPlayers.filter { !werewolves.contains(it) }
+        val villagers = getAlivePlayersWithRole(Role.VILLAGER)
 
         val voting = createVoting(werewolves, villagers)
         val votingResult = votingService.startVoting(gameName, voting)
