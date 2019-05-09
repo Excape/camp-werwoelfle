@@ -9,12 +9,14 @@ data class Voting(
     val votesPerPlayer: Int,
     val numberOfSeats: Int
 ) {
-    fun calculateElection(votes: List<Vote>): Set<Player> {
+    fun calculateElection(votes: List<Vote>): List<Player> {
         val validVotes = votes.filter(this::isValidVote)
 
         val votingCount = countVotes(validVotes)
 
-        return getElectedPlayers(votingCount)
+        return getElectedPlayers(votingCount).map { player ->
+            candidates.find {it == player} ?: throw IllegalStateException("elected player is not a candidate")
+        }
     }
 
     private fun getElectedPlayers(votingCount: Map<Player, Int>): Set<Player> {
@@ -50,5 +52,5 @@ data class Vote(
 )
 
 data class VotingResult(
-    val electedPlayers: Set<Player>
+    val electedPlayers: List<Player>
 )

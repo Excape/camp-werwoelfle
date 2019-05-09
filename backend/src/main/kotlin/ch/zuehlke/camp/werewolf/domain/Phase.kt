@@ -16,7 +16,7 @@ abstract class Phase(val allPlayers: List<Player>) {
 
     val alivePlayers get() = allPlayers.filter{it.playerState == PlayerState.ALIVE}
 
-    protected fun killOffVotedPlayers(players: Set<Player>, killedBy: Role) {
+    protected fun killOffVotedPlayers(players: List<Player>, killedBy: Role) {
         players.forEach {
             it.playerState = when(killedBy) {
                 Role.WEREWOLF -> PlayerState.DYING
