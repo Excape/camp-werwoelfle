@@ -12,7 +12,7 @@ export class GamecontentComponent implements OnInit, OnDestroy {
 
   messages: string[] = [];
   private _subscription: Subscription;
-  activePhase: Phases;
+  activePhase : Phases;
   playerRole: Role;
 
   constructor(private _gameService: GameService) {
