@@ -17,7 +17,6 @@ export class WerewolfPhaseComponent implements OnInit {
     this.audioService.playAudio("../../../assets/sound/wolf-howl.wav");
   }
 
-
   electPlayers($event: Player[]) {
     this.electedPlayersEmitter.emit($event)
   }
