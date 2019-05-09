@@ -3,7 +3,7 @@ import {Game, Phases, Player, Role} from "./model/dtos";
 import {IMqttMessage} from "ngx-mqtt";
 import {MessageService} from "./message.service";
 import {Router} from "@angular/router";
-import {Observable, Subject} from "rxjs";
+import {Observable, Subject, Subscription} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {ProfileService} from "./profile.service";
 
@@ -17,6 +17,7 @@ export class GameService {
   profileUrl = 'api/v1/game';
   private game: Game;
   currentPlayer: Player;
+  private _gameSubscription: Subscription;
 
 
   currentPhase(): Subject<Phases> {
@@ -37,7 +38,7 @@ export class GameService {
   subscribe(game: Game) {
     let currentIdentity = this.profileService.getCurrentIdentity();
     this.currentPlayer = game.players.find(player => player.identity.name === currentIdentity.name);
-    this.messageService.subscribeToGame(game).subscribe((message: IMqttMessage) => {
+    this._gameSubscription = this.messageService.subscribeToGame(game).subscribe((message: IMqttMessage) => {
       this.game = game;
       let payload = message.payload.toString();
       console.log("message " + payload);
@@ -113,5 +114,11 @@ export class GameService {
     let playerUrl = `${this.profileUrl}/${gameName}/${playerName}`;
 
     return this.httpClient.get<Player>(playerUrl);
+  }
+
+  unsubscribe(game: Game) {
+    if (this._gameSubscription) {
+      this._gameSubscription.unsubscribe();
+    }
   }
 }

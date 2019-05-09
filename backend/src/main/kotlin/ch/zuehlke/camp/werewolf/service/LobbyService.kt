@@ -34,4 +34,12 @@ class LobbyService(val gameService: GameService, val gameFactory: GameFactory) {
     fun findGame(name: String): Game {
         return games.find { game -> game.name == name } ?: throw IllegalArgumentException("Game $name not found")
     }
+
+    fun leaveGame(gameName: String, profile: Profile): Game {
+        val game = findGame(gameName)
+        game.players.removeIf {
+            it.identity == profile.identity
+        }
+        return game
+    }
 }

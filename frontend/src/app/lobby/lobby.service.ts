@@ -30,4 +30,8 @@ export class LobbyService {
   public startGame(game: Game): Observable<Game> {
     return this.httpClient.get<Game>(`${this.backendUrl}start?gameName=${game.name}`);
   }
+
+  leaveGame(name: string) {
+    return this.httpClient.post<Game>(`${this.backendUrl}leave?gameName=${name}`, this.profileService.getLoggedInProfile())
+  }
 }
