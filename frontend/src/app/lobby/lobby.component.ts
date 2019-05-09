@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Game, Player, Profile} from "../shared/model/dtos";
+import {Game, GameState} from "../shared/model/dtos";
 import {LobbyService} from "./lobby.service";
 import {MessageService} from "../shared/message.service";
 import {ProfileService} from "../shared/profile.service";
@@ -28,9 +28,7 @@ export class LobbyComponent implements OnInit {
 
   fetchGames() {
     this.lobbyService.getGames().subscribe(games => {
-      console.log("Fetched games");
-      console.log(games);
-      this.games = games;
+      this.games = games.filter(game => game.state == GameState.CREATED)
     });
   }
 

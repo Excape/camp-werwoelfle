@@ -1,7 +1,13 @@
 export interface Game {
   name: string
   players: Player[]
-  isRunning: boolean
+  state: GameState
+}
+
+export enum GameState {
+  RUNNING = "RUNNING",
+  FINISHED = "FINISHED",
+  CREATED = "CREATED"
 }
 
 export interface Player {
