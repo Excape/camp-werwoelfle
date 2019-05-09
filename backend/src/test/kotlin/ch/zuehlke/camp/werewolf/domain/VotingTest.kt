@@ -1,8 +1,10 @@
 package ch.zuehlke.camp.werewolf.domain
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
+@Disabled
 internal class VotingTest {
 
     private val playerRobin = testPlayer("Robin")
