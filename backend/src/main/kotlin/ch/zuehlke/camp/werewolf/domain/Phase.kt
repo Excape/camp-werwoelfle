@@ -1,7 +1,6 @@
 package ch.zuehlke.camp.werewolf.domain
 
 import ch.zuehlke.camp.werewolf.service.CommunicationService
-import ch.zuehlke.camp.werewolf.service.MessageService
 import ch.zuehlke.camp.werewolf.service.RoleService
 
 interface Phase {
@@ -28,8 +27,8 @@ class RolePhase(
 
     override fun execute() {
         roleService.generateRoles(allPlayers)
-        val associateBy = allPlayers.associateBy({ it }, { RoleOutboundMessage(it.role!!) })
-        communicationService.communicate(gameName, InboundType.ACK, associateBy)
+        val messageByPlayerMap = allPlayers.associateBy({ it }, { RoleOutboundMessage(it.role!!) })
+        communicationService.communicate(gameName, InboundType.ACK, messageByPlayerMap)
         alreadyRun = true
     }
 }
