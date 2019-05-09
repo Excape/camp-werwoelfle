@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AudioService} from "../../shared/audio.service";
 import {Player} from "../../shared/model/dtos";
 
@@ -10,6 +10,9 @@ import {Player} from "../../shared/model/dtos";
 export class WakeUpPhaseComponent implements OnInit {
 
   @Input() deadVillagers: Player[];
+  @Output() ackEmitter = new EventEmitter();
+
+  confirmed = false;
 
   constructor(private audioService: AudioService) { }
 
@@ -17,4 +20,8 @@ export class WakeUpPhaseComponent implements OnInit {
     this.audioService.playAudio("../../../assets/sound/daybreak.wav");
   }
 
+  confirm() {
+    this.confirmed = true;
+    this.ackEmitter.emit()
+  }
 }

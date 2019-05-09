@@ -43,7 +43,7 @@ class NightfallPhase(
     }
 
     override fun execute() {
-        // Inform players that it's night
+       communicationService.communicate(gameName, GetAckOutboundMessage(), InboundType.ACK, allPlayers )
     }
 
     override fun isActive(): Boolean {
@@ -71,7 +71,7 @@ class WerewolfPhase(
 
     override fun execute() {
 
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
 
@@ -85,8 +85,9 @@ class WakeUpPhase(
     }
 
     override fun execute() {
-        //TODO: "Send all dying players to players")
-        //TODO: "Kill all dying players")
+        val dyingPlayers = allPlayers.filter { it.playerState == PlayerState.DYING }
+        communicationService.communicate(gameName, WakeUpOutboundMessage(dyingPlayers), InboundType.ACK, allPlayers)
+        dyingPlayers.forEach { it.playerState = PlayerState.DEAD }
     }
 
     override fun isActive(): Boolean {

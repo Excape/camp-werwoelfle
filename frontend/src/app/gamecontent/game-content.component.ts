@@ -12,7 +12,7 @@ export class GameContentComponent implements OnInit, OnDestroy {
   messages: string[] = [];
   activePhase : Phases;
   playerRole: Role;
-  deadVillagers: Player[] = [];
+  dyingPlayers: Player[];
 
   constructor(private _gameService: GameService) {
   }
@@ -20,6 +20,7 @@ export class GameContentComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this._gameService.currentPhase().subscribe(phase => this.activePhase = phase);
     this._gameService.currentRole().subscribe(role => this.playerRole = role);
+    this._gameService.dyingPlayers().subscribe(dyingPlayers => this.dyingPlayers = dyingPlayers);
   }
 
   ngOnDestroy(): void {

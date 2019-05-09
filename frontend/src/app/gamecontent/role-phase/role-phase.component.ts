@@ -11,11 +11,12 @@ export class RolePhaseComponent implements OnInit, OnChanges {
   roleTitle: String = "";
   roleSubtitle: String = "";
   imgUrl: String = "";
+  confirmed = false;
 
   @Input() playerRole: Role;
 
   @Output() ackEmitter = new EventEmitter();
-  confirmed = false;
+
 
   constructor() {
   }

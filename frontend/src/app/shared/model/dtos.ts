@@ -53,3 +53,7 @@ export enum State {
 export enum Role {
   WEREWOLF="Werewolf", VILLAGER="Villager"
 }
+
+export enum OutboundMessage {
+  ROLE, VOTING, WAKE_UP, GET_ACK
+}

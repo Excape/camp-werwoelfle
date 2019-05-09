@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {AudioService} from "../../shared/audio.service";
+import {GameService} from "../../shared/game.service";
 
 @Component({
   selector: 'app-night-fall-phase',
@@ -8,11 +9,22 @@ import {AudioService} from "../../shared/audio.service";
 })
 export class NightFallPhaseComponent implements OnInit {
 
+  @Output() ackEmitter = new EventEmitter();
 
-  constructor(private audioService: AudioService) { }
+  confirmed = false;
+
+  constructor(private audioService: AudioService, private gameService: GameService) { }
 
   ngOnInit() {
     this.audioService.playAudio("../../../assets/sound/lullaby.wav");
+    this.gameService.getAck().subscribe(() => {
+      
+    })
+  }
+
+  confirm() {
+    this.confirmed = true;
+    this.ackEmitter.emit()
   }
 
 

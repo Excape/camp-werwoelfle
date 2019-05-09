@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Game, Phases, Player, Role} from "./model/dtos";
+import {Game, OutboundMessage, Phases, Player, Role} from "./model/dtos";
 import {IMqttMessage} from "ngx-mqtt";
 import {MessageService} from "./message.service";
 import {Router} from "@angular/router";
@@ -14,6 +14,8 @@ export class GameService {
 
   private _currentPhase$: Subject<Phases> = new Subject();
   private _currentRole$: Subject<Role> = new Subject();
+  private _dyingPlayers$: Subject<Player[]> = new Subject();
+  private _getAck$: Subject<void> = new Subject();
   profileUrl = 'api/v1/game';
   private game: Game;
   currentPlayer: Player;
@@ -26,6 +28,14 @@ export class GameService {
 
   currentRole(): Subject<Role> {
     return this._currentRole$;
+  }
+
+  dyingPlayers(): Subject<Player[]> {
+    return this._dyingPlayers$;
+  }
+
+  getAck(): Subject<void> {
+    return this._getAck$;
   }
 
   constructor(private messageService: MessageService,
@@ -47,15 +57,26 @@ export class GameService {
     });
     this.messageService.subscribeToPlayer(game, this.currentPlayer).subscribe(message => {
         let payload = JSON.parse(message.payload.toString());
-        switch (payload.type) {
-          case "ROLE":
+        switch (OutboundMessage[<string>payload.type]) {
+          case OutboundMessage.ROLE:
             console.log(`message ${payload.type}: ${payload.role}`);
             this.currentPlayer.role = Role[<string>payload.role];
             this._currentRole$.next(this.currentPlayer.role);
             break;
-          case "VOTING":
+          case OutboundMessage.VOTING:
             console.log(`message ${payload.type}: ${payload.voting}`);
-
+            break;
+          case OutboundMessage.WAKE_UP:
+            console.log(`message ${payload.type}: ${payload.role}`);
+            let dyingPlayers = payload.dyingPlayers;
+            this._dyingPlayers$.next(dyingPlayers);
+            break;
+          case OutboundMessage.GET_ACK:
+            console.log(`message ${payload.type}`);
+            this._getAck$.next();
+            break;
+          default:
+            console.log(`Unknown message ${payload.type}`)
         }
 
       }
@@ -89,6 +110,10 @@ export class GameService {
         }
         case "PHASE_NIGHTFALL": {
           this._currentPhase$.next(Phases.NIGHT_FALL);
+          break;
+        }
+        case "PHASE_WAKEUP": {
+          this._currentPhase$.next(Phases.WAKEUP);
           break;
         }
         default: {

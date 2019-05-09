@@ -6,5 +6,6 @@
 <role-phase [playerRole]="playerRole" (ackEmitter)="sendAck()" *ngIf="shouldDisplayRolePhase()"></role-phase>
 <day-phase *ngIf="shouldDisplayDayPhase()"></day-phase>
 <app-werewolf-phase *ngIf="shouldDisplayWerewolfPhase()"></app-werewolf-phase>
-<app-night-fall-phase *ngIf="shouldDisplayNightfallPhase()"></app-night-fall-phase>
-<app-wake-up-phase [deadVillagers]="deadVillagers" *ngIf="shouldDisplayWakeUpPhase()"></app-wake-up-phase>
+<app-night-fall-phase *ngIf="shouldDisplayNightfallPhase()" (ackEmitter)="sendAck()"></app-night-fall-phase>
+<app-wake-up-phase [deadVillagers]="dyingPlayers" (ackEmitter)="sendAck()"
+                   *ngIf="shouldDisplayWakeUpPhase()"></app-wake-up-phase>
