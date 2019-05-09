@@ -19,7 +19,7 @@ export class MessageService {
     this._mqttService.unsafePublish(topic, message);
   }
 
-  public subscribePlayer(game: Game, player: Player): Observable<IMqttMessage> {
+  public subscribeToPlayer(game: Game, player: Player): Observable<IMqttMessage> {
     let topic = `${game.name}/${player.identity.name}`;
     return this._mqttService.observe(topic);
   }
