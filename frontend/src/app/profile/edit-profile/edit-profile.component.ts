@@ -4,6 +4,8 @@ import {Profile} from "../../shared/model/dtos";
 import {ProfileService} from "../../shared/profile.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ToastrService} from "ngx-toastr";
+import {AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask} from "@angular/fire/storage";
+import {Task} from "protractor/built/taskScheduler";
 
 @Component({
   selector: 'app-edit-profile',
@@ -11,14 +13,16 @@ import {ToastrService} from "ngx-toastr";
   styleUrls: ['./edit-profile.component.scss']
 })
 export class EditProfileComponent implements OnInit {
-
+  task: AngularFireUploadTask;
+  ref: AngularFireStorageReference;
   profile: Profile;
 
-  constructor(private router: Router, private  profileService: ProfileService, private toasterService: ToastrService) {
+  constructor(private router: Router, private  profileService: ProfileService, private toasterService: ToastrService, private afStorage: AngularFireStorage) {
+
   }
 
   ngOnInit() {
-    this.profile = this.profileService.getLoggedInProfile();
+    this.profile = this.profileService.;
   }
 
   saveProfile() {
@@ -38,4 +42,11 @@ export class EditProfileComponent implements OnInit {
       });
     return false;
   }
+
+  upload(event) {
+    const randomId = Math.random().toString(36).substring(2);
+    this.ref = this.afStorage.ref(randomId);
+    this.task = this.ref.put(event.target.files[0]);
+  }
+
 }

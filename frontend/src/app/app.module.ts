@@ -26,6 +26,10 @@ import { WerewolfPhaseComponent } from './gamecontent/werewolf-phase/werewolf-ph
 import { ProfileComponent } from './profile/profile.component';
 import { EditProfileComponent } from './profile/edit-profile/edit-profile.component';
 import {MatCardModule} from "@angular/material";
+import * as firebase from "firebase";
+import Firestore = firebase.firestore.Firestore;
+import {AngularFireStorage, AngularFireStorageModule} from "@angular/fire/storage";
+import {AngularFireModule} from "@angular/fire";
 
 export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
   hostname: 'm24.cloudmqtt.com',
@@ -49,7 +53,7 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     WerewolfPhaseComponent,
     GamecontentComponent,
     ProfileComponent,
-    EditProfileComponent
+    EditProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,6 +66,8 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
     ToastrModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireStorageModule
   ],
   providers: [
     IsLoggedInGuard,

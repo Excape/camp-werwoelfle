@@ -5,6 +5,7 @@
         <input id="name" type="text" placeholder="Name" matInput [(ngModel)]="profile.identity.name">
     </mat-form-field>
   </mat-card-content>
+  <input type="file" (change)="upload($event)" accept=".png,.jpg" />
   <mat-card-actions>
     <button mat-button color="primary" (click)="saveProfile()">Save</button>
   </mat-card-actions>
