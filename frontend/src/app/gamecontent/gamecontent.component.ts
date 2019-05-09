@@ -1,6 +1,4 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {MessageService} from "../shared/message.service";
-import {IMqttMessage} from "ngx-mqtt";
 import {Subscription} from "rxjs";
 import {Phases, Role} from "../shared/model/dtos";
 import {GameService} from "../shared/game.service";
@@ -24,6 +22,7 @@ export class GamecontentComponent implements OnInit, OnDestroy {
     this._gameService.currentPhase().subscribe(phase => {
       this.activePhase = phase;
     });
+    this.activePhase = Phases.WEREWOLF;
     this.playerRole = Role.VILLAGER;
   }
 
