@@ -1,7 +1,5 @@
 package ch.zuehlke.camp.werewolf.controllers
 
-import ch.zuehlke.camp.werewolf.domain.Game
-import ch.zuehlke.camp.werewolf.domain.Role
 import ch.zuehlke.camp.werewolf.service.LobbyService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -22,6 +20,15 @@ class GameController(val lobbyService: LobbyService) {
             player.identity.name == playerName
         };
         return player?.role?: ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST)
+    }
+
+    @GetMapping("{gameName}/{playerName}/")
+    fun getPlayer(@PathVariable("gameName") gameName: String, @PathVariable("playerName") playerName: String): Any {
+        val game = lobbyService.findGame(gameName);
+        val player = game.players.firstOrNull { player ->
+            player.identity.name == playerName
+        };
+        return player?: ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST)
     }
 
 }

@@ -51,7 +51,8 @@ export class LobbyComponent implements OnInit {
   }
 
   startGame(game: Game) {
-    this.lobbyService.startGame(game).subscribe(value => console.log(value));
+    this.lobbyService.startGame(game).subscribe(value =>
+      console.log(value));
   }
 
   alreadyJoined(game: Game) {
