@@ -10,7 +10,7 @@ import {GameService} from "../shared/game.service";
 export class GameContentComponent implements OnInit, OnDestroy {
 
   messages: string[] = [];
-  activePhase : Phases;
+  activePhase: Phases;
   playerRole: Role;
   dyingPlayers: Player[];
   voting: Voting;
@@ -26,6 +26,10 @@ export class GameContentComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this._gameService.currentPhase().unsubscribe();
+    this._gameService.currentRole().unsubscribe();
+    this._gameService.dyingPlayers().unsubscribe();
+    this._gameService.voting().unsubscribe();
   }
 
   shouldDisplayRolePhase(): boolean {
