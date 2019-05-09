@@ -16,12 +16,9 @@ abstract class Phase(val allPlayers: List<Player>) {
 
     val alivePlayers get() = allPlayers.filter { it.playerState == PlayerState.ALIVE }
 
-    protected fun killOffVotedPlayers(players: List<Player>, killedBy: Role) {
+    protected fun killOffVotedPlayers(players: List<Player>) {
         players.forEach {
-            it.playerState = when (killedBy) {
-                Role.WEREWOLF -> PlayerState.DYING
-                else -> PlayerState.DEAD
-            }
+            it.playerState = PlayerState.DYING
         }
     }
 }
@@ -91,7 +88,7 @@ class WerewolfPhase(
         val voting = createVoting(werewolves, villagers)
         val votingResult = votingService.startVoting(gameName, voting)
 
-        killOffVotedPlayers(votingResult.electedPlayers, Role.WEREWOLF)
+        killOffVotedPlayers(votingResult.electedPlayers)
     }
 
     private fun createVoting(
@@ -148,14 +145,9 @@ class DayPhase(
         val votingResult = votingService.startVoting(gameName, voting)
 
         val dyingPlayers = votingResult.electedPlayers
-        killOffVotedPlayers(dyingPlayers, Role.VILLAGER)
+        killOffVotedPlayers(dyingPlayers)
 
-        communicationService.communicate(
-            gameName,
-            DeadPlayersOutboundMessage(dyingPlayers.toList()),
-            InboundType.ACK,
-            allPlayers
-        )
+
     }
 
     override fun isActive(): Boolean {
@@ -180,7 +172,14 @@ class ExecutionPhase(
     allPlayers: List<Player>
 ) : Phase(allPlayers) {
     override fun execute() {
-        communicationService.communicate(gameName, GetAckOutboundMessage(), InboundType.ACK, allPlayers)
+        val dyingPlayers = allPlayers.filter { it.playerState == PlayerState.DYING }
+        communicationService.communicate(
+            gameName,
+            DeadPlayersOutboundMessage(dyingPlayers),
+            InboundType.ACK,
+            allPlayers
+        )
+        dyingPlayers.forEach { it.playerState = PlayerState.DEAD }
     }
 
     override fun isActive(): Boolean {
