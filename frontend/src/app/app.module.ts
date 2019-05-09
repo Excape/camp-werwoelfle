@@ -26,7 +26,8 @@ import {WerewolfPhaseComponent} from './gamecontent/werewolf-phase/werewolf-phas
 import {ProfileComponent} from './profile/profile.component';
 import {EditProfileComponent} from './profile/edit-profile/edit-profile.component';
 import {MatCardModule} from "@angular/material";
-import {GameOverComponent} from './game-over/game-over.component';
+import { GameOverComponent } from './game-over/game-over.component';
+import {MatFileUploadModule} from "angular-material-fileupload";
 import {WakeUpPhaseComponent} from './gamecontent/wake-up-phase/wake-up-phase.component';
 import {SpinnerComponent} from './shared/spinner/spinner.component';
 import {NightFallPhaseComponent} from './gamecontent/night-fall-phase/night-fall-phase.component';
@@ -74,6 +75,7 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
     ToastrModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
+    MatFileUploadModule
     // AngularFireModule.initializeApp(environment.firebaseConfig),
     // AngularFireStorageModule
   ],

@@ -1,5 +1,6 @@
 package ch.zuehlke.camp.werewolf.service
 
+import ch.zuehlke.camp.werewolf.domain.Picture
 import ch.zuehlke.camp.werewolf.domain.Profile
 import ch.zuehlke.camp.werewolf.repository.ProfileRepository
 import org.hibernate.ObjectNotFoundException
@@ -35,8 +36,8 @@ class ProfileService {
         } else {
             null
         }
-
     }
+
 
     private fun secureProfile(profile: Profile, salt: ByteArray?) {
         if (profile.password_plain == null) {
@@ -72,5 +73,9 @@ class ProfileService {
         secureProfile(profile, profiles.first().salt)
 
         return profile == profiles.first()
+    }
+
+    fun savePicture(picture: String) {
+        this.repository
     }
 }
