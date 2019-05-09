@@ -28,7 +28,7 @@ export class LobbyComponent implements OnInit {
   }
 
   fetchGames() {
-    this.lobbyService.getGames().subscribe(games => this.games = games)
+    this.lobbyService.getGames().subscribe(games => this.games = games.filter(game => !game.isRunning))
   }
 
   createGame() {

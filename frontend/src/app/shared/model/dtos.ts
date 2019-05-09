@@ -3,6 +3,7 @@ export interface Game {
   players: Player[]
   phases: Set<Phase>
   currentPhase: Phase
+  isRunning: boolean
 }
 
 export interface Player {

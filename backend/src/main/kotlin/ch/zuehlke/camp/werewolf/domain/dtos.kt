@@ -1,9 +1,10 @@
 package ch.zuehlke.camp.werewolf.domain
+
 import kotlinx.serialization.Serializable
 import javax.persistence.*
 
 @Serializable
-data class Player(val identity: Identity){
+data class Player(val identity: Identity) {
     var playerState: PlayerState? = null
     var role: Role? = null
 }
@@ -17,12 +18,14 @@ data class Identity(val name: String) {
 
 @Entity
 @Table
-data class Profile(@Embedded val identity: Identity,
-                   var password_plain: String?,
-                   var password_encrypted: ByteArray?,
-                   var salt: ByteArray?,
-                   @Id @GeneratedValue(strategy = GenerationType.AUTO)
-                   val id: Long = -1){
+data class Profile(
+    @Embedded val identity: Identity,
+    var password_plain: String?,
+    var password_encrypted: ByteArray?,
+    var salt: ByteArray?,
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    val id: Long = -1
+) {
     // do not remove this, used by hibernate as default constructor
     private constructor() : this(Identity(""), "", ByteArray(0), ByteArray(0))
 
@@ -34,8 +37,14 @@ data class Profile(@Embedded val identity: Identity,
 
         if (identity.name != other.identity.name) return false
         if (password_plain != other.password_plain) return false
-        if (password_encrypted?.zip(other.password_encrypted ?:ByteArray(0))?.map { (b1,b2) -> b1.toInt() == b2.toInt() }?.contains(false) == true) return false
-        if (salt?.zip(other.salt ?:ByteArray(0))?.map { (b1,b2) -> b1.toInt() == b2.toInt() }?.contains(false) == true) return false
+        if (password_encrypted?.zip(
+                other.password_encrypted ?: ByteArray(0)
+            )?.map { (b1, b2) -> b1.toInt() == b2.toInt() }?.contains(false) == true
+        ) return false
+        if (salt?.zip(
+                other.salt ?: ByteArray(0)
+            )?.map { (b1, b2) -> b1.toInt() == b2.toInt() }?.contains(false) == true
+        ) return false
 
         return true
     }
@@ -49,12 +58,35 @@ data class Profile(@Embedded val identity: Identity,
 
 @Serializable
 data class Voting(
-    val votes: List<Vote> = mutableListOf(),
-    val votedPlayers: List<Player> = mutableListOf()
-)
+    val voters: List<Player>,
+    val candidates: List<Player>,
+    val votesPerPlayer: Int,
+    val numberOfSeats: Int
+) {
+    fun calculateElection(votes: List<Vote>): Set<Player> {
+        val validVotes = votes.filter(this::isValidVote)
+        // TODO count votes
+        return setOf(votes.first().voteFor.first())
+    }
+
+    private fun isValidVote(vote: Vote): Boolean {
+        return voters.contains(vote.voteOf) &&
+                vote.voteFor.size == votesPerPlayer &&
+                vote.voteFor.all { candidates.contains(it) }
+    }
+}
 
 @Serializable
-data class Vote(val voteOf: Player, val voteFor: List<Player>)
+data class Vote(
+    val voteOf: Player,
+    val voteFor: List<Player>
+)
+
+data class VotingResult(
+    val electedPlayers: Set<Player>,
+    val auditors: Set<Player>,
+    val showRoles: Boolean
+)
 
 enum class PlayerState {
     ALIVE, DYING, DEAD
