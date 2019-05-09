@@ -15,8 +15,10 @@ export class RolePhaseComponent implements OnInit, OnChanges {
   @Input() playerRole: Role;
 
   @Output() ackEmitter = new EventEmitter();
+  private confirmed = false;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
 
@@ -27,6 +29,7 @@ export class RolePhaseComponent implements OnInit, OnChanges {
   }
 
   confirm() {
+    this.confirmed = true;
     this.ackEmitter.emit()
   }
 

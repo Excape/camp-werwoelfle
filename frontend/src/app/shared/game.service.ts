@@ -86,8 +86,12 @@ export class GameService {
           this._currentPhase$.next(Phases.WEREWOLF);
           break;
         }
+        case "PHASE_NIGHTFALL": {
+          this._currentPhase$.next(Phases.NIGHT_FALL);
+          break;
+        }
         default: {
-          console.log("could not match phase");
+          console.log("could not match phase: " + payload);
           break;
         }
       }
@@ -100,14 +104,14 @@ export class GameService {
     return this.httpClient.get<Role>(roleUrl);
   }
 
-  getGame(): Game{
+  getGame(): Game {
     return this.game;
   }
 
-  getPlayerFor(playerName: string) : Observable<Player>{
+  getPlayerFor(playerName: string): Observable<Player> {
     let gameName = this.getGame().name;
     let playerUrl = `${this.profileUrl}/${gameName}/${playerName}`;
 
-   return this.httpClient.get<Player>(playerUrl);
+    return this.httpClient.get<Player>(playerUrl);
   }
 }

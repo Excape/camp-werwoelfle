@@ -10,6 +10,7 @@
     </p>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-raised-button (click)="confirm()" color="accent">Confirm</button>
+    <button mat-raised-button (click)="confirm()" color="accent" *ngIf="!confirmed">Confirm</button>
+    <app-spinner *ngIf="confirmed"></app-spinner>
   </mat-card-actions>
 </mat-card>
