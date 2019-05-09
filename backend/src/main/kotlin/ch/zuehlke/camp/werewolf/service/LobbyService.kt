@@ -31,7 +31,7 @@ class LobbyService(val gameService: GameService, val gameFactory: GameFactory) {
         gameService.runGame(game)
     }
 
-    private fun findGame(name: String): Game {
+    fun findGame(name: String): Game {
         return games.find { game -> game.name == name } ?: throw IllegalArgumentException("Game $name not found")
     }
 }
