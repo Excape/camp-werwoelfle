@@ -1,5 +1,5 @@
 import {GameService} from "./game.service";
-import {Game, Player, Role, PlayerState, Vote} from "./model/dtos";
+import {Game, Player, PlayerState, Role, Vote} from "./model/dtos";
 import {Observable, of, Subscription} from "rxjs";
 import {IMqttMessage} from "ngx-mqtt";
 import {MessageService} from "./message.service";
@@ -35,18 +35,35 @@ const profileServiceMock = {}
 
 describe('GameService', () => {
   it('Should correctly parse enum', () => {
-    const spy: MessageService = jasmine.createSpyObj('MessageService', ['publishVote' ]);
+    const spy: MessageService = jasmine.createSpyObj('MessageService', ['publishVote']);
     const s = new GameService(spy, null, null, null);
     s.sendVote([<Player>{
       checked: true,
-      role: Role.WEREWOLF,
+      role: Role.VILLAGER,
       identity: {
         name: ""
       },
       state: PlayerState.ALIVE
     }])
 
-    expect(spy.publishVote)
+    expect(spy.publishVote).toHaveBeenCalled()
+
+  })
+
+  it('Should correctly parse enum', () => {
+    const spy: MessageService = jasmine.createSpyObj('MessageService', ['publishAck']);
+    const s = new GameService(spy, null, null, null);
+    s.currentPlayer = <Player>{
+      checked: true,
+      role: Role.VILLAGER,
+      identity: {
+        name: ""
+      },
+      state: PlayerState.ALIVE
+    }
+    s.sendAck();
+
+    expect(spy.publishAck).toHaveBeenCalled()
 
   })
 });

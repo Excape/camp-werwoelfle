@@ -18,7 +18,7 @@ export class VotingComponent implements OnInit {
     this.question = this.getQuestion()
   }
 
-  getNumberOfCurrentVotedPlayers(): number {
+  getNumberOfCurrentlyVotedPlayers(): number {
     return this.voting.candidates.filter(player => player.checked).map(player => player).length
   }
 

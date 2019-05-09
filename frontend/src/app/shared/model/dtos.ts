@@ -52,7 +52,7 @@ export enum PlayerState {
 }
 
 export enum Role {
-  WEREWOLF, VILLAGER
+  WEREWOLF = "WEREWOLF", VILLAGER = "VILLAGER"
 }
 
 export enum OutboundMessage {
