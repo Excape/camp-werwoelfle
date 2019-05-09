@@ -15,11 +15,11 @@ data class RoleOutboundMessage(val role: Role) : OutboundMessage(ROLE, RoleOutbo
 data class VotingOutboundMessage(val voting: Voting) : OutboundMessage(VOTING, VotingOutboundMessage.serializer())
 
 @Serializable
-data class WakeUpOutboundMessage(val dyingPlayers: List<Player>) : OutboundMessage(WAKE_UP, WakeUpOutboundMessage.serializer())
+data class DeadPlayersOutboundMessage(val dyingPlayers: List<Player>) : OutboundMessage(DEAD_PLAYERS, DeadPlayersOutboundMessage.serializer())
 
 @Serializable
 class GetAckOutboundMessage : OutboundMessage(GET_ACK, GetAckOutboundMessage.serializer())
 
 enum class OutboundType {
-    ROLE, VOTING, WAKE_UP, GET_ACK
+    ROLE, VOTING, DEAD_PLAYERS, GET_ACK
 }

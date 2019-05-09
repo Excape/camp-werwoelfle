@@ -56,5 +56,5 @@ export enum Role {
 }
 
 export enum OutboundMessage {
-  ROLE, VOTING, WAKE_UP, GET_ACK
+  ROLE, VOTING, DEAD_PLAYERS, GET_ACK
 }

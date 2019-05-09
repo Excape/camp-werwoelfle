@@ -10,15 +10,18 @@ abstract class Phase(val allPlayers: List<Player>) {
     abstract fun sendStartPhaseCommand()
 
     fun getAlivePlayersWithRole(role: Role): List<Player> {
-        return getAlivePlayers()
+        return alivePlayers
             .filter { it.role == role }
     }
 
-    fun getAlivePlayers() = allPlayers.filter(Player::isAlive)
+    val alivePlayers get() = allPlayers.filter(Player::isAlive)
 
-    protected fun killOffVotedPlayers(players: Set<Player>) {
+    protected fun killOffVotedPlayers(players: Set<Player>, killedBy: Role) {
         players.forEach {
-            it.playerState = PlayerState.DYING
+            it.playerState = when(killedBy) {
+                Role.WEREWOLF -> PlayerState.DYING
+                else -> PlayerState.DEAD
+            }
         }
     }
 }
@@ -77,7 +80,7 @@ class WerewolfPhase(
     }
 
     override fun isActive(): Boolean {
-        return getAlivePlayers()
+        return alivePlayers
             .any { it.role == Role.WEREWOLF }
     }
 
@@ -86,9 +89,9 @@ class WerewolfPhase(
         val villagers = allPlayers.filter { !werewolves.contains(it) }
 
         val voting = createVoting(werewolves, villagers)
-        val votingResult = votingService.startVote(gameName, voting)
+        val votingResult = votingService.startVoting(gameName, voting)
 
-        killOffVotedPlayers(votingResult.electedPlayers)
+        killOffVotedPlayers(votingResult.electedPlayers, Role.WEREWOLF)
     }
 
     private fun createVoting(
@@ -115,7 +118,7 @@ class WakeUpPhase(
 
     override fun execute() {
         val dyingPlayers = allPlayers.filter { it.playerState == PlayerState.DYING }
-        communicationService.communicate(gameName, WakeUpOutboundMessage(dyingPlayers), InboundType.ACK, allPlayers)
+        communicationService.communicate(gameName, DeadPlayersOutboundMessage(dyingPlayers), InboundType.ACK, allPlayers)
         dyingPlayers.forEach { it.playerState = PlayerState.DEAD }
     }
 
@@ -128,6 +131,7 @@ class WakeUpPhase(
 class DayPhase(
     private val gameName: String,
     private val communicationService: CommunicationService,
+    private val votingService: VotingService,
     allPlayers: List<Player>
 ) : Phase(allPlayers) {
     override fun sendStartPhaseCommand() {
@@ -135,10 +139,32 @@ class DayPhase(
     }
 
     override fun execute() {
-        // TODO: Let all alive players vote on who to kill
+        val voting = createVoting(alivePlayers)
+        val votingResult = votingService.startVoting(gameName, voting)
+
+        val dyingPlayers = votingResult.electedPlayers
+        killOffVotedPlayers(dyingPlayers, Role.VILLAGER)
+
+        communicationService.communicate(
+            gameName,
+            DeadPlayersOutboundMessage(dyingPlayers.toList()),
+            InboundType.ACK,
+            alivePlayers
+        )
     }
 
     override fun isActive(): Boolean {
         return true
+    }
+
+    private fun createVoting(
+        villagers: List<Player>
+    ): Voting {
+        return Voting(
+            voters = villagers,
+            candidates = villagers,
+            votesPerPlayer = 1,
+            numberOfSeats = 1
+        )
     }
 }

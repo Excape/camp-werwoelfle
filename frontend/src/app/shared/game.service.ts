@@ -72,8 +72,8 @@ export class GameService {
             console.log(`message ${payload.type}: ${payload.voting}`);
             this._voting$.next(<Voting>payload.voting);
             break;
-          case OutboundMessage.WAKE_UP:
-            console.log(`message ${payload.type}: ${payload.role}`);
+          case OutboundMessage.DEAD_PLAYERS:
+            console.log(`message ${payload.type}: ${payload.dyingPlayers}`);
             let dyingPlayers = payload.dyingPlayers;
             this._dyingPlayers$.next(dyingPlayers);
             break;

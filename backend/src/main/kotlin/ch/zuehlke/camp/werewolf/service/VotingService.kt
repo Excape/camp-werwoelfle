@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 @Service
 class VotingService(private val communicationService: CommunicationService) {
 
-    fun startVote(gameName: String, voting: Voting): VotingResult {
+    fun startVoting(gameName: String, voting: Voting): VotingResult {
         val outboundMessage = VotingOutboundMessage(voting)
         val voteMessages = communicationService.communicate(gameName, outboundMessage, InboundType.VOTE, voting.voters)
         val votes = extractVotes(voteMessages)
