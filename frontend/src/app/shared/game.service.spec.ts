@@ -43,7 +43,7 @@ describe('GameService', () => {
       identity: {
         name: ""
       },
-      state: PlayerState.ALIVE
+      playerState: PlayerState.ALIVE
     }])
 
     expect(spy.publishVote).toHaveBeenCalled()

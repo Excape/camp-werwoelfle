@@ -14,7 +14,7 @@ abstract class Phase(val allPlayers: List<Player>) {
             .filter { it.role == role }
     }
 
-    val alivePlayers get() = allPlayers.filter(Player::isAlive)
+    val alivePlayers get() = allPlayers.filter{it.playerState == PlayerState.ALIVE}
 
     protected fun killOffVotedPlayers(players: Set<Player>, killedBy: Role) {
         players.forEach {

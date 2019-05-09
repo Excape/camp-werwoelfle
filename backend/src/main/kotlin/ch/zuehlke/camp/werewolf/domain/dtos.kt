@@ -8,7 +8,6 @@ data class Player(val identity: Identity) {
     val checked = false
     var playerState: PlayerState? = PlayerState.ALIVE
     var role: Role? = null
-    fun isAlive() = playerState == PlayerState.ALIVE
 }
 
 @Embeddable

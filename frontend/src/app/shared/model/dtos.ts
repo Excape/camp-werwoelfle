@@ -12,7 +12,7 @@ export enum GameState {
 
 export interface Player {
   identity: Identity
-  state: PlayerState
+  playerState: PlayerState
   role: Role
   checked?: boolean
 }

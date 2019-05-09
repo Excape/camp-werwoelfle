@@ -24,7 +24,7 @@ describe('PlayerListComponent', () => {
           name: "Albert"
         },
         role: Role.WEREWOLF,
-        state: PlayerState.ALIVE
+        playerState: PlayerState.ALIVE
       }]
     };
     fixture.detectChanges();

@@ -29,7 +29,7 @@ export class GameOverComponent implements OnInit {
       identity: {
         name: 'alina'
       },
-      state: PlayerState.ALIVE,
+      playerState: PlayerState.ALIVE,
       role: Role.VILLAGER,
       checked: false
     };
