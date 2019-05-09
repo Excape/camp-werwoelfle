@@ -15,7 +15,7 @@ class RoleService {
 
     fun generateRoles(allPlayers: List<Player>) {
         val countPlayers = allPlayers.size
-        val countWerewolf = countPlayers / 2 - 1
+        val countWerewolf = Math.min(countPlayers / 2 - 1, 0)
         allPlayers.shuffled().subList(0,countWerewolf).forEach {
             it.role = Role.WEREWOLF
         }
