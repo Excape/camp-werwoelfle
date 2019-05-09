@@ -7,6 +7,6 @@
 <day-phase *ngIf="shouldDisplayDayPhase()" [voting]="voting"></day-phase>
 <app-werewolf-phase *ngIf="shouldDisplayWerewolfPhase()" [voting]="voting" (electedPlayersEmitter)="electPlayers($event)"></app-werewolf-phase>
 <app-night-fall-phase *ngIf="shouldDisplayNightfallPhase()" (ackEmitter)="sendAck()"></app-night-fall-phase>
-<app-wake-up-phase [deadVillagers]="dyingPlayers" (ackEmitter)="sendAck()">
+<app-wake-up-phase [deadVillagers]="dyingPlayers" (ackEmitter)="sendAck()" *ngIf="shouldDisplayWakeUpPhase()">
 
 </app-wake-up-phase>
