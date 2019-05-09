@@ -15,7 +15,7 @@ export class RolePhaseComponent implements OnInit, OnChanges {
   @Input() playerRole: Role;
 
   @Output() ackEmitter = new EventEmitter();
-  private confirmed = false;
+  confirmed = false;
 
   constructor() {
   }
