@@ -27,6 +27,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { EditProfileComponent } from './profile/edit-profile/edit-profile.component';
 import {MatCardModule} from "@angular/material";
 import { GameOverComponent } from './game-over/game-over.component';
+import { WakeUpPhaseComponent } from './gamecontent/wake-up-phase/wake-up-phase.component';
 // import * as firebase from "firebase";
 // import Firestore = firebase.firestore.Firestore;
 // import {AngularFireStorage, AngularFireStorageModule} from "@angular/fire/storage";
@@ -55,7 +56,8 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     GamecontentComponent,
     ProfileComponent,
     EditProfileComponent,
-    GameOverComponent
+    GameOverComponent,
+    WakeUpPhaseComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {AudioService} from "../../shared/audio.service";
 
 @Component({
   selector: 'day-phase',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DayPhaseComponent implements OnInit {
 
-  constructor() { }
+  constructor(private audioService: AudioService) { }
 
   ngOnInit() {
+    this.audioService.playAudio("../../../assets/sound/day-phase.wav");
   }
 
 }
