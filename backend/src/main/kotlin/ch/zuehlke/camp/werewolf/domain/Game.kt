@@ -5,6 +5,8 @@ class Game(
     val players: MutableList<Player>,
     private val phases: List<Phase>
 ) {
+    var isRunning = false
+
     fun run() {
         do {
             phases.forEach { phase ->
@@ -16,7 +18,7 @@ class Game(
         } while (!isGameOver())
     }
 
-    // TODO: add condition for victory of armor couple
+    // TODO: add condition for victory of amor couple
     private fun isGameOver(): Boolean {
         val numberOfVillagers = players.filter { player -> player.role == Role.VILLAGER }.count()
         val numberOfDeadVillagers =
@@ -28,6 +30,6 @@ class Game(
         val allVillagersDead = numberOfDeadVillagers >= numberOfVillagers;
         val allWerewolvesDead = numberOfDeadWerewolves >= numberOfWerewolves;
 
-        return allVillagersDead || allWerewolvesDead;
+        return allVillagersDead || allWerewolvesDead
     }
 }
