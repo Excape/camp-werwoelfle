@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {IMqttMessage, MqttService} from "ngx-mqtt";
-import {Game, Player} from "./model/dtos";
+import {Game, Player, Vote} from "./model/dtos";
 import {Observable} from "rxjs";
 
 @Injectable({
@@ -22,6 +22,12 @@ export class MessageService {
   public publishAck(game: Game, player: Player) {
     let message = JSON.stringify({"type": "ACK"});
     let topic = `${game.name}/${player.identity.name}/ACK`;
+    this.publish(topic, message)
+  }
+
+  public publishVote(game: Game, player: Player, vote: Vote){
+    let message = JSON.stringify({"type": "VOTE", vote: vote});
+    let topic = `${game.name}/${player.identity.name}/VOTE`;
     this.publish(topic, message)
   }
 

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Identity, Player, Role, State} from "../shared/model/dtos";
+import {Player, Role, State} from "../shared/model/dtos";
 import {GameService} from "../shared/game.service";
 import {ProfileService} from "../shared/profile.service";
 
@@ -25,7 +25,7 @@ export class GameOverComponent implements OnInit {
     //     this.player = player;
     //   }
 
-    this.player  = {
+    this.player = {
       identity: {
         name: 'alina'
       },
@@ -54,4 +54,13 @@ export class GameOverComponent implements OnInit {
   hasWon(): Boolean {
     return this.player.role === this.roleThatWon;
   };
+
+  parseRole() {
+    switch (this.roleThatWon) {
+      case Role.WEREWOLF:
+        return "Werewolves";
+      case Role.VILLAGER:
+        return "Villagers";
+    }
+  }
 }

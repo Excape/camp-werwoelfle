@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Game, OutboundMessage, Phases, Player, Role} from "./model/dtos";
+import {Game, OutboundMessage, Phases, Player, Role, Vote, Voting} from "./model/dtos";
 import {IMqttMessage} from "ngx-mqtt";
 import {MessageService} from "./message.service";
 import {Router} from "@angular/router";
@@ -16,9 +16,10 @@ export class GameService {
   private _currentRole$: Subject<Role> = new Subject();
   private _dyingPlayers$: Subject<Player[]> = new Subject();
   private _getAck$: Subject<void> = new Subject();
+  private _voting$: Subject<Voting> = new Subject();
   profileUrl = 'api/v1/game';
-  private game: Game;
   currentPlayer: Player;
+  private game: Game;
   private _gameSubscription: Subscription;
 
 
@@ -36,6 +37,10 @@ export class GameService {
 
   getAck(): Subject<void> {
     return this._getAck$;
+  }
+
+  voting(): Subject<Voting> {
+    return this._voting$;
   }
 
   constructor(private messageService: MessageService,
@@ -65,6 +70,7 @@ export class GameService {
             break;
           case OutboundMessage.VOTING:
             console.log(`message ${payload.type}: ${payload.voting}`);
+            this._voting$.next(<Voting>payload.voting);
             break;
           case OutboundMessage.WAKE_UP:
             console.log(`message ${payload.type}: ${payload.role}`);
@@ -85,6 +91,14 @@ export class GameService {
 
   sendAck() {
     this.messageService.publishAck(this.game, this.currentPlayer)
+  }
+
+  sendVote($event: Player[]) {
+    const vote = <Vote>{
+      voteFor: $event,
+      voteOf: this.currentPlayer
+    };
+    this.messageService.publishVote(this.game, this.currentPlayer, vote)
   }
 
   private handleStart(payload) {
@@ -146,4 +160,6 @@ export class GameService {
       this._gameSubscription.unsubscribe();
     }
   }
+
+
 }

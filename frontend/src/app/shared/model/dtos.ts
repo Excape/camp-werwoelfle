@@ -41,23 +41,18 @@ export interface Vote {
 
 export interface Voting {
   voters: Player[]
-  votees: Player[]
-  numberOfVotesPerVoter: number
-  votingResult?: VotingResult
+  candidates: Player[]
+  votesPerPlayer: number
+  numberOfSeats: number
 }
 
-export interface VotingResult {
-  auditors: Player[]
-  elected: Player[]
-  showRoles: Boolean
-}
 
 export enum State {
   DEAD, ASLEEP, AWAKE
 }
 
 export enum Role {
-  WEREWOLF="Werewolf", VILLAGER="Villager"
+  WEREWOLF, VILLAGER
 }
 
 export enum OutboundMessage {
