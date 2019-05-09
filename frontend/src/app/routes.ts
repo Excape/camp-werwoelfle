@@ -7,7 +7,7 @@ import {LoginScreenGuard} from "./login-screen.guard";
 import {VotingComponent} from "./gamecontent/voting/voting.component";
 import {ProfileComponent} from "./profile/profile.component";
 import {EditProfileComponent} from "./profile/edit-profile/edit-profile.component";
-import {GameOverComponent} from "./game-over/game-over.component";
+import {GameOverComponent} from "./gamecontent/game-over/game-over.component";
 
 export const routes: Routes = [
   {path: 'login', component: LoginComponent, canActivate: [LoginScreenGuard]},

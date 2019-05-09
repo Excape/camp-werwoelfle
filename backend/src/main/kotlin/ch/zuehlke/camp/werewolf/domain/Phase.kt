@@ -192,3 +192,28 @@ class ExecutionPhase(
     }
 
 }
+
+class GameOverPhase(
+    private val gameName: String,
+    private val communicationService: CommunicationService,
+    allPlayers: List<Player>
+) : Phase(allPlayers) {
+
+    override fun isActive(): Boolean {
+        return allPlayers.allWerewolvesAreDead() || allPlayers.allVillagesAreDead()
+    }
+
+    override fun sendStartPhaseCommand() {
+        communicationService.sendGameCommand(gameName, GameCommand.PHASE_GAME_OVER)
+    }
+
+    override fun execute() {
+        val winningRole = if (allPlayers.allVillagesAreDead()) {
+            Role.WEREWOLF
+        } else {
+            Role.VILLAGER
+        }
+        communicationService.communicate(gameName, GameOverOutboundMessage(winningRole), InboundType.ACK, allPlayers)
+    }
+
+}

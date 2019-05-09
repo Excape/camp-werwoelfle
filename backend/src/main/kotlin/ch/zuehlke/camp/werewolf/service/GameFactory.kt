@@ -26,7 +26,8 @@ class GameFactory(
             WerewolfPhase(gameName, communicationService, votingService, allPlayers),
             WakeUpPhase(gameName, communicationService, allPlayers),
             DayPhase(gameName, communicationService, votingService, allPlayers),
-            ExecutionPhase(gameName, communicationService, allPlayers)
+            ExecutionPhase(gameName, communicationService, allPlayers),
+            GameOverPhase(gameName, communicationService, allPlayers)
         )
         // TODO: add new Phases here!
 

@@ -20,16 +20,6 @@ class Game(
 
     // TODO: add condition for victory of amor couple
     private fun isGameOver(): Boolean {
-        val numberOfVillagers = players.filter { player -> player.role == Role.VILLAGER }.count()
-        val numberOfDeadVillagers =
-            players.filter { player -> player.role == Role.VILLAGER && player.playerState == PlayerState.DEAD }.count()
-        val numberOfWerewolves = players.filter { player -> player.role == Role.WEREWOLF }.count()
-        val numberOfDeadWerewolves =
-            players.filter { player -> player.role == Role.WEREWOLF && player.playerState == PlayerState.DEAD }.count()
-
-        val allVillagersDead = numberOfDeadVillagers >= numberOfVillagers;
-        val allWerewolvesDead = numberOfDeadWerewolves >= numberOfWerewolves;
-
-        return allVillagersDead || allWerewolvesDead
+        return players.allVillagesAreDead() || players.allWerewolvesAreDead()
     }
 }
