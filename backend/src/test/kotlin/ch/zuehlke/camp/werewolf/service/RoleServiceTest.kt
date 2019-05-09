@@ -9,8 +9,7 @@ class RoleServiceTest {
 
     @Test
     fun getCorrectAmountOfWerewolves() {
-        val game = Game(
-            GameState.CREATED, "Game", mutableListOf(
+        val game = Game(GameState.CREATED, "Game", mutableListOf(
                 Player(Identity("Alina")),
                 Player(Identity("Reto")),
                 Player(Identity("Andres")),
