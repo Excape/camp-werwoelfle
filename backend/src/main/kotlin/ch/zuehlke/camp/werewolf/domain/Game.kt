@@ -9,6 +9,7 @@ class Game(
         while (!isGameOver()) {
             phases.forEach { phase ->
                 if (phase.isActive()) {
+                    phase.sendStartPhaseCommand()
                     phase.execute()
                 }
             }
