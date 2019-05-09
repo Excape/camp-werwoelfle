@@ -38,4 +38,8 @@ export class GamecontentComponent implements OnInit, OnDestroy {
   shouldDisplayWerewolfPhase() {
     return this.activePhase == Phases.WEREWOLF;
   }
+
+  sendAck() {
+    this._gameService.sendAck();
+  }
 }

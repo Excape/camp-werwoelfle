@@ -61,6 +61,10 @@ export class GameService {
     );
   }
 
+  sendAck() {
+    this.messageService.publishAck(this.game, this.currentPlayer)
+  }
+
   private handleStart(payload) {
     if (payload.startsWith("START")) {
       this.router.navigateByUrl('content')

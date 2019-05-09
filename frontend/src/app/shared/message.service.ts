@@ -19,6 +19,12 @@ export class MessageService {
     this._mqttService.unsafePublish(topic, message);
   }
 
+  public publishAck(game: Game, player: Player) {
+    let message = JSON.stringify({"type": "ACK"});
+    let topic = `${game.name}/${player.identity.name}/ACK`;
+    this.publish(topic, message)
+  }
+
   public subscribeToPlayer(game: Game, player: Player): Observable<IMqttMessage> {
     let topic = `${game.name}/${player.identity.name}`;
     return this._mqttService.observe(topic);
