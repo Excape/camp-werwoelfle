@@ -1,11 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable} from "rxjs";
-import {Game, Profile} from "../shared/model/dtos";
+import {Game, Player, Profile} from "../shared/model/dtos";
 import {LobbyService} from "./lobby.service";
 import {MessageService} from "../shared/message.service";
 import {ProfileService} from "../shared/profile.service";
-import {Router} from "@angular/router";
-import {IMqttMessage} from "ngx-mqtt";
 import {GameService} from "../shared/game.service";
 
 @Component({
@@ -58,8 +55,9 @@ export class LobbyComponent implements OnInit {
   }
 
   alreadyJoined(game: Game) {
-    const currentProfile = JSON.parse(sessionStorage.getItem("profile"));
-    return this.flatMap(game => game.players, this.games).find(player => player.profile.name === currentProfile.name);
+    const currentProfile: Profile = JSON.parse(sessionStorage.getItem("profile"));
+    return this.flatMap(game => game.players, this.games)
+      .find((player: Player) => player.identity.name === currentProfile.identity.name);
   }
 
   concat = (x, y) =>
