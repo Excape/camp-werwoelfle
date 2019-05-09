@@ -37,7 +37,7 @@ export class GameOverComponent implements OnInit {
     this.assignWonLostRole();
   }
 
-  private isWerewolf() {
+  isWerewolf() {
     return this.player.role === Role.WEREWOLF;
   }
 
