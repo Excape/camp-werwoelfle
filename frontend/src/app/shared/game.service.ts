@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {Game, Phases, Player, Role} from "./model/dtos";
+import {Game, OutboundMessage, Phases, Player, Role, Vote, Voting} from "./model/dtos";
 import {IMqttMessage} from "ngx-mqtt";
 import {MessageService} from "./message.service";
 import {Router} from "@angular/router";
-import {Observable, Subject} from "rxjs";
+import {Observable, Subject, Subscription} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {ProfileService} from "./profile.service";
 
@@ -14,9 +14,13 @@ export class GameService {
 
   private _currentPhase$: Subject<Phases> = new Subject();
   private _currentRole$: Subject<Role> = new Subject();
+  private _dyingPlayers$: Subject<Player[]> = new Subject();
+  private _getAck$: Subject<void> = new Subject();
+  private _voting$: Subject<Voting> = new Subject();
   profileUrl = 'api/v1/game';
-  private game: Game;
   currentPlayer: Player;
+  private game: Game;
+  private _gameSubscription: Subscription;
 
 
   currentPhase(): Subject<Phases> {
@@ -25,6 +29,18 @@ export class GameService {
 
   currentRole(): Subject<Role> {
     return this._currentRole$;
+  }
+
+  dyingPlayers(): Subject<Player[]> {
+    return this._dyingPlayers$;
+  }
+
+  getAck(): Subject<void> {
+    return this._getAck$;
+  }
+
+  voting(): Subject<Voting> {
+    return this._voting$;
   }
 
   constructor(private messageService: MessageService,
@@ -37,7 +53,7 @@ export class GameService {
   subscribe(game: Game) {
     let currentIdentity = this.profileService.getCurrentIdentity();
     this.currentPlayer = game.players.find(player => player.identity.name === currentIdentity.name);
-    this.messageService.subscribeToGame(game).subscribe((message: IMqttMessage) => {
+    this._gameSubscription = this.messageService.subscribeToGame(game).subscribe((message: IMqttMessage) => {
       this.game = game;
       let payload = message.payload.toString();
       console.log("message " + payload);
@@ -46,15 +62,27 @@ export class GameService {
     });
     this.messageService.subscribeToPlayer(game, this.currentPlayer).subscribe(message => {
         let payload = JSON.parse(message.payload.toString());
-        switch (payload.type) {
-          case "ROLE":
+        switch (OutboundMessage[<string>payload.type]) {
+          case OutboundMessage.ROLE:
             console.log(`message ${payload.type}: ${payload.role}`);
             this.currentPlayer.role = Role[<string>payload.role];
             this._currentRole$.next(this.currentPlayer.role);
             break;
-          case "VOTING":
+          case OutboundMessage.VOTING:
             console.log(`message ${payload.type}: ${payload.voting}`);
-
+            this._voting$.next(<Voting>payload.voting);
+            break;
+          case OutboundMessage.DEAD_PLAYERS:
+            console.log(`message ${payload.type}: ${payload.dyingPlayers}`);
+            let dyingPlayers = payload.dyingPlayers;
+            this._dyingPlayers$.next(dyingPlayers);
+            break;
+          case OutboundMessage.GET_ACK:
+            console.log(`message ${payload.type}`);
+            this._getAck$.next();
+            break;
+          default:
+            console.log(`Unknown message ${payload.type}`)
         }
 
       }
@@ -63,6 +91,14 @@ export class GameService {
 
   sendAck() {
     this.messageService.publishAck(this.game, this.currentPlayer)
+  }
+
+  sendVote($event: Player[]) {
+    const vote = <Vote>{
+      voteFor: $event,
+      voteOf: this.currentPlayer
+    };
+    this.messageService.publishVote(this.game, this.currentPlayer, vote)
   }
 
   private handleStart(payload) {
@@ -86,8 +122,16 @@ export class GameService {
           this._currentPhase$.next(Phases.WEREWOLF);
           break;
         }
+        case "PHASE_NIGHTFALL": {
+          this._currentPhase$.next(Phases.NIGHT_FALL);
+          break;
+        }
+        case "PHASE_WAKEUP": {
+          this._currentPhase$.next(Phases.WAKEUP);
+          break;
+        }
         default: {
-          console.log("could not match phase");
+          console.log("could not match phase: " + payload);
           break;
         }
       }
@@ -100,14 +144,22 @@ export class GameService {
     return this.httpClient.get<Role>(roleUrl);
   }
 
-  getGame(): Game{
+  getGame(): Game {
     return this.game;
   }
 
-  getPlayerFor(playerName: string) : Observable<Player>{
+  getPlayerFor(playerName: string): Observable<Player> {
     let gameName = this.getGame().name;
     let playerUrl = `${this.profileUrl}/${gameName}/${playerName}`;
 
-   return this.httpClient.get<Player>(playerUrl);
+    return this.httpClient.get<Player>(playerUrl);
   }
+
+  unsubscribe(game: Game) {
+    if (this._gameSubscription) {
+      this._gameSubscription.unsubscribe();
+    }
+  }
+
+
 }

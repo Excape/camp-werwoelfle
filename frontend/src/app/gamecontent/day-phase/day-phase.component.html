@@ -1,14 +1,14 @@
 <mat-card class="day-card">
   <mat-card-header>
     <mat-card-title>Day</mat-card-title>
-    <mat-card-subtitle>Vote for a suspicous player.</mat-card-subtitle>
+    <mat-card-subtitle>Vote for a suspicious player.</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <img mat-card-image src="../../../assets/gamecontent/mayor.png" alt="mayor">
     <p>
       You have exactly one vote.
     </p>
-    <app-voting></app-voting>
+    <app-voting *ngIf="voting" [voting]="voting" (electedPlayersEmitter)="electPlayers($event)"></app-voting>
   </mat-card-content>
 </mat-card>
 

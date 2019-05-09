@@ -1,8 +1,0 @@
-<p *ngFor="let message of messages">
-
-  {{message}}
-</p>
-
-<role-phase [playerRole]="playerRole" (ackEmitter)="sendAck()" *ngIf="shouldDisplayRolePhase()"></role-phase>
-<day-phase *ngIf="shouldDisplayDayPhase()"></day-phase>
-<app-werewolf-phase *ngIf="shouldDisplayWerewolfPhase()"></app-werewolf-phase>

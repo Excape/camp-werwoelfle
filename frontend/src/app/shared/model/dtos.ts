@@ -1,12 +1,18 @@
 export interface Game {
   name: string
   players: Player[]
-  isRunning: boolean
+  state: GameState
+}
+
+export enum GameState {
+  RUNNING = "RUNNING",
+  FINISHED = "FINISHED",
+  CREATED = "CREATED"
 }
 
 export interface Player {
   identity: Identity
-  state: State
+  playerState: PlayerState
   role: Role
   checked?: boolean
 }
@@ -24,7 +30,7 @@ export interface Profile {
 }
 
 export enum Phases {
-  ROLE, WEREWOLF, WAKEUP, DAY
+  ROLE, WEREWOLF, WAKEUP, DAY, NIGHT_FALL
 }
 
 
@@ -35,21 +41,20 @@ export interface Vote {
 
 export interface Voting {
   voters: Player[]
-  votees: Player[]
-  numberOfVotesPerVoter: number
-  votingResult?: VotingResult
+  candidates: Player[]
+  votesPerPlayer: number
+  numberOfSeats: number
 }
 
-export interface VotingResult {
-  auditors: Player[]
-  elected: Player[]
-  showRoles: Boolean
-}
 
-export enum State {
-  DEAD, ASLEEP, AWAKE
+export enum PlayerState {
+  ALIVE, DYING, DEAD
 }
 
 export enum Role {
-  WEREWOLF="Werewolf", VILLAGER="Villager"
+  WEREWOLF = "WEREWOLF", VILLAGER = "VILLAGER"
+}
+
+export enum OutboundMessage {
+  ROLE, VOTING, DEAD_PLAYERS, GET_ACK
 }

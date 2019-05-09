@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AudioService} from "../../shared/audio.service";
+import {Player, Voting} from "../../shared/model/dtos";
 
 @Component({
   selector: 'app-werewolf-phase',
@@ -7,6 +8,8 @@ import {AudioService} from "../../shared/audio.service";
   styleUrls: ['./werewolf-phase.component.scss']
 })
 export class WerewolfPhaseComponent implements OnInit {
+  @Input() voting: Voting;
+  @Output() electedPlayersEmitter = new EventEmitter<Player[]>();
 
   constructor(private audioService: AudioService) { }
 
@@ -14,7 +17,7 @@ export class WerewolfPhaseComponent implements OnInit {
     this.audioService.playAudio("../../../assets/sound/wolf-howl.wav");
   }
 
-
-
-
+  electPlayers($event: Player[]) {
+    this.electedPlayersEmitter.emit($event)
+  }
 }

@@ -9,7 +9,8 @@ import javax.persistence.Lob
 
 @Serializable
 data class Player(val identity: Identity) {
-    var playerState: PlayerState? = null
+    val checked = false
+    var playerState: PlayerState? = PlayerState.ALIVE
     var role: Role? = null
 }
 

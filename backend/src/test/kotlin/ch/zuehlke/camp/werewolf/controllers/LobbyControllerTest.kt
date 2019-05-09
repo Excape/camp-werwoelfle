@@ -15,7 +15,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @EnableAutoConfiguration
 @ExtendWith(SpringExtension::class)
-@WebMvcTest(LobbyController::class, LobbyService::class, RoleService::class, MessageService::class, GameService::class, CommunicationService::class, GameFactory::class)
+@WebMvcTest(LobbyController::class, LobbyService::class, RoleService::class, MessageService::class, GameService::class,
+    CommunicationService::class, GameFactory::class, VotingService::class)
 class LobbyControllerTest {
 
     @Autowired

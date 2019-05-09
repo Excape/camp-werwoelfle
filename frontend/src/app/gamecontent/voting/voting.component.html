@@ -1,11 +1,14 @@
 <div class="center">
   <label>{{question}}</label>
   <section>
-    <div *ngFor="let player of voting.votees; let i = index;">
-      <mat-checkbox class="example-margin" [(ngModel)]="voting.votees[i].checked">{{player.identity.name}}</mat-checkbox>
+    <div *ngFor="let candidate of voting.candidates">
+      <mat-checkbox class="example-margin" [(ngModel)]="candidate.checked">{{candidate.identity.name}}</mat-checkbox>
     </div>
   </section>
-  <button mat-raised-button color="accent" (click)="sendVote()" [disabled]="getNumberOfCurrentVotedPlayers() > voting.numberOfVotesPerVoter || getNumberOfCurrentVotedPlayers() < 1">Send Vote</button>
+  <button mat-raised-button color="accent" (click)="sendVote()"
+          [disabled]="getNumberOfCurrentlyVotedPlayers() > voting.votesPerPlayer || getNumberOfCurrentlyVotedPlayers() < 1">
+    Send Vote
+  </button>
 </div>
 
 

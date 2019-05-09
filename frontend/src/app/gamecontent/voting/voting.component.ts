@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Player, Voting} from "../../shared/model/dtos";
-import {VotingService} from "./voting.service";
 
 @Component({
   selector: 'app-voting',
@@ -8,22 +7,23 @@ import {VotingService} from "./voting.service";
   styleUrls: ['./voting.component.scss']
 })
 export class VotingComponent implements OnInit {
-  question: string
-  voting: Voting
+  question: string;
+  @Input() voting: Voting;
+  @Output() electedPlayersEmitter = new EventEmitter<Player[]>();
 
-  constructor(private votingService: VotingService) { }
+  constructor() {
+  }
 
   ngOnInit() {
-    this.voting = this.votingService.getVoting()
     this.question = this.getQuestion()
   }
 
-  getNumberOfCurrentVotedPlayers(): number {
-    return this.voting.votees.filter(player=>player.checked).map(player=>player).length
+  getNumberOfCurrentlyVotedPlayers(): number {
+    return this.voting.candidates.filter(player => player.checked).map(player => player).length
   }
 
   sendVote() {
-    console.log(this.getNumberOfCurrentVotedPlayers())
+    this.electedPlayersEmitter.next(this.voting.candidates.filter(candidate => candidate.checked))
   }
 
   getQuestion(): string {
