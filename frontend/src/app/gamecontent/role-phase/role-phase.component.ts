@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {Role} from "../../shared/model/dtos";
 
 @Component({
@@ -14,6 +14,8 @@ export class RolePhaseComponent implements OnInit, OnChanges {
 
   @Input() playerRole: Role;
 
+  @Output() ackEmitter = new EventEmitter();
+
   constructor() { }
 
   ngOnInit() {
@@ -25,7 +27,7 @@ export class RolePhaseComponent implements OnInit, OnChanges {
   }
 
   confirm() {
-    console.log('confirm pressed')
+    this.ackEmitter.emit()
   }
 
   updateView() {

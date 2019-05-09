@@ -68,8 +68,6 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
     ToastrModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireStorageModule
   ],
   providers: [
     IsLoggedInGuard,
