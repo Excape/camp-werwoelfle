@@ -1,7 +1,6 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {EditProfileComponent} from './edit-profile.component';
-import {MatCardModule} from "@angular/material";
 import {MaterialModule} from "../../material/material.module";
 import {FormsModule} from "@angular/forms";
 import {RouterTestingModule} from "@angular/router/testing";
