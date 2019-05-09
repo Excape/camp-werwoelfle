@@ -92,7 +92,7 @@ export class LobbyComponent implements OnInit {
     xs.map(f).reduce(this.concat, [])
 
   isStartGameDisabled(game: Game): Boolean {
-    return game.players.length < this.MIN_PLAYER_PER_GAME;
+    return game.players.length < this.MIN_PLAYER_PER_GAME || !this.hasPlayerJoined(game);
   }
 
   isJoinDisabled(game: Game) {

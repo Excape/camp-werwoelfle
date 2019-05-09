@@ -149,7 +149,7 @@ class DayPhase(
             gameName,
             DeadPlayersOutboundMessage(dyingPlayers.toList()),
             InboundType.ACK,
-            alivePlayers
+            allPlayers
         )
     }
 

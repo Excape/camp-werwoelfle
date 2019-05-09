@@ -22,10 +22,10 @@ export class WakeUpPhaseComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    if (this.deadVillagers == null) {
-      return
+    this.deadVillagers = {
+
     }
-    if (this.deadVillagers.length == 0) {
+    if (this.deadVillagers == null || this.deadVillagers.length == 0) {
       this.subtitle = "No players died during the night."
     } else {
       this.subtitle = "The following players died during the night: "
