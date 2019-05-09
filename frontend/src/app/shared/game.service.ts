@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
-import {Game, Phases} from "./model/dtos";
+import {Injectable} from '@angular/core';
+import {Game, Phases, Role} from "./model/dtos";
 import {IMqttMessage} from "ngx-mqtt";
 import {MessageService} from "./message.service";
 import {Router} from "@angular/router";
-import {Subject} from "rxjs";
+import {Observable, Subject} from "rxjs";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -11,17 +12,23 @@ import {Subject} from "rxjs";
 export class GameService {
 
   private _currentPhase$: Subject<Phases> = new Subject();
+  profileUrl = 'api/v1/game';
+  private game: Game;
+
 
   currentPhase(): Subject<Phases> {
     return this._currentPhase$;
   }
 
   constructor(private messageService: MessageService,
-              private router: Router
-  ) { }
+              private router: Router,
+              private httpClient: HttpClient
+  ) {
+  }
 
   subscribe(game: Game) {
-    this.messageService.subscribeToGame(game).subscribe( (message: IMqttMessage) => {
+    this.messageService.subscribeToGame(game).subscribe((message: IMqttMessage) => {
+      this.game = game;
       let payload = message.payload.toString();
       console.log("message " + payload);
       this.handleStart(payload);
@@ -58,5 +65,14 @@ export class GameService {
       }
 
     }
+  }
+
+  getPlayerRoleFor(playerName: string, gameName: string): Observable<Role> {
+    let roleUrl = `${this.profileUrl}/${gameName}/${playerName}/role`;
+    return this.httpClient.get<Role>(roleUrl);
+  }
+
+  getGame(): Game{
+    return this.game;
   }
 }
