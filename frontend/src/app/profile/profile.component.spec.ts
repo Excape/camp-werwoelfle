@@ -7,6 +7,7 @@ import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {MessageService} from "../shared/message.service";
 import {ProfileService} from "../shared/profile.service";
 import {Identity, Profile} from "../shared/model/dtos";
+import {FormsModule} from "@angular/forms";
 
 describe('ProfileComponent', () => {
   let component: ProfileComponent;
