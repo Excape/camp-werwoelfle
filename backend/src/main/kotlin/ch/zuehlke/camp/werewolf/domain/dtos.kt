@@ -1,7 +1,11 @@
 package ch.zuehlke.camp.werewolf.domain
 
+import kotlinx.serialization.ContextualSerialization
 import kotlinx.serialization.Serializable
+import org.hibernate.annotations.Type
 import javax.persistence.*
+import javax.persistence.Lob
+
 
 @Serializable
 data class Player(val identity: Identity) {
@@ -54,6 +58,39 @@ data class Profile(
         result = 31 * result + 17 * password_plain.hashCode() + 7 * password_encrypted.hashCode() + salt.hashCode()
         return result
     }
+}
+
+@Entity
+@Table
+data class Picture(
+    var pictureName: String? = null,
+    var contentType: String? = null,
+    @Type(type = "org.hibernate.type.BinaryType")
+    var data: ByteArray? = null,
+    @OneToOne
+    var profile: Profile? = null,
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    var id: Long? = null
+) {
+
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Picture
+
+        if (id != other.id) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return id?.hashCode() ?: 0
+    }
+
+
 }
 
 @Serializable
