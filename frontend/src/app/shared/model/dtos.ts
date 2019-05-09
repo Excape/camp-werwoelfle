@@ -51,5 +51,5 @@ export enum State {
 }
 
 export enum Role {
-  WEREWOLF, VILLAGER
+  WEREWOLF="Werewolf", VILLAGER="Villager"
 }

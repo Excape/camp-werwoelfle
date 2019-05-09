@@ -3,7 +3,7 @@ import {Game, Phases, Player, Role} from "./model/dtos";
 import {IMqttMessage} from "ngx-mqtt";
 import {MessageService} from "./message.service";
 import {Router} from "@angular/router";
-import {Subject} from "rxjs";
+import {Observable, Subject} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {ProfileService} from "./profile.service";
 
@@ -89,5 +89,21 @@ export class GameService {
       }
 
     }
+  }
+
+  getPlayerRoleFor(playerName: string, gameName: string): Observable<Role> {
+    let roleUrl = `${this.profileUrl}/${gameName}/${playerName}/role`;
+    return this.httpClient.get<Role>(roleUrl);
+  }
+
+  getGame(): Game{
+    return this.game;
+  }
+
+  getPlayerFor(playerName: string) : Observable<Player>{
+    let gameName = this.getGame().name;
+    let playerUrl = `${this.profileUrl}/${gameName}/${playerName}`;
+
+   return this.httpClient.get<Player>(playerUrl);
   }
 }
