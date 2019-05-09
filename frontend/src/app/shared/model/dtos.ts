@@ -12,7 +12,7 @@ export enum GameState {
 
 export interface Player {
   identity: Identity
-  state: State
+  state: PlayerState
   role: Role
   checked?: boolean
 }
@@ -47,8 +47,8 @@ export interface Voting {
 }
 
 
-export enum State {
-  DEAD, ASLEEP, AWAKE
+export enum PlayerState {
+  ALIVE, DYING, DEAD
 }
 
 export enum Role {

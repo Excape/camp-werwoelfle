@@ -1,5 +1,5 @@
 import {GameService} from "./game.service";
-import {Game, Player, Role, State, Vote} from "./model/dtos";
+import {Game, Player, Role, PlayerState, Vote} from "./model/dtos";
 import {Observable, of, Subscription} from "rxjs";
 import {IMqttMessage} from "ngx-mqtt";
 import {MessageService} from "./message.service";
@@ -43,7 +43,7 @@ describe('GameService', () => {
       identity: {
         name: ""
       },
-      state: State.AWAKE
+      state: PlayerState.ALIVE
     }])
 
     expect(spy.publishVote)
