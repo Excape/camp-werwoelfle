@@ -31,6 +31,7 @@ import {MatFileUploadModule} from "angular-material-fileupload";
 import {WakeUpPhaseComponent} from './gamecontent/wake-up-phase/wake-up-phase.component';
 import {SpinnerComponent} from './shared/spinner/spinner.component';
 import {NightFallPhaseComponent} from './gamecontent/night-fall-phase/night-fall-phase.component';
+import {ExecutionPhaseComponent} from "./gamecontent/execution-phase/execution-phase.component";
 // import * as firebase from "firebase";
 // import Firestore = firebase.firestore.Firestore;
 // import {AngularFireStorage, AngularFireStorageModule} from "@angular/fire/storage";
@@ -62,7 +63,8 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     GameOverComponent,
     WakeUpPhaseComponent,
     SpinnerComponent,
-    NightFallPhaseComponent
+    NightFallPhaseComponent,
+    ExecutionPhaseComponent
   ],
   imports: [
     BrowserModule,

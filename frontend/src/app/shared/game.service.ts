@@ -142,6 +142,10 @@ export class GameService {
           this._currentPhase$.next(Phases.GAME_OVER);
           break;
         }
+        case "PHASE_EXECUTION": {
+          this._currentPhase$.next(Phases.EXECUTION);
+          break;
+        }
         default: {
           console.log("could not match phase: " + payload);
           break;

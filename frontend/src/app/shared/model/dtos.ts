@@ -30,7 +30,7 @@ export interface Profile {
 }
 
 export enum Phases {
-  ROLE, WEREWOLF, WAKEUP, DAY, NIGHT_FALL, GAME_OVER
+  ROLE, WEREWOLF, WAKEUP, DAY, NIGHT_FALL, GAME_OVER, EXECUTION
 }
 
 

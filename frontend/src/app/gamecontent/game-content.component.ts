@@ -58,6 +58,10 @@ export class GameContentComponent implements OnInit, OnDestroy {
     return this.activePhase == Phases.GAME_OVER;
   }
 
+  shouldDisplayExecutionPhase() {
+    return this.activePhase == Phases.EXECUTION;
+  }
+
   sendAck() {
     this._gameService.sendAck();
   }
