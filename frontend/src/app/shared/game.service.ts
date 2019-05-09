@@ -74,8 +74,7 @@ export class GameService {
             break;
           case OutboundMessage.DEAD_PLAYERS:
             console.log(`message ${payload.type}: ${payload.dyingPlayers}`);
-            let dyingPlayers = payload.dyingPlayers;
-            this._dyingPlayers$.next(dyingPlayers);
+            this._dyingPlayers$.next(payload.dyingPlayers);
             break;
           case OutboundMessage.GET_ACK:
             console.log(`message ${payload.type}`);

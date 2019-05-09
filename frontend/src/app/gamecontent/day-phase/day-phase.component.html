@@ -8,7 +8,8 @@
     <p>
       You have exactly one vote.
     </p>
-    <app-voting *ngIf="voting" [voting]="voting" (electedPlayersEmitter)="electPlayers($event)"></app-voting>
+    <app-voting *ngIf="voting && !elected" [voting]="voting" (electedPlayersEmitter)="electPlayers($event)"></app-voting>
+    <app-spinner *ngIf="voting && elected"></app-spinner>
   </mat-card-content>
 </mat-card>
 

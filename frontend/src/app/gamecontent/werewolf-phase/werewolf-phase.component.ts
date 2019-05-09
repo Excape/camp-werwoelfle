@@ -11,13 +11,17 @@ export class WerewolfPhaseComponent implements OnInit {
   @Input() voting: Voting;
   @Output() electedPlayersEmitter = new EventEmitter<Player[]>();
 
-  constructor(private audioService: AudioService) { }
+  elected = false;
+
+  constructor(private audioService: AudioService) {
+  }
 
   ngOnInit() {
     this.audioService.playAudio("../../../assets/sound/wolf-howl.wav");
   }
 
   electPlayers($event: Player[]) {
+    this.elected = true;
     this.electedPlayersEmitter.emit($event)
   }
 }

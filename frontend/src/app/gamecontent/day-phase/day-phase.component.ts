@@ -11,6 +11,8 @@ export class DayPhaseComponent implements OnInit {
   @Input() voting: Voting;
   @Output() electedPlayersEmitter = new EventEmitter<Player[]>();
 
+  elected = false;
+
   constructor(private audioService: AudioService) {
   }
 
@@ -19,6 +21,7 @@ export class DayPhaseComponent implements OnInit {
   }
 
   electPlayers($event: Player[]) {
+    this.elected = true;
     this.electedPlayersEmitter.emit($event)
   }
 
