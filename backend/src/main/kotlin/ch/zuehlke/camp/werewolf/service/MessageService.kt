@@ -45,10 +45,10 @@ class MessageService(
     }
 
     @Throws(MqttException::class)
-    fun publishToGame(game: Game, command: GameCommand) {
+    fun publishToGame(gameName: String, command: GameCommand) {
         val mqttMessage = MqttMessage(command.name.toByteArray())
         configureMessage(mqttMessage)
-        publisher.publish(game.toTopic(), mqttMessage)
+        publisher.publish(gameName, mqttMessage)
     }
 
     fun publishToPlayer(

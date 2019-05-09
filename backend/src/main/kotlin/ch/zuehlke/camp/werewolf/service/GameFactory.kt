@@ -9,16 +9,19 @@ class GameFactory(private val roleService: RoleService, private val communicatio
         gameName: String,
         players: MutableList<Player>
     ): Game {
-        return Game(gameName, players, initPhases(players))
+        return Game(gameName, players, initPhases(gameName, players))
     }
 
-    private fun initPhases(allPlayers: List<Player>): List<Phase> {
+    private fun initPhases(
+        gameName: String,
+        allPlayers: List<Player>
+    ): List<Phase> {
         return listOf(
-            RolePhase(roleService, communicationService, allPlayers),
-            NightfallPhase(communicationService, allPlayers),
-            WerewolfPhase(communicationService, allPlayers),
-            WakeUpPhase(communicationService, allPlayers),
-            DayPhase(communicationService, allPlayers)
+            RolePhase(gameName, roleService, communicationService, allPlayers),
+            NightfallPhase(gameName, communicationService, allPlayers),
+            WerewolfPhase(gameName, communicationService, allPlayers),
+            WakeUpPhase(gameName, communicationService, allPlayers),
+            DayPhase(gameName, communicationService, allPlayers)
         )
         // TODO: add new Phases here!
 

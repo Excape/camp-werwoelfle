@@ -31,7 +31,7 @@ class PhaseTest() {
         werewolf.playerState = PlayerState.ALIVE
         val players = listOf(werewolf)
 
-        val werewolfPhase = WerewolfPhase(communicationService, players)
+        val werewolfPhase = WerewolfPhase("testGame", communicationService, players)
 
         assertTrue(werewolfPhase.isActive())
     }
@@ -43,7 +43,7 @@ class PhaseTest() {
         werewolf.playerState = PlayerState.DEAD
         val players = listOf(werewolf)
 
-        val werewolfPhase = WerewolfPhase(communicationService, players)
+        val werewolfPhase = WerewolfPhase("testGame", communicationService, players)
 
         assertFalse(werewolfPhase.isActive())
     }
@@ -52,7 +52,7 @@ class PhaseTest() {
     fun werewolfPhase_noPlayer_isNotActive() {
         val players = mutableListOf<Player>()
 
-        val werewolfPhase = WerewolfPhase(communicationService, players)
+        val werewolfPhase = WerewolfPhase("testGame", communicationService, players)
 
         assertFalse(werewolfPhase.isActive())
     }

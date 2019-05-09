@@ -21,6 +21,7 @@ class CommunicationService(private val messageService: MessageService) {
         return communicate(gameName, inboundType, messageByPlayer)
     }
 
+
     fun communicate(
         gameName: String,
         inboundType: InboundType,
@@ -36,6 +37,10 @@ class CommunicationService(private val messageService: MessageService) {
 
         countDownLatch.await()
         return inboundMessages.toList()
+    }
+
+    fun sendGameCommand(gameName: String, command: GameCommand) {
+        messageService.publishToGame(gameName, command)
     }
 
     private fun subscribeToPlayers(

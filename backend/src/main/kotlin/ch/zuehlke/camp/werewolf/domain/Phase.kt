@@ -5,18 +5,19 @@ import ch.zuehlke.camp.werewolf.service.MessageService
 import ch.zuehlke.camp.werewolf.service.RoleService
 
 interface Phase {
-    fun execute(gameName: String)
+    fun execute()
     fun isActive(): Boolean
-    fun getPhaseStartCommand(): GameCommand
+    fun sendStartPhaseCommand()
 }
 
 class RolePhase(
+    private val gameName: String,
     private val roleService: RoleService,
     private val communicationService: CommunicationService,
     private val allPlayers: List<Player>
 ) : Phase {
-    override fun getPhaseStartCommand(): GameCommand {
-        return GameCommand.PHASE_ROLE
+    override fun sendStartPhaseCommand() {
+        communicationService.sendGameCommand(gameName, GameCommand.PHASE_ROLE)
     }
 
     private var alreadyRun = false
@@ -25,7 +26,7 @@ class RolePhase(
         return !alreadyRun
     }
 
-    override fun execute(gameName: String) {
+    override fun execute() {
         roleService.generateRoles(allPlayers)
         val associateBy = allPlayers.associateBy({ it }, { RoleOutboundMessage(it.role!!) })
         communicationService.communicate(gameName, InboundType.ACK, associateBy)
@@ -33,9 +34,16 @@ class RolePhase(
     }
 }
 
-class NightfallPhase(private val communicationService: CommunicationService,
-                     private val allPlayers: List<Player>) : Phase {
-    override fun execute(gameName: String) {
+class NightfallPhase(
+    private val gameName: String,
+    private val communicationService: CommunicationService,
+    private val allPlayers: List<Player>
+) : Phase {
+    override fun sendStartPhaseCommand() {
+        communicationService.sendGameCommand(gameName, GameCommand.PHASE_NIGHTFALL)
+    }
+
+    override fun execute() {
         // Inform players that it's night
     }
 
@@ -43,18 +51,15 @@ class NightfallPhase(private val communicationService: CommunicationService,
         return true
     }
 
-    override fun getPhaseStartCommand(): GameCommand {
-        return GameCommand.PHASE_NIGHTFALL
-    }
-
 }
 
 class WerewolfPhase(
+    private val gameName: String,
     private val communicationService: CommunicationService,
     private val allPlayers: List<Player>
 ) : Phase {
-    override fun getPhaseStartCommand(): GameCommand {
-        return GameCommand.PHASE_WEREWOLF
+    override fun sendStartPhaseCommand() {
+        communicationService.sendGameCommand(gameName, GameCommand.PHASE_WEREWOLF)
     }
 
     override fun isActive(): Boolean {
@@ -65,15 +70,22 @@ class WerewolfPhase(
         }
     }
 
-    override fun execute(gameName: String) {
+    override fun execute() {
 
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
 
-class WakeUpPhase(private val communicationService: CommunicationService,
-                  private val allPlayers: List<Player>) : Phase {
-    override fun execute(gameName: String) {
+class WakeUpPhase(
+    private val gameName: String,
+    private val communicationService: CommunicationService,
+    private val allPlayers: List<Player>
+) : Phase {
+    override fun sendStartPhaseCommand() {
+        communicationService.sendGameCommand(gameName, GameCommand.PHASE_WAKEUP)
+    }
+
+    override fun execute() {
         //TODO: "Send all dying players to players")
         //TODO: "Kill all dying players")
     }
@@ -82,20 +94,19 @@ class WakeUpPhase(private val communicationService: CommunicationService,
         return true
     }
 
-    override fun getPhaseStartCommand(): GameCommand {
-        return GameCommand.PHASE_WAKEUP
-    }
-
 }
 
-class DayPhase(private val communicationService: CommunicationService,
-               private val allPlayers: List<Player>) : Phase {
-    override fun execute(gameName: String) {
-        // TODO: Let all alive players vote on whom to kill
+class DayPhase(
+    private val gameName: String,
+    private val communicationService: CommunicationService,
+    private val allPlayers: List<Player>
+) : Phase {
+    override fun sendStartPhaseCommand() {
+        communicationService.sendGameCommand(gameName, GameCommand.PHASE_DAY)
     }
 
-    override fun getPhaseStartCommand(): GameCommand {
-        return GameCommand.PHASE_DAY
+    override fun execute() {
+        // TODO: Let all alive players vote on who to kill
     }
 
     override fun isActive(): Boolean {

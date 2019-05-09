@@ -47,25 +47,6 @@ data class Profile(@Embedded val identity: Identity,
     }
 }
 
-data class Game(
-    val name: String,
-    val players: MutableList<Player>,
-    val phases: List<Phase>
-) {
-    // TODO: add condition for victory of armor couple
-    fun isGameOver(): Boolean {
-        val numberOfVillagers = players.filter { player -> player.role == Role.VILLAGER }.count()
-        val numberOfDeadVillagers = players.filter { player -> player.role == Role.VILLAGER && player.playerState == PlayerState.DEAD }.count()
-        val numberOfWerewolves = players.filter { player -> player.role == Role.WEREWOLF }.count()
-        val numberOfDeadWerewolves = players.filter { player -> player.role == Role.WEREWOLF && player.playerState == PlayerState.DEAD }.count()
-
-        val allVillagersDead = numberOfDeadVillagers >= numberOfVillagers;
-        val allWerewolvesDead = numberOfDeadWerewolves >= numberOfWerewolves;
-
-        return allVillagersDead || allWerewolvesDead;
-    }
-}
-
 @Serializable
 data class Voting(
     val votes: List<Vote> = mutableListOf(),
