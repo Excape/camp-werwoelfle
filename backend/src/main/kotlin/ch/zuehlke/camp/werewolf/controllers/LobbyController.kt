@@ -45,6 +45,17 @@ class LobbyController(val lobbyService: LobbyService) {
         return ResponseEntity(game, HttpStatus.OK)
     }
 
+    @PostMapping("delete")
+    fun deleteGame(@RequestBody profile: Profile, @RequestParam("gameName") gameName: String): ResponseEntity<Game> {
+        val game: Game
+        try {
+            game = lobbyService.deleteGame(gameName)
+        } catch (exception: IllegalArgumentException) {
+            return ResponseEntity(HttpStatus.NOT_FOUND)
+        }
+        return ResponseEntity(game, HttpStatus.OK)
+    }
+
     @GetMapping("start")
     fun startGame(@RequestParam("gameName") gameName: String): ResponseEntity<Unit> {
         try {

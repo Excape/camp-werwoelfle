@@ -27,6 +27,8 @@
         <span class="filler"></span>
         <button mat-button (click)="leave(game)" [disabled]="isLeaveDisabled(game)">Leave Game</button>
         <span class="filler"></span>
+        <button mat-button (click)="delete(game)" *ngIf="!isDeleteHidden(game)">Delete Game</button>
+        <span class="filler" *ngIf="!isDeleteHidden(game)"></span>
         <button mat-button (click)="startGame(game)" [disabled]="isStartGameDisabled(game)">Start Game</button>
       </div>
     </mat-expansion-panel>

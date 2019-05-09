@@ -11,7 +11,7 @@ import {GameService} from "../shared/game.service";
   styleUrls: ['./lobby.component.scss']
 })
 export class LobbyComponent implements OnInit {
-  games: Game[];
+  games: Game[] = [];
   newGameName: string;
 
   MIN_PLAYER_PER_GAME: number = 1;
@@ -28,6 +28,7 @@ export class LobbyComponent implements OnInit {
 
   fetchGames() {
     this.lobbyService.getGames().subscribe(games => {
+      console.log("Fetched games");
       console.log(games);
       this.games = games;
     });
@@ -67,6 +68,9 @@ export class LobbyComponent implements OnInit {
   }
 
   getJoinedGame(): Game {
+    if (this.games == null) {
+      return null;
+    }
     const games = this.games.filter( game => {
       return this.hasPlayerJoined(game);
     });
@@ -105,6 +109,13 @@ export class LobbyComponent implements OnInit {
 
   }
 
+  delete(game: Game) {
+    this.lobbyService.deleteGame(game.name).subscribe(  returnedGame => {
+      this.fetchGames();
+    });
+
+  }
+
   isLeaveDisabled(game: Game) {
     return !this.alreadyJoined(game)
   }
@@ -116,5 +127,9 @@ export class LobbyComponent implements OnInit {
     }).length > 0;
     let hasAlreadyJoinedGame = this.getJoinedGame() != null;
     return nameNotSet || nameAlreadyTaken || hasAlreadyJoinedGame;
+  }
+
+  isDeleteHidden(game: Game) {
+    return game.players.length > 0;
   }
 }

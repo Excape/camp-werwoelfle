@@ -31,7 +31,11 @@ export class LobbyService {
     return this.httpClient.get<Game>(`${this.backendUrl}start?gameName=${game.name}`);
   }
 
-  leaveGame(name: string) {
+  public leaveGame(name: string) {
     return this.httpClient.post<Game>(`${this.backendUrl}leave?gameName=${name}`, this.profileService.getLoggedInProfile())
+  }
+
+  public deleteGame(name: string) {
+    return this.httpClient.post<Game>(`${this.backendUrl}delete?gameName=${name}`, this.profileService.getLoggedInProfile())
   }
 }

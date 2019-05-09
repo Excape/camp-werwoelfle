@@ -42,4 +42,10 @@ class LobbyService(val gameService: GameService, val gameFactory: GameFactory) {
         }
         return game
     }
+
+    fun deleteGame(gameName: String): Game {
+        val game = findGame(gameName);
+        games.remove(game);
+        return game;
+    }
 }
