@@ -22,7 +22,7 @@ class GameController(val lobbyService: LobbyService) {
         return player?.role?: ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST)
     }
 
-    @GetMapping("{gameName}/{playerName}/")
+    @GetMapping("{gameName}/{playerName}")
     fun getPlayer(@PathVariable("gameName") gameName: String, @PathVariable("playerName") playerName: String): Any {
         val game = lobbyService.findGame(gameName);
         val player = game.players.firstOrNull { player ->
