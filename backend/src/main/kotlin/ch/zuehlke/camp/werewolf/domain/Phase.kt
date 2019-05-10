@@ -35,7 +35,8 @@ class RolePhase(
     private val gameName: String,
     private val roleService: RoleService,
     private val communicationService: CommunicationService,
-    allPlayers: List<Player>
+    allPlayers: List<Player>,
+    private val settings: GameSettings
 ) : Phase(allPlayers) {
     override fun sendStartPhaseCommand() {
         communicationService.sendGameCommand(gameName, GameCommand.PHASE_ROLE)
@@ -48,7 +49,7 @@ class RolePhase(
     }
 
     override fun execute() {
-        roleService.generateRoles(allPlayers)
+        roleService.generateRoles(allPlayers, settings)
         val messageByPlayerMap = allPlayers.associateBy({ it }, { RoleOutboundMessage(it.role!!) })
         communicationService.communicate(gameName, InboundType.ACK, messageByPlayerMap)
         alreadyRun = true
