@@ -198,7 +198,7 @@ class GameOverPhase(
         } else {
             Role.VILLAGER
         }
-        communicationService.communicate(gameName, GameOverOutboundMessage(winningRole), InboundType.ACK, allPlayers)
+        communicationService.communicateOneWay(gameName, GameOverOutboundMessage(winningRole), allPlayers)
     }
 
 }

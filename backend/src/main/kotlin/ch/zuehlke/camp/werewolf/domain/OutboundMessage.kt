@@ -18,7 +18,7 @@ data class VotingOutboundMessage(val voting: Voting) : OutboundMessage(VOTING, V
 data class DeadPlayersOutboundMessage(val dyingPlayers: List<Player>) : OutboundMessage(DEAD_PLAYERS, DeadPlayersOutboundMessage.serializer())
 
 @Serializable
-data class GameOverOutboundMessage(val winningRole: Role) : OutboundMessage(GAME_OVER, DeadPlayersOutboundMessage.serializer())
+data class GameOverOutboundMessage(val winningRole: Role) : OutboundMessage(GAME_OVER, GameOverOutboundMessage.serializer())
 
 @Serializable
 class GetAckOutboundMessage : OutboundMessage(GET_ACK, GetAckOutboundMessage.serializer())

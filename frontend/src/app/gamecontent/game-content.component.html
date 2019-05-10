@@ -11,4 +11,4 @@
 <app-night-fall-phase *ngIf="shouldDisplayNightfallPhase()" (ackEmitter)="sendAck()"></app-night-fall-phase>
 <app-wake-up-phase [deadVillagers]="dyingPlayers" (ackEmitter)="sendAck()"
                    *ngIf="shouldDisplayWakeUpPhase()"></app-wake-up-phase>
-<app-game-over *ngIf="shouldDisplayGameOver()" [roleThatWon]="winningRole" (ackEmitter)="sendAck()"></app-game-over>
+<app-game-over *ngIf="shouldDisplayGameOver()" [roleThatWon]="winningRole"></app-game-over>
