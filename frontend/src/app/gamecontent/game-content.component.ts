@@ -5,7 +5,7 @@ import {GameService} from "../shared/game.service";
 @Component({
   selector: 'app-game-content',
   templateUrl: './game-content.component.html',
-  styleUrls: ['./game-content.component.css']
+  styleUrls: ['./game-content.component.scss']
 })
 export class GameContentComponent implements OnInit, OnDestroy {
 
