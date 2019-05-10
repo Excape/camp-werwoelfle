@@ -21,7 +21,11 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.profile = this.profileService.getLoggedInProfile();
-    this.picture = this.pictureService.loadPictureFor(this.profile.identity.name)
+    this.pictureService.loadPictureFor(this.profile.identity.name).subscribe(
+      picture => {
+        this.picture = picture;
+      }
+    )
   }
 
   editProfile() {

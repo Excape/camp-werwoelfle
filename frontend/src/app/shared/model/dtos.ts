@@ -47,7 +47,11 @@ export interface Voting {
 }
 
 export interface Picture {
-
+  pictureName: String,
+  contentType: String,
+  data: number[],
+  profile: Profile,
+  id: number
 }
 
 export enum PlayerState {

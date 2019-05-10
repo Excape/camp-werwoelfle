@@ -3,8 +3,7 @@
   <mat-card-content>
     <span> Name: </span>
     <span> {{profile.identity.name}} </span>
-    <img mat-card-image src="{{picture}}">
-    <img mat-card-image src="http://localhost:8080/api/v1/profile/picture/{{profile.identity.name}}">
+    <img mat-card-image src="/api/v1/profile/picture/{{profile.identity.name}}">
   </mat-card-content>
   <mat-card-actions>
     <button mat-button color="primary" (click)="editProfile()">Edit</button>

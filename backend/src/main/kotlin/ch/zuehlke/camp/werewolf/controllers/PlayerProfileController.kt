@@ -5,7 +5,9 @@ import ch.zuehlke.camp.werewolf.domain.Profile
 import ch.zuehlke.camp.werewolf.service.DBFileService
 import ch.zuehlke.camp.werewolf.service.ProfileService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
@@ -58,8 +60,19 @@ class PlayerProfileController {
     }
 
     @GetMapping("/picture/{name}")
-    fun getPicture(@PathVariable name:String):ResponseEntity<Picture>{
-        return ResponseEntity(this.dbFileService.getFileFor(name),HttpStatus.OK)
+    fun getPicture(@PathVariable name:String): ResponseEntity<ByteArray> {
+        val file = this.dbFileService.getFileFor(name)
+        val responseHeaders = HttpHeaders()
+        responseHeaders.set(
+            HttpHeaders.CONTENT_TYPE,file.contentType
+        )
+        return ResponseEntity
+            .ok()
+            .headers(responseHeaders)
+            .body(file.data!!)
+
+
+
     }
 
     @PostMapping("")
