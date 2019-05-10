@@ -17,6 +17,10 @@ data class GameSettings(
 ) {
 }
 
+fun List<Player>.isGameOver(): Boolean {
+    // TODO: add condition for victory of amor couple
+    return this.allVillagesAreDead() || this.allWerewolvesAreDead()
+}
 
 fun List<Player>.allVillagesAreDead(): Boolean {
     val numberOfVillagers = this.filter { player -> player.role == Role.VILLAGER }.count()
