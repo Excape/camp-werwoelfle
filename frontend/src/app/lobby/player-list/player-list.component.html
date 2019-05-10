@@ -2,5 +2,6 @@
   <h3 mat-subheader>Players</h3>
   <mat-list-item *ngFor="let player of game.players">
     {{player.identity.name}}
+    <img mat-card-avatar src="/api/v1/profile/picture/{{player.identity.name}}">
   </mat-list-item>
 </mat-list>
