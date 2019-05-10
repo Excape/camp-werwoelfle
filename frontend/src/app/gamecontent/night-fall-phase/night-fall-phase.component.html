@@ -1,13 +1,12 @@
 <mat-card class="role-card">
   <mat-card-header>
     <mat-card-title>Night fall Phase</mat-card-title>
-    <mat-card-subtitle>Go to sleep!</mat-card-subtitle>
+    <mat-card-subtitle *ngIf="needsAck">Go to sleep!</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <!-- TODO: add img -->
-    <!--<img mat-card-image src="../../../assets/gamecontent/phase_werewolf_attack.jpg">-->
+    <img style="width: 430px" mat-card-image src="../../../assets/gamecontent/phase_nightfall.jpg">
   </mat-card-content>
-  <mat-card-actions>
+  <mat-card-actions *ngIf="needsAck">
     <button mat-raised-button (click)="confirm()" color="accent" *ngIf="!confirmed">Confirm</button>
     <app-spinner *ngIf="confirmed"></app-spinner>
   </mat-card-actions>

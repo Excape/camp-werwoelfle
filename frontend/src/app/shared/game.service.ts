@@ -13,7 +13,7 @@ import {ProfileService} from "./profile.service";
 export class GameService {
 
   private _currentPhase$: Subject<Phases> = new Subject();
-  private _currentRole$: Subject<Role> = new Subject();
+  private _currentPlayer$: Subject<Player> = new Subject();
   private _dyingPlayers$: Subject<Player[]> = new Subject();
   private _getAck$: Subject<void> = new Subject();
   private _voting$: Subject<Voting> = new Subject();
@@ -28,8 +28,8 @@ export class GameService {
     return this._currentPhase$;
   }
 
-  currentRole(): Subject<Role> {
-    return this._currentRole$;
+  getCurrentPlayer(): Subject<Player> {
+    return this._currentPlayer$;
   }
 
   dyingPlayers(): Subject<Player[]> {
@@ -71,7 +71,7 @@ export class GameService {
           case OutboundMessage.ROLE:
             console.log(`message ${payload.type}: ${payload.role}`);
             this.currentPlayer.role = Role[<string>payload.role];
-            this._currentRole$.next(this.currentPlayer.role);
+            this._currentPlayer$.next(this.currentPlayer);
             break;
           case OutboundMessage.VOTING:
             console.log(`message ${payload.type}: ${payload.voting}`);

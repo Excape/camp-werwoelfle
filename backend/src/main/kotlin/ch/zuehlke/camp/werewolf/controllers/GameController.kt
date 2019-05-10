@@ -1,12 +1,11 @@
 package ch.zuehlke.camp.werewolf.controllers
 
+import ch.zuehlke.camp.werewolf.domain.GameSettings
+import ch.zuehlke.camp.werewolf.domain.Profile
 import ch.zuehlke.camp.werewolf.service.LobbyService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/game/")
@@ -28,6 +27,13 @@ class GameController(val lobbyService: LobbyService) {
             player.identity.name == playerName
         };
         return player?: ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST)
+    }
+
+    @PostMapping("{gameName}/settings")
+    fun updateSettings(@PathVariable("gameName") gameName: String, @RequestBody settings: GameSettings): Any {
+        val game = lobbyService.findGame(gameName);
+        game.settings = settings
+        return game
     }
 
 }

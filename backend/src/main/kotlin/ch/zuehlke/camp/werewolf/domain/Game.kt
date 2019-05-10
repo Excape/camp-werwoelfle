@@ -4,7 +4,8 @@ class Game(
     var state: GameState,
     val name: String,
     val players: MutableList<Player>,
-    private val phases: List<Phase>
+    private val phases: List<Phase>,
+    var settings: GameSettings
 ) {
 
     fun run() {

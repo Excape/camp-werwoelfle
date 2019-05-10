@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {AudioService} from "../../shared/audio.service";
 import {Player} from "../../shared/model/dtos";
+import {GameService} from "../../shared/game.service";
 
 @Component({
   selector: 'app-wake-up-phase',
@@ -13,12 +14,14 @@ export class WakeUpPhaseComponent implements OnInit, OnChanges {
   @Output() ackEmitter = new EventEmitter();
 
   confirmed = false;
+  needsAck = false;
   subtitle: string = "";
 
-  constructor(private audioService: AudioService) { }
+  constructor(private audioService: AudioService, private gameService: GameService) { }
 
   ngOnInit() {
     this.audioService.playAudio("../../../assets/sound/daybreak.wav");
+    this.gameService.dyingPlayers().subscribe(next => this.needsAck = true);
   }
 
   ngOnChanges() {

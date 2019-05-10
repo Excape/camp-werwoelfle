@@ -13,15 +13,17 @@ class GameFactory(
         gameName: String,
         players: MutableList<Player>
     ): Game {
-        return Game(GameState.CREATED, gameName, players, initPhases(gameName, players))
+        val settings = GameSettings(mutableMapOf())
+        return Game(GameState.CREATED, gameName, players, initPhases(gameName, players, settings), settings)
     }
 
     private fun initPhases(
         gameName: String,
-        allPlayers: List<Player>
+        allPlayers: List<Player>,
+        settings: GameSettings
     ): List<Phase> {
         return listOf(
-            RolePhase(gameName, roleService, communicationService, allPlayers),
+            RolePhase(gameName, roleService, communicationService, allPlayers, settings),
             NightfallPhase(gameName, communicationService, allPlayers),
             WerewolfPhase(gameName, communicationService, votingService, allPlayers),
             WakeUpPhase(gameName, communicationService, allPlayers),

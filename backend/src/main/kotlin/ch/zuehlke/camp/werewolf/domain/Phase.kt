@@ -24,6 +24,8 @@ abstract class Phase(val allPlayers: List<Player>) {
 
     val alivePlayers get() = allPlayers.filter { it.playerState == PlayerState.ALIVE }
 
+    val nonDeadPlayers get() = allPlayers.filter { it.playerState != PlayerState.DEAD }
+
     protected fun killOffVotedPlayers(players: List<Player>) {
         players.forEach {
             it.playerState = PlayerState.DYING
@@ -35,7 +37,8 @@ class RolePhase(
     private val gameName: String,
     private val roleService: RoleService,
     private val communicationService: CommunicationService,
-    allPlayers: List<Player>
+    allPlayers: List<Player>,
+    private val settings: GameSettings
 ) : Phase(allPlayers) {
     override fun sendStartPhaseCommand() {
         communicationService.sendGameCommand(gameName, GameCommand.PHASE_ROLE)
@@ -48,7 +51,7 @@ class RolePhase(
     }
 
     override fun execute() {
-        roleService.generateRoles(allPlayers)
+        roleService.generateRoles(allPlayers, settings)
         val messageByPlayerMap = allPlayers.associateBy({ it }, { RoleOutboundMessage(it.role!!) })
         communicationService.communicate(gameName, InboundType.ACK, messageByPlayerMap)
         alreadyRun = true
@@ -65,7 +68,7 @@ class NightfallPhase(
     }
 
     override fun execute() {
-        communicationService.communicate(gameName, GetAckOutboundMessage(), InboundType.ACK, allPlayers)
+        communicationService.communicate(gameName, GetAckOutboundMessage(), InboundType.ACK, alivePlayers)
     }
 }
 
@@ -122,7 +125,7 @@ class WakeUpPhase(
             gameName,
             DeadPlayersOutboundMessage(dyingPlayers),
             InboundType.ACK,
-            allPlayers
+            nonDeadPlayers
         )
         dyingPlayers.forEach { it.playerState = PlayerState.DEAD }
     }
@@ -171,7 +174,7 @@ class ExecutionPhase(
             gameName,
             DeadPlayersOutboundMessage(dyingPlayers),
             InboundType.ACK,
-            allPlayers
+            nonDeadPlayers
         )
         dyingPlayers.forEach { it.playerState = PlayerState.DEAD }
     }

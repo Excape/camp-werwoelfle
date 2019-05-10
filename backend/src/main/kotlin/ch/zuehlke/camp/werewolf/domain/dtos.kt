@@ -12,6 +12,12 @@ data class Player(val identity: Identity) {
     var role: Role? = null
 }
 
+data class GameSettings(
+    val roleToCount: Map<Role, Int>
+) {
+}
+
+
 fun List<Player>.allVillagesAreDead(): Boolean {
     val numberOfVillagers = this.filter { player -> player.role == Role.VILLAGER }.count()
     if (numberOfVillagers == 0) {

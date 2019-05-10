@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Player} from "../../shared/model/dtos";
+import {GameService} from "../../shared/game.service";
 
 @Component({
   selector: 'app-execution-phase',
@@ -12,11 +13,13 @@ export class ExecutionPhaseComponent implements OnInit {
   @Output() ackEmitter = new EventEmitter();
 
   confirmed = false;
+  needsAck = false;
   subtitle: string = "The following player was executed: ";
 
-  constructor() { }
+  constructor(private gameService: GameService) { }
 
   ngOnInit() {
+    this.gameService.dyingPlayers().subscribe(next => this.needsAck = true)
   }
 
 

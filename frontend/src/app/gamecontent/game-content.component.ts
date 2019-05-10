@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Phases, Player, Role, Voting} from "../shared/model/dtos";
+import {Phases, Player, PlayerState, Role, Voting} from "../shared/model/dtos";
 import {GameService} from "../shared/game.service";
 
 @Component({
@@ -10,7 +10,7 @@ import {GameService} from "../shared/game.service";
 export class GameContentComponent implements OnInit, OnDestroy {
 
   activePhase: Phases;
-  playerRole: Role;
+  currentPlayer: Player;
   dyingPlayers: Player[];
   voting: Voting;
   winningRole: Role;
@@ -24,7 +24,7 @@ export class GameContentComponent implements OnInit, OnDestroy {
       this.dyingPlayers = [];
       this.voting = null;
     });
-    this._gameService.currentRole().subscribe(role => this.playerRole = role);
+    this._gameService.getCurrentPlayer().subscribe(role => this.currentPlayer = role);
     this._gameService.dyingPlayers().subscribe(dyingPlayers => this.dyingPlayers = dyingPlayers);
     this._gameService.voting().subscribe(voting => this.voting = voting);
     this._gameService.winningRole().subscribe(winningRole => this.winningRole = winningRole);
@@ -32,7 +32,7 @@ export class GameContentComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this._gameService.currentPhase().unsubscribe();
-    this._gameService.currentRole().unsubscribe();
+    this._gameService.getCurrentPlayer().unsubscribe();
     this._gameService.dyingPlayers().unsubscribe();
     this._gameService.voting().unsubscribe();
   }
