@@ -4,6 +4,7 @@
     <mat-card-subtitle>{{subtitle}}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
+    <img style="width: 430px" mat-card-image src="../../../assets/gamecontent/phase_daybreak.jpg">
     <mat-list>
       <mat-list-item *ngFor="let player of deadVillagers">
         {{player.identity.name}} [{{player.role.valueOf()}}]
