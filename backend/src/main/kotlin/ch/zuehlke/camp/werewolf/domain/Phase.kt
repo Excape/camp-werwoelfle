@@ -10,7 +10,7 @@ abstract class Phase(val allPlayers: List<Player>) {
         return !isGameOver()
     }
 
-    private fun isGameOver(): Boolean {
+    fun isGameOver(): Boolean {
         // TODO: add condition for victory of amor couple
         return allPlayers.allVillagesAreDead() || allPlayers.allWerewolvesAreDead()
     }
@@ -199,6 +199,10 @@ class GameOverPhase(
             Role.VILLAGER
         }
         communicationService.communicateOneWay(gameName, GameOverOutboundMessage(winningRole), allPlayers)
+    }
+
+    override fun isActive(): Boolean {
+        return isGameOver()
     }
 
 }
