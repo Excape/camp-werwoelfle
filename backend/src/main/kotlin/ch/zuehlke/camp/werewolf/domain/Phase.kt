@@ -6,7 +6,15 @@ import ch.zuehlke.camp.werewolf.service.VotingService
 
 abstract class Phase(val allPlayers: List<Player>) {
     abstract fun execute()
-    abstract fun isActive(): Boolean
+    open fun isActive(): Boolean {
+        return !isGameOver()
+    }
+
+    private fun isGameOver(): Boolean {
+        // TODO: add condition for victory of amor couple
+        return allPlayers.allVillagesAreDead() || allPlayers.allWerewolvesAreDead()
+    }
+
     abstract fun sendStartPhaseCommand()
 
     fun getAlivePlayersWithRole(role: Role): List<Player> {
@@ -36,7 +44,7 @@ class RolePhase(
     private var alreadyRun = false
 
     override fun isActive(): Boolean {
-        return !alreadyRun
+        return !alreadyRun && super.isActive()
     }
 
     override fun execute() {
@@ -59,11 +67,6 @@ class NightfallPhase(
     override fun execute() {
         communicationService.communicate(gameName, GetAckOutboundMessage(), InboundType.ACK, allPlayers)
     }
-
-    override fun isActive(): Boolean {
-        return true
-    }
-
 }
 
 class WerewolfPhase(
@@ -78,7 +81,7 @@ class WerewolfPhase(
 
     override fun isActive(): Boolean {
         return alivePlayers
-            .any { it.role == Role.WEREWOLF }
+            .any { it.role == Role.WEREWOLF } && super.isActive()
     }
 
     override fun execute() {
@@ -123,11 +126,6 @@ class WakeUpPhase(
         )
         dyingPlayers.forEach { it.playerState = PlayerState.DEAD }
     }
-
-    override fun isActive(): Boolean {
-        return true
-    }
-
 }
 
 class DayPhase(
@@ -148,10 +146,6 @@ class DayPhase(
         killOffVotedPlayers(dyingPlayers)
 
 
-    }
-
-    override fun isActive(): Boolean {
-        return true
     }
 
     private fun createVoting(
@@ -182,10 +176,6 @@ class ExecutionPhase(
         dyingPlayers.forEach { it.playerState = PlayerState.DEAD }
     }
 
-    override fun isActive(): Boolean {
-        return true;
-    }
-
     override fun sendStartPhaseCommand() {
         communicationService.sendGameCommand(gameName, GameCommand.PHASE_EXECUTION)
     }
@@ -198,10 +188,6 @@ class GameOverPhase(
     allPlayers: List<Player>
 ) : Phase(allPlayers) {
 
-    override fun isActive(): Boolean {
-        return allPlayers.allWerewolvesAreDead() || allPlayers.allVillagesAreDead()
-    }
-
     override fun sendStartPhaseCommand() {
         communicationService.sendGameCommand(gameName, GameCommand.PHASE_GAME_OVER)
     }
@@ -212,7 +198,7 @@ class GameOverPhase(
         } else {
             Role.VILLAGER
         }
-        communicationService.communicate(gameName, GameOverOutboundMessage(winningRole), InboundType.ACK, allPlayers)
+        communicationService.communicateOneWay(gameName, GameOverOutboundMessage(winningRole), allPlayers)
     }
 
 }

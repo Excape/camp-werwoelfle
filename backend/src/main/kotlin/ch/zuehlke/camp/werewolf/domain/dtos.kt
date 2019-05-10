@@ -12,8 +12,11 @@ data class Player(val identity: Identity) {
     var role: Role? = null
 }
 
-fun List<Player>.allVillagesAreDead() : Boolean {
+fun List<Player>.allVillagesAreDead(): Boolean {
     val numberOfVillagers = this.filter { player -> player.role == Role.VILLAGER }.count()
+    if (numberOfVillagers == 0) {
+        return false
+    }
     val numberOfDeadVillagers =
         this.filter { player -> player.role == Role.VILLAGER && player.playerState == PlayerState.DEAD }.count()
 
@@ -22,6 +25,9 @@ fun List<Player>.allVillagesAreDead() : Boolean {
 
 fun List<Player>.allWerewolvesAreDead(): Boolean {
     val numberOfWerewolves = this.filter { player -> player.role == Role.WEREWOLF }.count()
+    if (numberOfWerewolves == 0) {
+        return false
+    }
     val numberOfDeadWerewolves =
         this.filter { player -> player.role == Role.WEREWOLF && player.playerState == PlayerState.DEAD }.count()
 

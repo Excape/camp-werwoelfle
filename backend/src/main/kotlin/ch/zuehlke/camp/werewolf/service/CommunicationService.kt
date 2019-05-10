@@ -39,6 +39,15 @@ class CommunicationService(private val messageService: MessageService) {
         return inboundMessages.toList()
     }
 
+    fun communicateOneWay(
+        gameName: String,
+        outboundMessage: OutboundMessage,
+        players: List<Player>
+    ) {
+        val messageByPlayer = players.associateBy ( { it },  {outboundMessage} )
+        publishMessages(gameName, messageByPlayer)
+    }
+
     fun sendGameCommand(gameName: String, command: GameCommand) {
         messageService.publishToGame(gameName, command)
     }

@@ -1,7 +1,6 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Player, PlayerState, Role} from "../../shared/model/dtos";
-import {GameService} from "../../shared/game.service";
-import {ProfileService} from "../../shared/profile.service";
+import {Component, Input, OnInit} from '@angular/core';
+import {Role} from "../../shared/model/dtos";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-game-over',
@@ -9,27 +8,16 @@ import {ProfileService} from "../../shared/profile.service";
   styleUrls: ['./game-over.component.scss']
 })
 export class GameOverComponent implements OnInit {
-  private player: Player;
-
   @Input() roleThatWon: Role;
-  @Output() ackEmitter = new EventEmitter();
 
+  constructor(private router: Router) {}
 
   ngOnInit() {
   }
 
-  confirm() {
-    this.ackEmitter.emit()
-  }
-
-  isWerewolf() {
+  werewolvesWon() {
     return this.roleThatWon === Role.WEREWOLF;
   }
-
-
-  currentPlayerHasWon(): Boolean {
-    return this.player.role === this.roleThatWon;
-  };
 
   parseRole() {
     switch (this.roleThatWon) {
@@ -38,5 +26,9 @@ export class GameOverComponent implements OnInit {
       case Role.VILLAGER:
         return "Villagers";
     }
+  }
+
+  exitGame() {
+    this.router.navigateByUrl("lobby")
   }
 }

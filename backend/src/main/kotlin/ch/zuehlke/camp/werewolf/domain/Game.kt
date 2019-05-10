@@ -8,18 +8,13 @@ class Game(
 ) {
 
     fun run() {
-        do {
+        while (true) {
             phases.forEach { phase ->
                 if (phase.isActive()) {
                     phase.sendStartPhaseCommand()
                     phase.execute()
                 }
             }
-        } while (!isGameOver())
-    }
-
-    // TODO: add condition for victory of amor couple
-    private fun isGameOver(): Boolean {
-        return players.allVillagesAreDead() || players.allWerewolvesAreDead()
+        }
     }
 }
