@@ -9,7 +9,6 @@ import {GameService} from "../shared/game.service";
 })
 export class GameContentComponent implements OnInit, OnDestroy {
 
-  messages: string[] = [];
   activePhase: Phases;
   playerRole: Role;
   dyingPlayers: Player[];
@@ -20,7 +19,11 @@ export class GameContentComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this._gameService.currentPhase().subscribe(phase => this.activePhase = phase);
+    this._gameService.currentPhase().subscribe(phase => {
+      this.activePhase = phase;
+      this.dyingPlayers = [];
+      this.voting = null;
+    });
     this._gameService.currentRole().subscribe(role => this.playerRole = role);
     this._gameService.dyingPlayers().subscribe(dyingPlayers => this.dyingPlayers = dyingPlayers);
     this._gameService.voting().subscribe(voting => this.voting = voting);
