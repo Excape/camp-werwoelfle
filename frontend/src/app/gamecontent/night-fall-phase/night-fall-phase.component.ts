@@ -12,13 +12,14 @@ export class NightFallPhaseComponent implements OnInit {
   @Output() ackEmitter = new EventEmitter();
 
   confirmed = false;
+  needsAck = false;
 
   constructor(private audioService: AudioService, private gameService: GameService) { }
 
   ngOnInit() {
     this.audioService.playAudio("../../../assets/sound/lullaby.wav");
     this.gameService.getAck().subscribe(() => {
-      
+      this.needsAck = true;
     })
   }
 

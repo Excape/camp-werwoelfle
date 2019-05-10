@@ -12,6 +12,7 @@ export class DayPhaseComponent implements OnInit {
   @Output() electedPlayersEmitter = new EventEmitter<Player[]>();
 
   elected = false;
+  playerCan
 
   constructor(private audioService: AudioService) {
   }

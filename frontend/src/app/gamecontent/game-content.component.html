@@ -1,9 +1,9 @@
-<mat-toolbar *ngIf="playerRole && !shouldDisplayRolePhase()">
-  You are a {{playerRole | lowercase }}
+<mat-toolbar *ngIf="currentPlayer && !shouldDisplayRolePhase()">
+  You are a {{currentPlayer.role | lowercase }}
 </mat-toolbar>
 
 <div class="phase-container">
-  <role-phase [playerRole]="playerRole" (ackEmitter)="sendAck()" *ngIf="shouldDisplayRolePhase()"></role-phase>
+  <role-phase [playerRole]="currentPlayer.role" (ackEmitter)="sendAck()" *ngIf="shouldDisplayRolePhase()"></role-phase>
   <day-phase *ngIf="shouldDisplayDayPhase()" [voting]="voting"
              (electedPlayersEmitter)="electPlayers($event)"></day-phase>
   <app-execution-phase *ngIf="shouldDisplayExecutionPhase()" [deadVillagers]="dyingPlayers"
