@@ -14,14 +14,11 @@ abstract class Phase(val allPlayers: List<Player>) {
             .filter { it.role == role }
     }
 
-    val alivePlayers get() = allPlayers.filter{it.playerState == PlayerState.ALIVE}
+    val alivePlayers get() = allPlayers.filter { it.playerState == PlayerState.ALIVE }
 
-    protected fun killOffVotedPlayers(players: List<Player>, killedBy: Role) {
+    protected fun killOffVotedPlayers(players: List<Player>) {
         players.forEach {
-            it.playerState = when(killedBy) {
-                Role.WEREWOLF -> PlayerState.DYING
-                else -> PlayerState.DEAD
-            }
+            it.playerState = PlayerState.DYING
         }
     }
 }
@@ -60,7 +57,7 @@ class NightfallPhase(
     }
 
     override fun execute() {
-       communicationService.communicate(gameName, GetAckOutboundMessage(), InboundType.ACK, allPlayers )
+        communicationService.communicate(gameName, GetAckOutboundMessage(), InboundType.ACK, allPlayers)
     }
 
     override fun isActive(): Boolean {
@@ -91,7 +88,7 @@ class WerewolfPhase(
         val voting = createVoting(werewolves, villagers)
         val votingResult = votingService.startVoting(gameName, voting)
 
-        killOffVotedPlayers(votingResult.electedPlayers, Role.WEREWOLF)
+        killOffVotedPlayers(votingResult.electedPlayers)
     }
 
     private fun createVoting(
@@ -118,7 +115,12 @@ class WakeUpPhase(
 
     override fun execute() {
         val dyingPlayers = allPlayers.filter { it.playerState == PlayerState.DYING }
-        communicationService.communicate(gameName, DeadPlayersOutboundMessage(dyingPlayers), InboundType.ACK, allPlayers)
+        communicationService.communicate(
+            gameName,
+            DeadPlayersOutboundMessage(dyingPlayers),
+            InboundType.ACK,
+            allPlayers
+        )
         dyingPlayers.forEach { it.playerState = PlayerState.DEAD }
     }
 
@@ -143,14 +145,9 @@ class DayPhase(
         val votingResult = votingService.startVoting(gameName, voting)
 
         val dyingPlayers = votingResult.electedPlayers
-        killOffVotedPlayers(dyingPlayers, Role.VILLAGER)
+        killOffVotedPlayers(dyingPlayers)
 
-        communicationService.communicate(
-            gameName,
-            DeadPlayersOutboundMessage(dyingPlayers.toList()),
-            InboundType.ACK,
-            allPlayers
-        )
+
     }
 
     override fun isActive(): Boolean {
@@ -167,4 +164,55 @@ class DayPhase(
             numberOfSeats = 1
         )
     }
+}
+
+class ExecutionPhase(
+    private val gameName: String,
+    private val communicationService: CommunicationService,
+    allPlayers: List<Player>
+) : Phase(allPlayers) {
+    override fun execute() {
+        val dyingPlayers = allPlayers.filter { it.playerState == PlayerState.DYING }
+        communicationService.communicate(
+            gameName,
+            DeadPlayersOutboundMessage(dyingPlayers),
+            InboundType.ACK,
+            allPlayers
+        )
+        dyingPlayers.forEach { it.playerState = PlayerState.DEAD }
+    }
+
+    override fun isActive(): Boolean {
+        return true;
+    }
+
+    override fun sendStartPhaseCommand() {
+        communicationService.sendGameCommand(gameName, GameCommand.PHASE_EXECUTION)
+    }
+
+}
+
+class GameOverPhase(
+    private val gameName: String,
+    private val communicationService: CommunicationService,
+    allPlayers: List<Player>
+) : Phase(allPlayers) {
+
+    override fun isActive(): Boolean {
+        return allPlayers.allWerewolvesAreDead() || allPlayers.allVillagesAreDead()
+    }
+
+    override fun sendStartPhaseCommand() {
+        communicationService.sendGameCommand(gameName, GameCommand.PHASE_GAME_OVER)
+    }
+
+    override fun execute() {
+        val winningRole = if (allPlayers.allVillagesAreDead()) {
+            Role.WEREWOLF
+        } else {
+            Role.VILLAGER
+        }
+        communicationService.communicate(gameName, GameOverOutboundMessage(winningRole), InboundType.ACK, allPlayers)
+    }
+
 }

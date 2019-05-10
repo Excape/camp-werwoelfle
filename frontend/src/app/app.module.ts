@@ -26,11 +26,12 @@ import {WerewolfPhaseComponent} from './gamecontent/werewolf-phase/werewolf-phas
 import {ProfileComponent} from './profile/profile.component';
 import {EditProfileComponent} from './profile/edit-profile/edit-profile.component';
 import {MatCardModule} from "@angular/material";
-import { GameOverComponent } from './game-over/game-over.component';
+import { GameOverComponent } from './gamecontent/game-over/game-over.component';
 import {MatFileUploadModule} from "angular-material-fileupload";
 import {WakeUpPhaseComponent} from './gamecontent/wake-up-phase/wake-up-phase.component';
 import {SpinnerComponent} from './shared/spinner/spinner.component';
 import {NightFallPhaseComponent} from './gamecontent/night-fall-phase/night-fall-phase.component';
+import {ExecutionPhaseComponent} from "./gamecontent/execution-phase/execution-phase.component";
 // import * as firebase from "firebase";
 // import Firestore = firebase.firestore.Firestore;
 // import {AngularFireStorage, AngularFireStorageModule} from "@angular/fire/storage";
@@ -62,7 +63,8 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     GameOverComponent,
     WakeUpPhaseComponent,
     SpinnerComponent,
-    NightFallPhaseComponent
+    NightFallPhaseComponent,
+    ExecutionPhaseComponent
   ],
   imports: [
     BrowserModule,

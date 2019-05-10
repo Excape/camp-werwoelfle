@@ -14,6 +14,7 @@ export class GameContentComponent implements OnInit, OnDestroy {
   playerRole: Role;
   dyingPlayers: Player[];
   voting: Voting;
+  winningRole: Role;
 
   constructor(private _gameService: GameService) {
   }
@@ -22,7 +23,8 @@ export class GameContentComponent implements OnInit, OnDestroy {
     this._gameService.currentPhase().subscribe(phase => this.activePhase = phase);
     this._gameService.currentRole().subscribe(role => this.playerRole = role);
     this._gameService.dyingPlayers().subscribe(dyingPlayers => this.dyingPlayers = dyingPlayers);
-    this._gameService.voting().subscribe(voting => this.voting = voting)
+    this._gameService.voting().subscribe(voting => this.voting = voting);
+    this._gameService.winningRole().subscribe(winningRole => this.winningRole = winningRole);
   }
 
   ngOnDestroy(): void {
@@ -50,6 +52,14 @@ export class GameContentComponent implements OnInit, OnDestroy {
 
   shouldDisplayWakeUpPhase() {
     return this.activePhase == Phases.WAKEUP;
+  }
+
+  shouldDisplayGameOver() {
+    return this.activePhase == Phases.GAME_OVER;
+  }
+
+  shouldDisplayExecutionPhase() {
+    return this.activePhase == Phases.EXECUTION;
   }
 
   sendAck() {

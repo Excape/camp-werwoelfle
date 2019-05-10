@@ -1,10 +1,8 @@
 package ch.zuehlke.camp.werewolf.domain
 
-import kotlinx.serialization.ContextualSerialization
 import kotlinx.serialization.Serializable
 import org.hibernate.annotations.Type
 import javax.persistence.*
-import javax.persistence.Lob
 
 
 @Serializable
@@ -12,6 +10,22 @@ data class Player(val identity: Identity) {
     val checked = false
     var playerState: PlayerState? = PlayerState.ALIVE
     var role: Role? = null
+}
+
+fun List<Player>.allVillagesAreDead() : Boolean {
+    val numberOfVillagers = this.filter { player -> player.role == Role.VILLAGER }.count()
+    val numberOfDeadVillagers =
+        this.filter { player -> player.role == Role.VILLAGER && player.playerState == PlayerState.DEAD }.count()
+
+    return numberOfDeadVillagers >= numberOfVillagers
+}
+
+fun List<Player>.allWerewolvesAreDead(): Boolean {
+    val numberOfWerewolves = this.filter { player -> player.role == Role.WEREWOLF }.count()
+    val numberOfDeadWerewolves =
+        this.filter { player -> player.role == Role.WEREWOLF && player.playerState == PlayerState.DEAD }.count()
+
+    return numberOfDeadWerewolves >= numberOfWerewolves
 }
 
 @Embeddable
@@ -90,8 +104,6 @@ data class Picture(
     override fun hashCode(): Int {
         return id?.hashCode() ?: 0
     }
-
-
 }
 
 enum class PlayerState {

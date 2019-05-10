@@ -31,7 +31,7 @@ class LobbyService(val gameService: GameService, val gameFactory: GameFactory) {
         
         Thread(Runnable {
             gameService.runGame(game)
-        }).start();
+        }).start()
     }
 
     fun findGame(name: String): Game {

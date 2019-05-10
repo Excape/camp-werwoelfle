@@ -17,6 +17,7 @@ export class GameService {
   private _dyingPlayers$: Subject<Player[]> = new Subject();
   private _getAck$: Subject<void> = new Subject();
   private _voting$: Subject<Voting> = new Subject();
+  private _winningRole$: Subject<Role> = new Subject();
   profileUrl = 'api/v1/game';
   currentPlayer: Player;
   private game: Game;
@@ -41,6 +42,10 @@ export class GameService {
 
   voting(): Subject<Voting> {
     return this._voting$;
+  }
+
+  winningRole(): Subject<Role> {
+    return this._winningRole$;
   }
 
   constructor(private messageService: MessageService,
@@ -79,6 +84,10 @@ export class GameService {
           case OutboundMessage.GET_ACK:
             console.log(`message ${payload.type}`);
             this._getAck$.next();
+            break;
+          case OutboundMessage.GAME_OVER:
+            console.log(`message ${payload.winningRole}`);
+            this._winningRole$.next(payload.winningRole);
             break;
           default:
             console.log(`Unknown message ${payload.type}`)
@@ -129,12 +138,19 @@ export class GameService {
           this._currentPhase$.next(Phases.WAKEUP);
           break;
         }
+        case "PHASE_GAME_OVER": {
+          this._currentPhase$.next(Phases.GAME_OVER);
+          break;
+        }
+        case "PHASE_EXECUTION": {
+          this._currentPhase$.next(Phases.EXECUTION);
+          break;
+        }
         default: {
           console.log("could not match phase: " + payload);
           break;
         }
       }
-
     }
   }
 

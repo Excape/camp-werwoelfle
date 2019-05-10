@@ -18,6 +18,5 @@ class GameService(val communicationService: CommunicationService) {
 
     private fun endGame(game: Game) {
         game.state = GameState.FINISHED
-        // TODO: handle end game
     }
 }

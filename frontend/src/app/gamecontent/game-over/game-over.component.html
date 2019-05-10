@@ -1,0 +1,8 @@
+<mat-card>
+  <mat-card-title>Game Over</mat-card-title>
+  <mat-card-content>
+    <h1 *ngIf="currentPlayerHasWon()">{{ parseRole() }} won! </h1>
+    <img *ngIf="isWerewolf()" mat-card-image src="../../../assets/gamecontent/werewolf.png" alt="mayor">
+    <img *ngIf="!isWerewolf()" mat-card-image src="../../../assets/gamecontent/villager.png" alt="mayor">
+  </mat-card-content>
+</mat-card>
