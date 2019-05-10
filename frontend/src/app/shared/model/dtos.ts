@@ -46,6 +46,9 @@ export interface Voting {
   numberOfSeats: number
 }
 
+export interface Picture {
+
+}
 
 export enum PlayerState {
   ALIVE, DYING, DEAD

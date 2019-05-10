@@ -94,38 +94,6 @@ data class Picture(
 
 }
 
-@Serializable
-data class Voting(
-    val voters: List<Player>,
-    val candidates: List<Player>,
-    val votesPerPlayer: Int,
-    val numberOfSeats: Int
-) {
-    fun calculateElection(votes: List<Vote>): Set<Player> {
-        val validVotes = votes.filter(this::isValidVote)
-        // TODO count votes
-        return setOf(votes.first().voteFor.first())
-    }
-
-    private fun isValidVote(vote: Vote): Boolean {
-        return voters.contains(vote.voteOf) &&
-                vote.voteFor.size == votesPerPlayer &&
-                vote.voteFor.all { candidates.contains(it) }
-    }
-}
-
-@Serializable
-data class Vote(
-    val voteOf: Player,
-    val voteFor: List<Player>
-)
-
-data class VotingResult(
-    val electedPlayers: Set<Player>,
-    val auditors: Set<Player>,
-    val showRoles: Boolean
-)
-
 enum class PlayerState {
     ALIVE, DYING, DEAD
 }

@@ -57,16 +57,14 @@ class PlayerProfileController {
         return ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping("/picture")
-    fun getPicture(@RequestParam profileName:String):ResponseEntity<Picture>{
-        return ResponseEntity(this.dbFileService.getFileFor(profileName),HttpStatus.OK)
+    @GetMapping("/picture/{name}")
+    fun getPicture(@PathVariable name:String):ResponseEntity<Picture>{
+        return ResponseEntity(this.dbFileService.getFileFor(name),HttpStatus.OK)
     }
 
     @PostMapping("")
     fun create(@RequestBody profileBody: Profile): Any {
         val profile = profileService.createProfile(profileBody)
-
         return profile ?: ResponseEntity<HttpStatus>(HttpStatus.NOT_MODIFIED)
-
     }
 }
