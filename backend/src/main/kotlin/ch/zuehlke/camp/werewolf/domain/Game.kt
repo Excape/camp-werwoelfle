@@ -9,13 +9,13 @@ class Game(
 ) {
 
     fun run() {
-        while (true) {
+        do {
             phases.forEach { phase ->
                 if (phase.isActive()) {
                     phase.sendStartPhaseCommand()
                     phase.execute()
                 }
             }
-        }
+        } while (!players.isGameOver())
     }
 }

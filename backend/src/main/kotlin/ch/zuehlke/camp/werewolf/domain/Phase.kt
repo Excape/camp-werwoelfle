@@ -7,12 +7,7 @@ import ch.zuehlke.camp.werewolf.service.VotingService
 abstract class Phase(val allPlayers: List<Player>) {
     abstract fun execute()
     open fun isActive(): Boolean {
-        return !isGameOver()
-    }
-
-    fun isGameOver(): Boolean {
-        // TODO: add condition for victory of amor couple
-        return allPlayers.allVillagesAreDead() || allPlayers.allWerewolvesAreDead()
+        return !allPlayers.isGameOver()
     }
 
     abstract fun sendStartPhaseCommand()
@@ -47,7 +42,7 @@ class RolePhase(
     private var alreadyRun = false
 
     override fun isActive(): Boolean {
-        return !alreadyRun && super.isActive()
+        return !alreadyRun
     }
 
     override fun execute() {
@@ -205,7 +200,7 @@ class GameOverPhase(
     }
 
     override fun isActive(): Boolean {
-        return isGameOver()
+        return allPlayers.isGameOver()
     }
 
 }

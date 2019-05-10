@@ -18,8 +18,15 @@ body {
 }
 
 .container {
-  margin: 2em;
+  margin: 0.5em;
 }
+
+@media (min-width: 500px){
+  .container {
+    margin: 2em;
+  }
+}
+
 
 
 //@import "~@angular/material/prebuilt-themes/indigo-pink.css";
